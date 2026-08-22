@@ -1,0 +1,10 @@
+npm warn tar TAR_ENTRY_ERROR ENOENT: no such file or directory, open '/Users/ashu/Desktop/Desktop - Ashutosh's MacBook Air/Desktop - Ashutosh’s MacBook Air/UI_UX_Projects/TMH/website_TMH/node_modules/next/dist/esm/server/web/error.js'
+npm warn tar TAR_ENTRY_ERROR ENOENT: no such file or directory, lstat '/Users/ashu/Desktop/Desktop - Ashutosh's MacBook Air/Desktop - Ashutosh’s MacBook Air/UI_UX_Projects/TMH/website_TMH/node_modules/next/dist/client'
+npm error code ENOENT
+npm error syscall spawn sh
+npm error path /Users/ashu/Desktop/Desktop - Ashutosh's MacBook Air/Desktop - Ashutosh’s MacBook Air/UI_UX_Projects/TMH/website_TMH/node_modules/unrs-resolver
+npm error errno -2
+npm error enoent spawn sh ENOENT
+npm error enoent This is related to npm not being able to find a file.
+npm error enoent
+npm error A complete log of this run can be found in: /Users/ashu/.npm/_logs/2026-08-05T05_20_51_602Z-debug-0.log
