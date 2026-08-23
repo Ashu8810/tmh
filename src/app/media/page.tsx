@@ -11,7 +11,7 @@ export default function MediaPage() {
   const [activeCategory, setActiveCategory] = useState<Category>("ALL");
 
   const filteredItems = mediaItems.filter(
-    (item) => activeCategory === "ALL" || item.category === activeCategory
+    (item) => activeCategory === "ALL" || item.category === activeCategory,
   );
 
   return (
@@ -22,19 +22,22 @@ export default function MediaPage() {
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/20 via-[#050505]/60 to-[#050505] z-10" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#050505] to-transparent z-10" />
-          <img 
+          <img
             src="https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=1920"
             alt="Hero Background"
             className="w-full h-full object-cover opacity-30 mix-blend-luminosity"
           />
         </div>
-        
+
         <div className="relative z-20 mt-16 md:mt-20">
           <p className="text-[#D71920] font-heading font-bold text-xs md:text-sm tracking-[0.2em] uppercase mb-4">
             The Gallery
           </p>
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-heading font-black uppercase tracking-tighter text-white drop-shadow-lg">
-            Raw Speed. <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D71920] to-red-600">Captured.</span>
+            Raw Speed.{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D71920] to-red-600">
+              Captured.
+            </span>
           </h1>
         </div>
       </section>
@@ -66,29 +69,33 @@ export default function MediaPage() {
       <section className="max-w-7xl mx-auto px-4 py-16 md:py-24">
         {filteredItems.length === 0 ? (
           <div className="text-center py-20">
-            <p className="text-zinc-500 font-mono text-sm uppercase tracking-widest">No media found for this category.</p>
+            <p className="text-zinc-500 font-mono text-sm uppercase tracking-widest">
+              No media found for this category.
+            </p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 auto-rows-[250px] gap-4 md:gap-6">
             {filteredItems.map((item) => (
-              <Link 
+              <Link
                 key={item.id}
                 href={`/media/${item.id}`}
                 className={`block group relative rounded-xl overflow-hidden bg-[#121212] border border-white/5 hover:border-[#D71920]/50 transition-all duration-500 cursor-pointer ${
-                  activeCategory === "ALL" ? item.className : "col-span-1 md:col-span-1 row-span-1"
+                  activeCategory === "ALL"
+                    ? item.className
+                    : "col-span-1 md:col-span-1 row-span-1"
                 }`}
               >
                 {/* Background Image */}
                 <div className="absolute inset-0">
-                  <img 
-                    src={item.coverImage} 
+                  <img
+                    src={item.coverImage}
                     alt={item.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 filter grayscale-[50%] group-hover:grayscale-0 brightness-75 group-hover:brightness-100"
                   />
                   {/* Overlay Gradient */}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-500" />
                 </div>
-                
+
                 {/* Content */}
                 <div className="absolute bottom-0 left-0 p-5 w-full flex flex-col justify-end translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
                   <span className="text-[#D71920] text-[10px] font-bold tracking-widest uppercase mb-1 drop-shadow-md">

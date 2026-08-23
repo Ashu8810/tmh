@@ -4,7 +4,7 @@ export default function ContactHero() {
   return (
     <div className="relative w-full overflow-hidden bg-background">
       {/* Background Image */}
-      <div 
+      <div
         className="absolute inset-0 z-0 bg-[url('/images/contact_hero_bg.png')] bg-cover bg-center bg-no-repeat opacity-60 mix-blend-luminosity"
         aria-hidden="true"
       />
@@ -23,7 +23,8 @@ export default function ContactHero() {
             <span className="text-primary">HEAR FROM YOU.</span>
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground max-w-lg leading-relaxed">
-            Have a question, suggestion, or partnership proposal? Reach out to us &mdash; we&apos;re always excited to connect.
+            Have a question, suggestion, or partnership proposal? Reach out to
+            us &mdash; we&apos;re always excited to connect.
           </p>
         </div>
       </div>

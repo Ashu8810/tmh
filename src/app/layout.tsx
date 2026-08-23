@@ -19,16 +19,30 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://motorhead.bmsit.ac.in"),
   title: {
     default: "Motor Head | Automotive Engineering Club | BMSIT&M",
-    template: "%s | Motor Head"
+    template: "%s | Motor Head",
   },
-  description: "Official website for Motor Head, the automotive engineering club of BMS Institute of Technology and Management. Built by Passion, Driven by Engineering.",
-  keywords: ["automotive", "engineering", "BMSIT", "Motor Head", "student club", "racing", "vehicle design", "Formula Student", "BMSIT&M", "Student Racing Team", "Automotive Innovation"],
+  description:
+    "Official website for Motor Head, the automotive engineering club of BMS Institute of Technology and Management. Built by Passion, Driven by Engineering.",
+  keywords: [
+    "automotive",
+    "engineering",
+    "BMSIT",
+    "Motor Head",
+    "student club",
+    "racing",
+    "vehicle design",
+    "Formula Student",
+    "BMSIT&M",
+    "Student Racing Team",
+    "Automotive Innovation",
+  ],
   alternates: {
     canonical: "/",
   },
   openGraph: {
     title: "Motor Head | Automotive Engineering Club | BMSIT&M",
-    description: "Official website for Motor Head, the automotive engineering club of BMS Institute of Technology and Management. Built by Passion, Driven by Engineering.",
+    description:
+      "Official website for Motor Head, the automotive engineering club of BMS Institute of Technology and Management. Built by Passion, Driven by Engineering.",
     url: "https://motorhead.bmsit.ac.in",
     siteName: "Motor Head",
     images: [
@@ -45,7 +59,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Motor Head | Automotive Engineering",
-    description: "Official website for Motor Head, automotive engineering club of BMS Institute of Technology and Management.",
+    description:
+      "Official website for Motor Head, automotive engineering club of BMS Institute of Technology and Management.",
     images: ["/og-image.jpg"], // Placeholder image path
   },
   robots: {
@@ -69,22 +84,23 @@ export default function RootLayout({
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "Motor Head",
-    "url": "https://motorhead.bmsit.ac.in",
-    "logo": "https://motorhead.bmsit.ac.in/og-image.jpg",
-    "description": "Automotive Engineering Club of BMS Institute of Technology and Management.",
-    "parentOrganization": {
+    name: "Motor Head",
+    url: "https://motorhead.bmsit.ac.in",
+    logo: "https://motorhead.bmsit.ac.in/og-image.jpg",
+    description:
+      "Automotive Engineering Club of BMS Institute of Technology and Management.",
+    parentOrganization: {
       "@type": "CollegeOrUniversity",
-      "name": "BMS Institute of Technology and Management",
-      "url": "https://bmsit.ac.in/"
-    }
+      name: "BMS Institute of Technology and Management",
+      url: "https://bmsit.ac.in/",
+    },
   };
 
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "Motor Head",
-    "url": "https://motorhead.bmsit.ac.in"
+    name: "Motor Head",
+    url: "https://motorhead.bmsit.ac.in",
   };
 
   return (
@@ -93,7 +109,9 @@ export default function RootLayout({
         <StructuredData data={organizationSchema} />
         <StructuredData data={websiteSchema} />
       </head>
-      <body className={`${outfit.variable} ${rajdhani.variable} antialiased min-h-screen flex flex-col font-sans`}>
+      <body
+        className={`${outfit.variable} ${rajdhani.variable} antialiased min-h-screen flex flex-col font-sans`}
+      >
         <Navbar />
         {children}
       </body>

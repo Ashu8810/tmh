@@ -37,7 +37,7 @@ const departments = [
     name: "Manufacturing",
     lead: "Abhinav S.",
     icon: Settings,
-  }
+  },
 ];
 
 export default function DepartmentLeadsSection() {
@@ -45,7 +45,9 @@ export default function DepartmentLeadsSection() {
     <section className="flex flex-col lg:flex-row gap-12 lg:gap-24 w-full">
       {/* Section Header */}
       <div className="lg:w-1/3 flex flex-col pt-4">
-        <span className="text-primary font-heading text-2xl font-bold mb-2">03</span>
+        <span className="text-primary font-heading text-2xl font-bold mb-2">
+          03
+        </span>
         <h2 className="text-3xl font-heading font-bold uppercase tracking-wider mb-6">
           Department Leads
         </h2>
@@ -60,14 +62,16 @@ export default function DepartmentLeadsSection() {
         {departments.map((dept) => {
           const IconComponent = dept.icon;
           return (
-            <div 
-              key={dept.id} 
+            <div
+              key={dept.id}
               className="flex flex-col items-center justify-center p-6 bg-[#121212] border border-white/5 rounded-xl hover:border-white/10 transition-colors text-center"
             >
               <div className="mb-4 text-primary">
                 <IconComponent size={32} strokeWidth={1.5} />
               </div>
-              <h3 className="font-heading font-bold text-base mb-1">{dept.name}</h3>
+              <h3 className="font-heading font-bold text-base mb-1">
+                {dept.name}
+              </h3>
               <p className="text-muted-foreground text-xs">{dept.lead}</p>
             </div>
           );

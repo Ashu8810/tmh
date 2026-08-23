@@ -9,16 +9,18 @@ import {
   EventTimelineSection,
   CurrentGoalsSection,
   FutureGoalsSection,
-  DownloadClubProfileCTA
+  DownloadClubProfileCTA,
 } from "@/features/about";
 
 export const metadata: Metadata = {
   title: "About Motor Head",
-  description: "Learn about Motor Head, the student automotive engineering club at BMSIT. Discover our story, mission, and achievements in vehicle design.",
+  description:
+    "Learn about Motor Head, the student automotive engineering club at BMSIT. Discover our story, mission, and achievements in vehicle design.",
   alternates: { canonical: "/about" },
   openGraph: {
     title: "About Motor Head | BMSIT&M Automotive Engineering Club",
-    description: "Learn about Motor Head, the student automotive engineering club at BMSIT. Discover our story, mission, and achievements in vehicle design.",
+    description:
+      "Learn about Motor Head, the student automotive engineering club at BMSIT. Discover our story, mission, and achievements in vehicle design.",
     url: "https://motorhead.bmsit.ac.in/about",
   },
 };
@@ -30,16 +32,16 @@ export default function AboutPage() {
       <OurStorySection />
       <MissionVisionSection />
       <WhatWeDoSection />
-      
+
       {/* 04 Departments and 05 Achievements side-by-side */}
       <section className="py-24 bg-[#050505] border-b border-white/5 relative">
         <div className="container mx-auto px-6 lg:px-12">
           <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
             <div className="w-full lg:w-1/2">
-               <DepartmentsSection />
+              <DepartmentsSection />
             </div>
             <div className="w-full lg:w-1/2">
-               <AchievementsSection />
+              <AchievementsSection />
             </div>
           </div>
         </div>
@@ -50,11 +52,11 @@ export default function AboutPage() {
         <div className="container mx-auto px-6 lg:px-12">
           <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
             <div className="w-full lg:w-5/12">
-               <EventTimelineSection />
+              <EventTimelineSection />
             </div>
             <div className="w-full lg:w-7/12 flex flex-col gap-12 pt-2">
-               <CurrentGoalsSection />
-               <FutureGoalsSection />
+              <CurrentGoalsSection />
+              <FutureGoalsSection />
             </div>
           </div>
         </div>

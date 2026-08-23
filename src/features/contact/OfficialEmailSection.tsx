@@ -19,8 +19,8 @@ export default function OfficialEmailSection() {
             <span className="text-xs uppercase tracking-widest text-muted-foreground font-bold mb-2">
               Official Email
             </span>
-            <a 
-              href="mailto:team.motorhead@bmsit.in" 
+            <a
+              href="mailto:team.motorhead@bmsit.in"
               className="text-xl md:text-2xl font-bold font-heading hover:text-primary transition-colors mb-2 break-all"
             >
               team.motorhead@bmsit.in

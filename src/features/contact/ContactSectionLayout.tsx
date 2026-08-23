@@ -19,7 +19,13 @@ export default function ContactSectionLayout({
   isFirst = false,
 }: ContactSectionLayoutProps) {
   return (
-    <div className={cn("grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 py-16", !isFirst && "border-t border-white/10", className)}>
+    <div
+      className={cn(
+        "grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 py-16",
+        !isFirst && "border-t border-white/10",
+        className,
+      )}
+    >
       {/* Left Column */}
       <div className="lg:col-span-4 flex flex-col pt-2">
         <span className="text-primary font-heading text-xl font-bold mb-2">
@@ -35,9 +41,7 @@ export default function ContactSectionLayout({
       </div>
 
       {/* Right Column */}
-      <div className="lg:col-span-8">
-        {children}
-      </div>
+      <div className="lg:col-span-8">{children}</div>
     </div>
   );
 }

@@ -16,11 +16,11 @@ export default function CampusLocationSection() {
         {/* Interactive Google Map */}
         <div className="relative group rounded-2xl overflow-hidden aspect-[4/3] lg:aspect-auto h-full border border-white/5 hover:border-white/20 transition-all shadow-2xl bg-[#0a0a0a]">
           <div className="absolute inset-0 bg-white/5 animate-pulse" />
-          <iframe 
-            src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=BMS%20Institute%20of%20Technology%20and%20Management,%20Avalahalli,%20Yelahanka,%20Bengaluru+(BMSIT%20Campus)&amp;t=&amp;z=15&amp;ie=UTF8&amp;iwloc=B&amp;output=embed" 
+          <iframe
+            src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=BMS%20Institute%20of%20Technology%20and%20Management,%20Avalahalli,%20Yelahanka,%20Bengaluru+(BMSIT%20Campus)&amp;t=&amp;z=15&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
             className="absolute inset-0 w-full h-full border-0 filter opacity-80 group-hover:opacity-100 transition-opacity duration-500"
-            allowFullScreen 
-            loading="lazy" 
+            allowFullScreen
+            loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
             title="BMSIT Campus Map"
           />
@@ -38,9 +38,14 @@ export default function CampusLocationSection() {
               Yelahanka, Bengaluru - 560064, <br />
               Karnataka, India
             </p>
-            <PrimaryButton 
+            <PrimaryButton
               className="w-max px-8 py-4 shadow-[0_0_20px_rgba(255,0,0,0.1)] hover:shadow-[0_0_30px_rgba(255,0,0,0.3)] transition-shadow"
-              onClick={() => window.open("https://maps.app.goo.gl/3Q6U9M9Hk55JbM3s8", "_blank")}
+              onClick={() =>
+                window.open(
+                  "https://maps.app.goo.gl/3Q6U9M9Hk55JbM3s8",
+                  "_blank",
+                )
+              }
             >
               GET DIRECTIONS
             </PrimaryButton>

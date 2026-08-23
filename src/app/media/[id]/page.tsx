@@ -26,11 +26,13 @@ export default function MediaEventPage({ params }: PageProps) {
     <main className="flex-1 w-full bg-[#050505] text-white min-h-screen font-sans overflow-x-hidden pt-24 pb-20">
       <div className="max-w-7xl mx-auto px-4">
         {/* Back Button */}
-        <Link 
-          href="/media" 
+        <Link
+          href="/media"
           className="inline-flex items-center text-zinc-400 hover:text-white transition-colors text-sm font-bold tracking-widest uppercase mb-12 group"
         >
-          <span className="mr-2 group-hover:-translate-x-1 transition-transform">←</span>
+          <span className="mr-2 group-hover:-translate-x-1 transition-transform">
+            ←
+          </span>
           Back to Gallery
         </Link>
 
@@ -43,17 +45,15 @@ export default function MediaEventPage({ params }: PageProps) {
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-black uppercase tracking-tighter text-white mb-6">
               {item.title}
             </h1>
-            <p className="text-zinc-400 text-lg max-w-xl">
-              {item.description}
-            </p>
+            <p className="text-zinc-400 text-lg max-w-xl">{item.description}</p>
           </div>
           <div className="md:w-1/2 relative h-[300px] rounded-xl overflow-hidden shadow-[0_10px_40px_rgba(215,25,32,0.15)]">
-             <img 
-               src={item.coverImage} 
-               alt={`${item.title} cover`}
-               className="w-full h-full object-cover"
-             />
-             <div className="absolute inset-0 bg-gradient-to-t from-[#050505] to-transparent opacity-40" />
+            <img
+              src={item.coverImage}
+              alt={`${item.title} cover`}
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#050505] to-transparent opacity-40" />
           </div>
         </div>
 
@@ -64,13 +64,13 @@ export default function MediaEventPage({ params }: PageProps) {
           </h2>
           <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
             {item.gallery.map((media, index) => (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 className="relative rounded-lg overflow-hidden bg-[#121212] group break-inside-avoid"
               >
                 {media.type === "image" ? (
-                  <img 
-                    src={media.url} 
+                  <img
+                    src={media.url}
                     alt={media.alt}
                     className="w-full h-auto object-cover transform group-hover:scale-[1.02] transition-transform duration-500"
                   />

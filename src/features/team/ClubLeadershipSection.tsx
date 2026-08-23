@@ -3,16 +3,22 @@
 import React from "react";
 import { Mail, Link as LinkIcon } from "lucide-react";
 
-const LinkedinIcon = ({ size = 24, className = "" }: { size?: number, className?: string }) => (
-  <svg 
-    xmlns="http://www.w3.org/2000/svg" 
-    width={size} 
-    height={size} 
-    viewBox="0 0 24 24" 
-    fill="none" 
-    stroke="currentColor" 
-    strokeWidth="2" 
-    strokeLinecap="round" 
+const LinkedinIcon = ({
+  size = 24,
+  className = "",
+}: {
+  size?: number;
+  className?: string;
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
     strokeLinejoin="round"
     className={className}
   >
@@ -29,7 +35,7 @@ const leaders = [
     role: "Team Lead",
     badge: "TEAM LEAD",
     image: "/images/aditya-s.jpg",
-    links: { linkedin: "#", email: "#", website: "#" }
+    links: { linkedin: "#", email: "#", website: "#" },
   },
   {
     id: 2,
@@ -37,7 +43,7 @@ const leaders = [
     role: "Deputy Team Lead",
     badge: "DEPUTY LEAD",
     image: "/images/rohan-m.jpg",
-    links: { linkedin: "#", email: "#", website: "#" }
+    links: { linkedin: "#", email: "#", website: "#" },
   },
   {
     id: 3,
@@ -45,7 +51,7 @@ const leaders = [
     role: "Operations Lead",
     badge: "OPERATIONS LEAD",
     image: "/images/sneha-k.jpg",
-    links: { linkedin: "#", email: "#", website: "#" }
+    links: { linkedin: "#", email: "#", website: "#" },
   },
   {
     id: 4,
@@ -53,8 +59,8 @@ const leaders = [
     role: "Technical Lead",
     badge: "TECHNICAL LEAD",
     image: "/images/vikram-j.jpg",
-    links: { linkedin: "#", email: "#", website: "#" }
-  }
+    links: { linkedin: "#", email: "#", website: "#" },
+  },
 ];
 
 export default function ClubLeadershipSection() {
@@ -62,7 +68,9 @@ export default function ClubLeadershipSection() {
     <section className="flex flex-col lg:flex-row gap-12 lg:gap-24 w-full">
       {/* Section Header */}
       <div className="lg:w-1/3 flex flex-col pt-4">
-        <span className="text-primary font-heading text-2xl font-bold mb-2">02</span>
+        <span className="text-primary font-heading text-2xl font-bold mb-2">
+          02
+        </span>
         <h2 className="text-3xl font-heading font-bold uppercase tracking-wider mb-6">
           Club Leadership
         </h2>
@@ -75,15 +83,15 @@ export default function ClubLeadershipSection() {
       {/* Cards */}
       <div className="lg:w-2/3 grid grid-cols-2 lg:grid-cols-4 gap-4">
         {leaders.map((leader) => (
-          <div 
-            key={leader.id} 
+          <div
+            key={leader.id}
             className="flex flex-col bg-[#121212] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition-colors"
           >
             {/* Image Wrapper */}
             <div className="relative aspect-[4/5] bg-neutral-900 w-full">
-              <img 
-                src={leader.image} 
-                alt={leader.name} 
+              <img
+                src={leader.image}
+                alt={leader.name}
                 className="w-full h-full object-cover"
                 onError={(e) => {
                   e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(leader.name)}&background=202020&color=fff&size=400`;
@@ -94,20 +102,33 @@ export default function ClubLeadershipSection() {
                 {leader.badge}
               </div>
             </div>
-            
+
             {/* Content */}
             <div className="p-5 flex flex-col items-center text-center">
-              <h3 className="font-heading font-bold text-lg mb-1">{leader.name}</h3>
-              <p className="text-primary text-xs font-semibold mb-4 uppercase tracking-wider">{leader.role}</p>
-              
+              <h3 className="font-heading font-bold text-lg mb-1">
+                {leader.name}
+              </h3>
+              <p className="text-primary text-xs font-semibold mb-4 uppercase tracking-wider">
+                {leader.role}
+              </p>
+
               <div className="flex gap-3 text-muted-foreground">
-                <a href={leader.links.linkedin} className="hover:text-white transition-colors">
+                <a
+                  href={leader.links.linkedin}
+                  className="hover:text-white transition-colors"
+                >
                   <LinkedinIcon size={16} />
                 </a>
-                <a href={leader.links.website} className="hover:text-white transition-colors">
+                <a
+                  href={leader.links.website}
+                  className="hover:text-white transition-colors"
+                >
                   <LinkIcon size={16} />
                 </a>
-                <a href={leader.links.email} className="hover:text-white transition-colors">
+                <a
+                  href={leader.links.email}
+                  className="hover:text-white transition-colors"
+                >
                   <Mail size={16} />
                 </a>
               </div>
