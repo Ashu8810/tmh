@@ -38,14 +38,14 @@ export default function SocialMediaSection() {
   const socials = [
     {
       name: "Instagram",
-      handle: "@motorhead_bmsit",
-      url: "https://instagram.com/motorhead_bmsit",
+      handle: "@motor.heads_bmsit",
+      url: "https://www.instagram.com/motor.heads_bmsit",
       icon: InstagramIcon,
     },
     {
       name: "LinkedIn",
       handle: "Motor Head BMSIT&M",
-      url: "https://linkedin.com/company/motorhead-bmsit",
+      url: "https://www.linkedin.com/company/motor-heads-bmsit",
       icon: LinkedinIcon,
     },
   ];
