@@ -34,6 +34,7 @@ export async function generateMetadata({
       title: `${vehicle.name} | Motor Head Vehicles`,
       description: vehicle.description,
       url: `https://motorhead.bmsit.ac.in/vehicles/${vehicle.id}`,
+      images: vehicle.image ? [{ url: vehicle.image }] : [],
     },
     twitter: {
       card: "summary_large_image",
@@ -82,6 +83,11 @@ export default async function VehicleDetailPage({ params }: PageProps) {
     name: vehicle.name,
     description: vehicle.description,
     category: vehicle.category,
+    image: vehicle.image,
+    brand: {
+      "@type": "Brand",
+      name: "Motor Head",
+    },
     offers: {
       "@type": "Offer",
       price: "0",
