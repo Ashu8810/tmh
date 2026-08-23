@@ -16,6 +16,9 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <main className="flex-1 w-full">
+      <h1 className="sr-only">
+        Motor Head | Automotive Engineering Club at BMSIT&M
+      </h1>
       {/* Intentionally blank space as requested */}
     </main>
   );

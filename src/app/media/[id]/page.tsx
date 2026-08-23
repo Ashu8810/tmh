@@ -1,7 +1,8 @@
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { mediaItems } from "@/data/mediaData";
 import Link from "next/link";
-import Image from "next/image";
+import StructuredData from "@/components/seo/StructuredData";
 
 interface PageProps {
   params: {
@@ -15,6 +16,39 @@ export function generateStaticParams() {
   }));
 }
 
+export function generateMetadata({ params }: PageProps): Metadata {
+  const item = mediaItems.find((m) => m.id === params.id);
+
+  if (!item) {
+    return {
+      title: "Media Event Not Found | Motor Head",
+    };
+  }
+
+  return {
+    title: `${item.title} | Media Gallery`,
+    description: item.description,
+    alternates: { canonical: `/media/${item.id}` },
+    openGraph: {
+      title: `${item.title} | Motor Head Media`,
+      description: item.description,
+      url: `https://motorhead.bmsit.ac.in/media/${item.id}`,
+      images: [
+        {
+          url: item.coverImage,
+          alt: item.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${item.title} | Motor Head Media`,
+      description: item.description,
+      images: [item.coverImage],
+    },
+  };
+}
+
 export default function MediaEventPage({ params }: PageProps) {
   const item = mediaItems.find((m) => m.id === params.id);
 
@@ -22,8 +56,45 @@ export default function MediaEventPage({ params }: PageProps) {
     notFound();
   }
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://motorhead.bmsit.ac.in/",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Media Gallery",
+        item: "https://motorhead.bmsit.ac.in/media",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: item.title,
+        item: `https://motorhead.bmsit.ac.in/media/${item.id}`,
+      },
+    ],
+  };
+
+  const imageGallerySchema = {
+    "@context": "https://schema.org",
+    "@type": "ImageGallery",
+    name: item.title,
+    description: item.description,
+    url: `https://motorhead.bmsit.ac.in/media/${item.id}`,
+    image: item.gallery.map((g) => g.url),
+  };
+
   return (
     <main className="flex-1 w-full bg-[#050505] text-white min-h-screen font-sans overflow-x-hidden pt-24 pb-20">
+      <StructuredData data={breadcrumbSchema} />
+      <StructuredData data={imageGallerySchema} />
+
       <div className="max-w-7xl mx-auto px-4">
         {/* Back Button */}
         <Link
