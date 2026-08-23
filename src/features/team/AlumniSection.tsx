@@ -3,17 +3,115 @@
 import React, { useRef, useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight, ChevronDown } from "lucide-react";
 
+interface AlumniMember {
+  id: number | string;
+  name: string;
+  status: string;
+  role: string;
+  image: string;
+  linkedin?: string;
+}
+
 // Group alumni by graduation batch year. Add new years/people here as needed.
-const alumniByYear: Record<
-  string,
-  {
-    id: number;
-    name: string;
-    status: string;
-    role: string;
-    image: string;
-  }[]
-> = {
+const alumniByYear: Record<string, AlumniMember[]> = {
+  "2024": [
+    {
+      id: "maruthi",
+      name: "Maruthi H R",
+      status: "Alumni",
+      role: "Powertrain",
+      image: "/images/alumni/Maruthi H R.jpg",
+      linkedin: "#",
+    },
+    {
+      id: "mohammed",
+      name: "Mohammed Abdul",
+      status: "Alumni",
+      role: "Chassis",
+      image: "/images/alumni/Mohammed Abdul.jpg",
+      linkedin: "#",
+    },
+    {
+      id: "mohith",
+      name: "Mohith M",
+      status: "Alumni",
+      role: "Electrical",
+      image: "/images/alumni/Mohith M.jpg",
+      linkedin: "#",
+    },
+    {
+      id: "nethanya",
+      name: "Nethanya G H",
+      status: "Alumni",
+      role: "Aerodynamics",
+      image: "/images/alumni/Nethanya G H.jpg",
+      linkedin: "#",
+    },
+    {
+      id: "poojit",
+      name: "Poojit",
+      status: "Alumni",
+      role: "Vehicle Dynamics",
+      image: "/images/alumni/Poojit.jpg",
+      linkedin: "#",
+    },
+    {
+      id: "pranjal",
+      name: "Pranjal Raj",
+      status: "Alumni",
+      role: "Suspension",
+      image: "/images/alumni/Pranjal Raj.jpg",
+      linkedin: "#",
+    },
+    {
+      id: "pratham",
+      name: "Pratham",
+      status: "Alumni",
+      role: "Electronics",
+      image: "/images/alumni/Pratham.jpg",
+      linkedin: "#",
+    },
+    {
+      id: "samarth",
+      name: "Samarth M Hulamani",
+      status: "Alumni",
+      role: "Manufacturing",
+      image: "/images/alumni/Samarth M Hulamani.jpg",
+      linkedin: "#",
+    },
+    {
+      id: "srujan",
+      name: "Srujan A P",
+      status: "Alumni",
+      role: "Telemetry",
+      image: "/images/alumni/Srujan A P.jpg",
+      linkedin: "#",
+    },
+    {
+      id: "suteerth",
+      name: "Suteerth",
+      status: "Alumni",
+      role: "Operations",
+      image: "/images/alumni/Suteerth.jpg",
+      linkedin: "#",
+    },
+    {
+      id: "vivek",
+      name: "Vivek DB",
+      status: "Alumni",
+      role: "Drivetrain",
+      image: "/images/alumni/Vivek db.jpg",
+      linkedin: "#",
+    },
+    {
+      id: "yashraj",
+      name: "Yashraj Desai",
+      status: "Alumni",
+      role: "Design",
+      image: "/images/alumni/Yashraj Desai.jpg",
+      linkedin: "#",
+    },
+  ],
   "2020-2021": [
     {
       id: 1,
@@ -21,6 +119,7 @@ const alumniByYear: Record<
       status: "Alumni",
       role: "Powertrain Lead",
       image: "/images/arun-m.jpg",
+      linkedin: "#",
     },
     {
       id: 4,
@@ -28,6 +127,7 @@ const alumniByYear: Record<
       status: "Alumni",
       role: "Electrical Lead",
       image: "/images/varun-h.jpg",
+      linkedin: "#",
     },
     {
       id: 5,
@@ -35,6 +135,7 @@ const alumniByYear: Record<
       status: "Alumni",
       role: "Aerodynamics Lead",
       image: "/images/shruti-k.jpg",
+      linkedin: "#",
     },
     {
       id: 7,
@@ -42,6 +143,7 @@ const alumniByYear: Record<
       status: "Alumni",
       role: "Operations Lead",
       image: "/images/nidhi-s.jpg",
+      linkedin: "#",
     },
   ],
   "2019-2020": [
@@ -51,6 +153,7 @@ const alumniByYear: Record<
       status: "Alumni",
       role: "Chassis Lead",
       image: "/images/prajwal-r.jpg",
+      linkedin: "#",
     },
     {
       id: 6,
@@ -58,6 +161,7 @@ const alumniByYear: Record<
       status: "Alumni",
       role: "Suspension Lead",
       image: "/images/gaurav-p.jpg",
+      linkedin: "#",
     },
   ],
   "2018-2019": [
@@ -67,6 +171,7 @@ const alumniByYear: Record<
       status: "Alumni",
       role: "Team Lead",
       image: "/images/meghana-s.jpg",
+      linkedin: "#",
     },
     {
       id: 8,
@@ -74,6 +179,7 @@ const alumniByYear: Record<
       status: "Alumni",
       role: "Manufacturing Lead",
       image: "/images/karan-v.jpg",
+      linkedin: "#",
     },
   ],
 };
@@ -137,7 +243,9 @@ export default function AlumniSection() {
             <span className="font-heading font-bold">{selectedYear}</span>
             <ChevronDown
               size={18}
-              className={`transition-transform duration-200 ${isDropdownOpen ? "rotate-180" : ""}`}
+              className={`transition-transform duration-200 ${
+                isDropdownOpen ? "rotate-180" : ""
+              }`}
             />
           </button>
 
@@ -148,7 +256,6 @@ export default function AlumniSection() {
                   key={year}
                   onClick={() => {
                     setSelectedYear(year);
-                    setActiveIndex(0);
                     setIsDropdownOpen(false);
                   }}
                   className={`w-full text-left px-4 py-3 hover:bg-white/5 transition-colors font-heading text-sm ${
@@ -197,7 +304,9 @@ export default function AlumniSection() {
                         alt={person.name}
                         className="w-full h-full object-cover mix-blend-luminosity hover:mix-blend-normal transition-all duration-300"
                         onError={(e) => {
-                          e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(person.name)}&background=202020&color=fff&size=300`;
+                          e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                            person.name,
+                          )}&background=202020&color=fff&size=300`;
                         }}
                       />
                     </div>
@@ -208,9 +317,20 @@ export default function AlumniSection() {
                       <p className="text-primary text-xs font-semibold mb-1 uppercase tracking-wider">
                         {person.status}
                       </p>
-                      <p className="text-muted-foreground text-xs">
-                        {person.role} &apos;{selectedYear.slice(2, 4)}
+                      <p className="text-muted-foreground text-xs mb-1">
+                        {person.role}
                       </p>
+                      {person.linkedin && person.linkedin !== "#" && (
+                        <a
+                          href={person.linkedin}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-muted-foreground hover:text-white transition-colors text-xs inline-block mt-1"
+                          aria-label={`${person.name} LinkedIn`}
+                        >
+                          LinkedIn
+                        </a>
+                      )}
                     </div>
                   </div>
                 ))}

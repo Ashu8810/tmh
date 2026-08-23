@@ -30,11 +30,11 @@ const LinkedinIcon = ({
 const coordinators = [
   {
     id: 1,
-    name: "Dr. Mahesh B.",
+    name: "Dr. Nagamadhu M.",
     role: "Faculty Coordinator",
     description:
       "Providing strategic guidance and technical support to drive the club forward.",
-    image: "/images/mahesh-b.jpg",
+    image: "/images/faculty/NG.jpg",
     linkedin: "#",
   },
   {
@@ -79,7 +79,9 @@ export default function FacultyCoordinatorsSection() {
                 alt={coordinator.name}
                 className="w-full h-full object-cover"
                 onError={(e) => {
-                  e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(coordinator.name)}&background=202020&color=fff&size=200`;
+                  e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                    coordinator.name,
+                  )}&background=202020&color=fff&size=200`;
                 }}
               />
             </div>
