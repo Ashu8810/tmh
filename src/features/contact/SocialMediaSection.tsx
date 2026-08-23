@@ -39,13 +39,13 @@ export default function SocialMediaSection() {
     {
       name: "Instagram",
       handle: "@motorhead_bmsit",
-      url: "https://instagram.com/motorhead_bmsit",
+      url: "https://www.instagram.com/motor.heads_bmsit?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw==",
       icon: InstagramIcon,
     },
     {
       name: "LinkedIn",
       handle: "Motor Head BMSIT&M",
-      url: "https://linkedin.com/company/motorhead-bmsit",
+      url: "https://www.linkedin.com/company/motor-heads-bmsit/posts/?feedView=all",
       icon: LinkedinIcon,
     },
   ];
