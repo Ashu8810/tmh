@@ -1,5 +1,6 @@
 import { MetadataRoute } from "next";
 import { mediaItems } from "@/data/mediaData";
+import { vehicles } from "@/data/vehiclesData";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://motorhead.bmsit.ac.in";
@@ -32,5 +33,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...staticSitemapEntries, ...mediaSitemapEntries];
+  const vehicleSitemapEntries = vehicles.map((vehicle) => ({
+    url: `${baseUrl}/vehicles/${vehicle.id}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  }));
+
+  return [
+    ...staticSitemapEntries,
+    ...mediaSitemapEntries,
+    ...vehicleSitemapEntries,
+  ];
 }
