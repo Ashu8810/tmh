@@ -78,7 +78,9 @@ const alumniByYear: Record<
   ],
 };
 
-const batchYears = Object.keys(alumniByYear).sort((a, b) => (a < b ? 1 : -1));
+const batchYears = Object.keys(alumniByYear).sort((a, b) =>
+  a < b ? 1 : -1
+);
 
 export default function AlumniSection() {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -89,13 +91,17 @@ export default function AlumniSection() {
   const alumni = alumniByYear[selectedYear] || [];
 
   const scrollLeft = () => {
-    if (scrollRef.current)
+    if (scrollRef.current) {
       scrollRef.current.scrollBy({ left: -300, behavior: "smooth" });
+    }
   };
+
   const scrollRight = () => {
-    if (scrollRef.current)
+    if (scrollRef.current) {
       scrollRef.current.scrollBy({ left: 300, behavior: "smooth" });
+    }
   };
+
   const handleScroll = () => {
     if (scrollRef.current) {
       const scrollPosition = scrollRef.current.scrollLeft;
@@ -106,8 +112,9 @@ export default function AlumniSection() {
   };
 
   useEffect(() => {
-    if (scrollRef.current)
+    if (scrollRef.current) {
       scrollRef.current.scrollTo({ left: 0, behavior: "auto" });
+    }
   }, [selectedYear]);
 
   return (
@@ -126,6 +133,7 @@ export default function AlumniSection() {
           Always a part of the journey.
         </p>
 
+        {/* Batch Year Dropdown */}
         <div className="relative w-full max-w-[240px]">
           <label className="text-xs uppercase tracking-widest text-muted-foreground font-bold mb-2 block">
             Select Batch
@@ -137,7 +145,9 @@ export default function AlumniSection() {
             <span className="font-heading font-bold">{selectedYear}</span>
             <ChevronDown
               size={18}
-              className={`transition-transform duration-200 ${isDropdownOpen ? "rotate-180" : ""}`}
+              className={`transition-transform duration-200 ${
+                isDropdownOpen ? "rotate-180" : ""
+              }`}
             />
           </button>
 
@@ -172,10 +182,11 @@ export default function AlumniSection() {
           </p>
         ) : (
           <>
+            {/* Carousel Container */}
             <div className="flex items-center gap-4 w-full relative">
               <button
                 onClick={scrollLeft}
-                className="w-11 h-11 min-h-[44px] min-w-[44px] rounded-full border border-white/20 flex items-center justify-center hover:bg-white/5 transition-colors absolute -left-5 z-10 bg-background md:static"
+                className="w-11 h-11 min-h-[44px] min-w-[44px] rounded-full border border-white/20 flex items-center justify-center hover:bg-white/5 transition-colors absolute -left-5 z-10 bg-background"
                 aria-label="Scroll left"
               >
                 <ChevronLeft size={20} />
@@ -189,18 +200,23 @@ export default function AlumniSection() {
                 {alumni.map((person) => (
                   <div
                     key={person.id}
-                    className="snap-start w-[42vw] sm:w-[200px] md:w-[220px] lg:w-[240px] flex-none flex flex-col bg-[#121212] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition-colors"
+                    className="snap-start w-[42vw] sm:w-[200px] md:w-[220px] lg:w-[240px] flex-none flex flex-col bg-[#121212] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition-all duration-300"
                   >
+                    {/* Alumni Image */}
                     <div className="aspect-square bg-neutral-900 relative">
                       <img
                         src={person.image}
                         alt={person.name}
                         className="w-full h-full object-cover mix-blend-luminosity hover:mix-blend-normal transition-all duration-300"
                         onError={(e) => {
-                          e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(person.name)}&background=202020&color=fff&size=300`;
+                          e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                            person.name
+                          )}&background=202020&color=fff&size=300`;
                         }}
                       />
                     </div>
+
+                    {/* Alumni Info */}
                     <div className="p-4 text-center">
                       <h3 className="font-heading font-bold text-lg mb-1">
                         {person.name}
@@ -218,13 +234,14 @@ export default function AlumniSection() {
 
               <button
                 onClick={scrollRight}
-                className="w-11 h-11 min-h-[44px] min-w-[44px] rounded-full border border-white/20 flex items-center justify-center hover:bg-white/5 transition-colors absolute -right-5 z-10 bg-background md:static"
+                className="w-11 h-11 min-h-[44px] min-w-[44px] rounded-full border border-white/20 flex items-center justify-center hover:bg-white/5 transition-colors absolute -right-5 z-10 bg-background"
                 aria-label="Scroll right"
               >
                 <ChevronRight size={20} />
               </button>
             </div>
 
+            {/* Carousel Indicators */}
             <div className="flex gap-2 mt-4">
               {alumni.map((_, index) => (
                 <button
