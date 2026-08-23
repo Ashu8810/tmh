@@ -30,22 +30,13 @@ const LinkedinIcon = ({
 const coordinators = [
   {
     id: 1,
-    name: "Dr. Mahesh B.",
-    role: "Faculty Coordinator",
-    description:
-      "Providing strategic guidance and technical support to drive the club forward.",
-    image: "/images/mahesh-b.jpg",
+    name: "Dr Nagamadhu M ",
+    role: " ",
+    description: "Providing strategic guidance and technical support to drive the club forward.",
+    image: "/images/faculty/NG.jpg",
     linkedin: "#",
   },
-  {
-    id: 2,
-    name: "Prof. Raghavendra H.",
-    role: "Co-Coordinator",
-    description:
-      "Mentoring the team and ensuring excellence in every step we take.",
-    image: "/images/raghavendra-h.jpg",
-    linkedin: "#",
-  },
+  
 ];
 
 export default function FacultyCoordinatorsSection() {
