@@ -5,7 +5,6 @@ import ClubLeadershipSection from "@/features/team/ClubLeadershipSection";
 import DepartmentLeadsSection from "@/features/team/DepartmentLeadsSection";
 import CurrentMembersSection from "@/features/team/CurrentMembersSection";
 import AlumniSection from "@/features/team/AlumniSection";
-import HistoricalMembersSection from "@/features/team/HistoricalMembersSection";
 import JoinMotorHeadCTA from "@/features/team/JoinMotorHeadCTA";
 
 export const metadata: Metadata = {
@@ -30,7 +29,6 @@ export default function TeamPage() {
         <DepartmentLeadsSection />
         <CurrentMembersSection />
         <AlumniSection />
-        <HistoricalMembersSection />
         <JoinMotorHeadCTA />
       </div>
     </main>
