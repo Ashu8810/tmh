@@ -54,7 +54,6 @@ export default function AlumniSection() {
 
   useEffect(() => {
     if (scrollRef.current) scrollRef.current.scrollTo({ left: 0, behavior: "auto" });
-    setActiveIndex(0);
   }, [selectedYear]);
 
   return (
@@ -84,7 +83,7 @@ export default function AlumniSection() {
               {batchYears.map((year) => (
                 <button
                   key={year}
-                  onClick={() => { setSelectedYear(year); setIsDropdownOpen(false); }}
+                  onClick={() => { setSelectedYear(year); setActiveIndex(0); setIsDropdownOpen(false); }}
                   className={`w-full text-left px-4 py-3 hover:bg-white/5 transition-colors font-heading text-sm ${
                     selectedYear === year ? 'text-primary bg-primary/10' : 'text-white'
                   }`}
@@ -134,7 +133,7 @@ export default function AlumniSection() {
                     <div className="p-4 text-center">
                       <h3 className="font-heading font-bold text-lg mb-1">{person.name}</h3>
                       <p className="text-primary text-xs font-semibold mb-1 uppercase tracking-wider">{person.status}</p>
-                      <p className="text-muted-foreground text-xs">{person.role} '{selectedYear.slice(2, 4)}</p>
+                      <p className="text-muted-foreground text-xs">{person.role} &apos;{selectedYear.slice(2, 4)}</p>
                     </div>
                   </div>
                 ))}
