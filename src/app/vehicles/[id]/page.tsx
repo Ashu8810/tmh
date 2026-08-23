@@ -1,24 +1,17 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import StructuredData from "@/components/seo/StructuredData";
 import { vehicles } from "@/data/vehiclesData";
 import VehicleDetailView from "@/features/vehicles/VehicleDetailView";
+import StructuredData from "@/components/seo/StructuredData";
 
-interface PageProps {
-  params: Promise<{ id: string }>;
+interface Props {
+  params: {
+    id: string;
+  };
 }
 
-export async function generateStaticParams() {
-  return vehicles.map((vehicle) => ({
-    id: vehicle.id,
-  }));
-}
-
-export async function generateMetadata({
-  params,
-}: PageProps): Promise<Metadata> {
-  const { id } = await params;
-  const vehicle = vehicles.find((v) => v.id === id);
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const vehicle = vehicles.find((v) => v.id === params.id);
 
   if (!vehicle) {
     return {
@@ -27,29 +20,47 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${vehicle.name} (${vehicle.yearBuilt}) | Motor Head Vehicles`,
-    description: `${vehicle.name}: ${vehicle.description}. Top speed: ${vehicle.technicalSpecs.topSpeed}. Powertrain: ${vehicle.technicalSpecs.powertrain}.`,
+    title: `${vehicle.name} | Student Vehicle | Motor Head`,
+    description: vehicle.description,
     alternates: { canonical: `/vehicles/${vehicle.id}` },
     openGraph: {
-      title: `${vehicle.name} | Motor Head Vehicles`,
+      title: `${vehicle.name} | Motor Head`,
       description: vehicle.description,
       url: `https://motorhead.bmsit.ac.in/vehicles/${vehicle.id}`,
+      images: vehicle.image ? [{ url: vehicle.image }] : [],
     },
     twitter: {
       card: "summary_large_image",
-      title: `${vehicle.name} | Motor Head Vehicles`,
+      title: `${vehicle.name} | Motor Head`,
       description: vehicle.description,
     },
   };
 }
 
-export default async function VehicleDetailPage({ params }: PageProps) {
-  const { id } = await params;
-  const vehicle = vehicles.find((v) => v.id === id);
+export function generateStaticParams() {
+  return vehicles.map((vehicle) => ({
+    id: vehicle.id,
+  }));
+}
+
+export default function VehicleDetailPage({ params }: Props) {
+  const vehicle = vehicles.find((v) => v.id === params.id);
 
   if (!vehicle) {
     notFound();
   }
+
+  const vehicleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: vehicle.name,
+    description: vehicle.description,
+    image: vehicle.image,
+    brand: {
+      "@type": "Organization",
+      name: "Motor Head",
+    },
+  };
 
   const breadcrumbSchema = {
     "@context": "https://schema.org",
@@ -76,24 +87,10 @@ export default async function VehicleDetailPage({ params }: PageProps) {
     ],
   };
 
-  const productSchema = {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: vehicle.name,
-    description: vehicle.description,
-    category: vehicle.category,
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "INR",
-      availability: "https://schema.org/InStock",
-    },
-  };
-
   return (
     <main className="flex-1 w-full bg-background text-foreground pt-24 pb-20 px-4">
+      <StructuredData data={vehicleSchema} />
       <StructuredData data={breadcrumbSchema} />
-      <StructuredData data={productSchema} />
       <div className="max-w-4xl mx-auto">
         <VehicleDetailView vehicle={vehicle} />
       </div>
