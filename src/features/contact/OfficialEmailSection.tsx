@@ -2,6 +2,9 @@ import React from "react";
 import ContactSectionLayout from "./ContactSectionLayout";
 import { Mail } from "lucide-react";
 
+const OFFICIAL_EMAIL = "teammotorheads@bmsit.in";
+const GMAIL_COMPOSE_LINK = `https://mail.google.com/mail/?view=cm&fs=1&to=${OFFICIAL_EMAIL}`;
+
 export default function OfficialEmailSection() {
   return (
     <ContactSectionLayout
@@ -20,10 +23,12 @@ export default function OfficialEmailSection() {
               Official Email
             </span>
             <a
-              href="mailto:team.motorhead@bmsit.in"
+              href={GMAIL_COMPOSE_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-xl md:text-2xl font-bold font-heading hover:text-primary transition-colors mb-2 break-all"
             >
-              team.motorhead@bmsit.in
+              {OFFICIAL_EMAIL}
             </a>
             <p className="text-sm text-muted-foreground">
               We typically respond within 24-48 hours.
