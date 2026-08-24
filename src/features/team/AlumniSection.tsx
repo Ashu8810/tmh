@@ -14,29 +14,13 @@ interface AlumniMember {
 
 // Group alumni by graduation batch year. Add new years/people here as needed.
 const alumniByYear: Record<string, AlumniMember[]> = {
-  "2024": [
-    {
-      id: "adithya-hiremath",
-      name: "Adithya Hiremath",
-      status: "Alumni",
-      role: "Operations Lead",
-      image: "/images/alumni/Adithya Hiremath.jpg",
-      linkedin: "#",
-    },
+  "2026": [
     {
       id: "aditya-narayan",
       name: "Aditya Narayan",
       status: "Alumni",
       role: "Powertrain",
       image: "/images/alumni/Aditya Narayan.jpg",
-      linkedin: "#",
-    },
-    {
-      id: "bharath-vr",
-      name: "Bharath V R",
-      status: "Alumni",
-      role: "Chassis",
-      image: "/images/alumni/Bharath V R.jpg",
       linkedin: "#",
     },
     {
@@ -64,35 +48,11 @@ const alumniByYear: Record<string, AlumniMember[]> = {
       linkedin: "#",
     },
     {
-      id: "ganesh",
-      name: "Ganesh",
-      status: "Alumni",
-      role: "Manufacturing",
-      image: "/images/alumni/Ganesh.jpg",
-      linkedin: "#",
-    },
-    {
-      id: "karthik-yadav",
-      name: "Karthik Yadav",
-      status: "Alumni",
-      role: "Vehicle Dynamics",
-      image: "/images/alumni/Karthik Yadav.jpg",
-      linkedin: "#",
-    },
-    {
       id: "karthik",
       name: "Karthik",
       status: "Alumni",
       role: "Telemetry",
       image: "/images/alumni/Karthik.jpg",
-      linkedin: "#",
-    },
-    {
-      id: "manish",
-      name: "Manish",
-      status: "Alumni",
-      role: "Electronics",
-      image: "/images/alumni/Manish.jpg",
       linkedin: "#",
     },
     {
@@ -144,14 +104,6 @@ const alumniByYear: Record<string, AlumniMember[]> = {
       linkedin: "#",
     },
     {
-      id: "syeeda-aiemen",
-      name: "Syeeda Aiemen",
-      status: "Alumni",
-      role: "Electronics Lead",
-      image: "/images/alumni/Syeeda Aiemen Dania Saleem.jpeg",
-      linkedin: "#",
-    },
-    {
       id: "tanish",
       name: "Tanish",
       status: "Alumni",
@@ -181,6 +133,56 @@ const alumniByYear: Record<string, AlumniMember[]> = {
       status: "Alumni",
       role: "Vehicle Dynamics Lead",
       image: "/images/alumni/Vinay.jpg",
+      linkedin: "#",
+    },
+  ],
+  "2025": [
+    {
+      id: "adithya-hiremath",
+      name: "Adithya Hiremath",
+      status: "Alumni",
+      role: "Operations Lead",
+      image: "/images/alumni/Adithya Hiremath.jpg",
+      linkedin: "#",
+    },
+    {
+      id: "bharath-vr",
+      name: "Bharath V R",
+      status: "Alumni",
+      role: "Chassis",
+      image: "/images/alumni/Bharath V R.jpg",
+      linkedin: "#",
+    },
+    {
+      id: "ganesh",
+      name: "Ganesh",
+      status: "Alumni",
+      role: "Manufacturing",
+      image: "/images/alumni/Ganesh.jpg",
+      linkedin: "#",
+    },
+    {
+      id: "karthik-yadav",
+      name: "Karthik Yadav",
+      status: "Alumni",
+      role: "Vehicle Dynamics",
+      image: "/images/alumni/Karthik Yadav.jpg",
+      linkedin: "#",
+    },
+    {
+      id: "manish",
+      name: "Manish",
+      status: "Alumni",
+      role: "Electronics",
+      image: "/images/alumni/Manish.jpg",
+      linkedin: "#",
+    },
+    {
+      id: "syeeda-aiemen",
+      name: "Syeeda Aiemen Dania Saleem",
+      status: "Alumni",
+      role: "Electronics Lead",
+      image: "/images/alumni/Syeeda Aiemen Dania Saleem.jpeg",
       linkedin: "#",
     },
   ],

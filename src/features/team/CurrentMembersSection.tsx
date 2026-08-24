@@ -10,12 +10,7 @@ interface Member {
 }
 
 const membersByYear: Record<string, Member[]> = {
-  "2026": [
-    {
-      name: "Aditya Singh",
-      image: "/images/members/Aditya Singh.jpg",
-      linkedin: "#",
-    },
+  "2028": [
     {
       name: "Aaron Joel Jonathan",
       image: "/images/members/Aaron Joel Jonathan.jpg",
@@ -32,11 +27,6 @@ const membersByYear: Record<string, Member[]> = {
       linkedin: "#",
     },
     {
-      name: "Abhijeeth",
-      image: "/images/members/Abhijeeth.jpg",
-      linkedin: "#",
-    },
-    {
       name: "Arjun Livik J P",
       image: "/images/members/Arjun Livik J P.jpg",
       linkedin: "#",
@@ -49,13 +39,6 @@ const membersByYear: Record<string, Member[]> = {
     {
       name: "Bhagyesh S",
       image: "/images/members/Bhagyesh S.jpg",
-      linkedin: "#",
-    },
-  ],
-  "2025": [
-    {
-      name: "Gautam P",
-      image: "/images/members/Gautam P.jpg",
       linkedin: "#",
     },
     {
@@ -93,13 +76,6 @@ const membersByYear: Record<string, Member[]> = {
       image: "/images/members/Poojit.jpg",
       linkedin: "#",
     },
-  ],
-  "2024": [
-    {
-      name: "DJ",
-      image: "/images/members/DJ.jpg",
-      linkedin: "#",
-    },
     {
       name: "Pranjal Raj",
       image: "/images/members/Pranjal Raj.jpg",
@@ -116,18 +92,8 @@ const membersByYear: Record<string, Member[]> = {
       linkedin: "#",
     },
     {
-      name: "Shankar",
-      image: "/images/members/Shankar.jpg",
-      linkedin: "#",
-    },
-    {
       name: "Srujan A P",
       image: "/images/members/Srujan A P.jpg",
-      linkedin: "#",
-    },
-    {
-      name: "Venkat",
-      image: "/images/members/Venkat.jpg",
       linkedin: "#",
     },
     {
@@ -138,6 +104,38 @@ const membersByYear: Record<string, Member[]> = {
     {
       name: "Yashraj Desai",
       image: "/images/members/Yashraj Desai.jpg",
+      linkedin: "#",
+    },
+  ],
+  "2027": [
+    {
+      name: "Abhijeeth",
+      image: "/images/members/Abhijeeth.jpg",
+      linkedin: "#",
+    },
+    {
+      name: "Aditya Singh",
+      image: "/images/members/Aditya Singh.jpg",
+      linkedin: "#",
+    },
+    {
+      name: "DJ",
+      image: "/images/members/DJ.jpg",
+      linkedin: "#",
+    },
+    {
+      name: "Gautam P",
+      image: "/images/members/Gautam P.jpg",
+      linkedin: "#",
+    },
+    {
+      name: "Shankar",
+      image: "/images/members/Shankar.jpg",
+      linkedin: "#",
+    },
+    {
+      name: "Venkat",
+      image: "/images/members/Venkat.jpg",
       linkedin: "#",
     },
   ],
