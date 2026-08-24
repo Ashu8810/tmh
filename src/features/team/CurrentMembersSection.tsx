@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { ArrowRight, ChevronDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 
 interface Member {
   name: string;
@@ -10,57 +10,71 @@ interface Member {
 }
 
 const membersByYear: Record<string, Member[]> = {
-  "2025": [
-    {
-      name: "Adithya Hiremath",
-      image: "/images/members/Adithya Hiremath.jpg",
-      linkedin: "#",
-    },
-    {
-      name: "Bharath V R",
-      image: "/images/members/Bharath V R.jpg",
-      linkedin: "#",
-    },
-    { name: "Ganesh", image: "/images/members/Ganesh.jpg", linkedin: "#" },
-    {
-      name: "Karthik Yadav",
-      image: "/images/members/Karthik Yadav.jpg",
-      linkedin: "#",
-    },
-    {
-      name: "Syeeda Aiemen",
-      image: "/images/members/Syeeda Aiemen.jpg",
-      linkedin: "#",
-    },
-  ],
-  "2026": [
-    {
-      name: "Aditya Narayan",
-      image: "/images/members/Aditya narayan.jpg",
-      linkedin: "#",
-    },
-    { name: "Dhanush", image: "/images/members/Dhanush.jpg", linkedin: "#" },
-    { name: "Fardeen", image: "/images/members/Fardeen.jpg", linkedin: "#" },
-    { name: "Gajendra", image: "/images/members/gajendra.jpg", linkedin: "#" },
-    { name: "Karthik", image: "/images/members/karthik.jpg", linkedin: "#" },
-    { name: "Mokshith", image: "/images/members/Mokshith.jpg", linkedin: "#" },
-    { name: "Nishitha", image: "/images/members/Nishitha.jpg", linkedin: "#" },
-    { name: "Pavan", image: "/images/members/Pavan.jpg", linkedin: "#" },
-    {
-      name: "Raj Surya",
-      image: "/images/members/Raj Surya.jpg",
-      linkedin: "#",
-    },
-  ],
   "2027": [
+    {
+      name: "Abhijeeth",
+      image: "/images/members/Abhijeeth.jpg",
+      linkedin: "#",
+    },
+    {
+      name: "Aditya Singh",
+      image: "/images/members/Aditya Singh.jpg",
+      linkedin: "#",
+    },
+    { name: "DJ", image: "/images/members/DJ.jpg", linkedin: "#" },
+    {
+      name: "Gautam P",
+      image: "/images/members/Gautam P.jpg",
+      linkedin: "#",
+    },
+    { name: "Shankar", image: "/images/members/Shankar.jpg", linkedin: "#" },
+    { name: "Venkat", image: "/images/members/Venkat.jpg", linkedin: "#" },
+  ],
+  "2028": [
+    {
+      name: "Aaron Joel Jonathan",
+      image: "/images/members/Aaron Joel Jonathan.jpg",
+      linkedin: "#",
+    },
+    {
+      name: "Aashish S Badiger",
+      image: "/images/members/Aashish S Badiger.jpg",
+      linkedin: "#",
+    },
+    {
+      name: "Aatif Mohideen",
+      image: "/images/members/Aatif Mohideen.jpg",
+      linkedin: "#",
+    },
+    {
+      name: "Arjun Livik J P",
+      image: "/images/members/Arjun Livik J P.jpg",
+      linkedin: "#",
+    },
+    { name: "Asim", image: "/images/members/Asim.jpg", linkedin: "#" },
+    {
+      name: "Bhagyesh S",
+      image: "/images/members/Bhagyesh S.jpg",
+      linkedin: "#",
+    },
+    {
+      name: "Hariharan N",
+      image: "/images/members/Hariharan N.jpg",
+      linkedin: "#",
+    },
+    {
+      name: "Karthik Gopal Halliyur",
+      image: "/images/members/Karthik Gopal Halliyur.jpg",
+      linkedin: "#",
+    },
     {
       name: "Maruthi H R",
       image: "/images/members/Maruthi H R.jpg",
       linkedin: "#",
     },
     {
-      name: "Mohammed Abdul",
-      image: "/images/members/Mohammed Abdul.jpg",
+      name: "Mohammed Abdul Tazeem",
+      image: "/images/members/Mohammed Abdul Tazeem.jpg",
       linkedin: "#",
     },
     { name: "Mohith M", image: "/images/members/Mohith M.jpg", linkedin: "#" },
@@ -86,7 +100,6 @@ const membersByYear: Record<string, Member[]> = {
       image: "/images/members/Srujan A P.jpg",
       linkedin: "#",
     },
-    { name: "Suteerth", image: "/images/members/Suteerth.jpg", linkedin: "#" },
     { name: "Vivek DB", image: "/images/members/Vivek db.jpg", linkedin: "#" },
     {
       name: "Yashraj Desai",
@@ -126,7 +139,7 @@ export default function CurrentMembersSection() {
       <div className="lg:w-2/3 flex flex-col gap-12">
         <div className="flex flex-col md:flex-row gap-6">
           {/* Group Photo */}
-          <div className="w-full md:w-2/3 rounded-xl overflow-hidden bg-neutral-900 border border-white/5 relative aspect-video md:aspect-auto">
+          <div className="w-full rounded-xl overflow-hidden bg-neutral-900 border border-white/5 relative aspect-video md:aspect-auto">
             <img
               src="/images/team-group.jpg"
               alt="Motor Head Team Members"
@@ -136,26 +149,6 @@ export default function CurrentMembersSection() {
               }}
             />
             <div className="absolute inset-0 bg-white/5 flex items-center justify-center" />
-          </div>
-
-          {/* Stats & CTA */}
-          <div className="w-full md:w-1/3 flex flex-col justify-center p-8 bg-[#121212] border border-white/5 rounded-xl hover:border-white/10 transition-colors">
-            <h3 className="text-5xl font-heading font-bold text-primary mb-2">
-              60+
-            </h3>
-            <h4 className="font-heading font-bold text-xl mb-4">
-              Active Members
-            </h4>
-            <p className="text-muted-foreground text-sm leading-relaxed mb-8">
-              From diverse backgrounds and disciplines, united by one passion –
-              automotive engineering.
-            </p>
-            <a
-              href="/team"
-              className="inline-flex items-center gap-2 px-5 py-3 border border-white/20 rounded-md hover:bg-white/5 transition-colors text-sm font-semibold w-fit"
-            >
-              MEET THE TEAM <ArrowRight size={16} />
-            </a>
           </div>
         </div>
 
