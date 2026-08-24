@@ -10,7 +10,6 @@ import {
   EventTimelineSection,
   CurrentGoalsSection,
   FutureGoalsSection,
-  DownloadClubProfileCTA,
 } from "@/features/about";
 
 export const metadata: Metadata = {
@@ -103,8 +102,6 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
-
-      <DownloadClubProfileCTA />
     </main>
   );
 }

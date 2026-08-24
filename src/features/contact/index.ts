@@ -4,3 +4,4 @@ export { default as OfficialEmailSection } from "./OfficialEmailSection";
 export { default as CampusLocationSection } from "./CampusLocationSection";
 export { default as SocialMediaSection } from "./SocialMediaSection";
 export { default as FAQSection } from "./FAQSection";
+export { default as AskQuestionSection } from "./AskQuestionSection";
