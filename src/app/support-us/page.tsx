@@ -1,5 +1,7 @@
 import { Metadata } from "next";
 import StructuredData from "@/components/seo/StructuredData";
+import PartnersSection from "@/features/support-us/PartnersSection";
+import SponsorshipTiersSection from "@/features/support-us/SponsorshipTiersSection";
 
 export const metadata: Metadata = {
   title: "Sponsor Motor Head | Industry Partnerships & Sponsorship",
@@ -19,7 +21,6 @@ export const metadata: Metadata = {
       "Partner with Motor Head to support student automotive engineering.",
   },
 };
-
 export default function SupportUsPage() {
   const breadcrumbSchema = {
     "@context": "https://schema.org",
@@ -39,7 +40,6 @@ export default function SupportUsPage() {
       },
     ],
   };
-
   return (
     <main className="flex-1 w-full bg-background text-foreground pt-24 pb-20 px-4">
       <StructuredData data={breadcrumbSchema} />
@@ -47,8 +47,9 @@ export default function SupportUsPage() {
         <h1 className="text-4xl font-heading font-bold uppercase mb-8">
           Support Us
         </h1>
-        {/* TODO: Add sponsor components */}
       </div>
+      <SponsorshipTiersSection />
+      <PartnersSection />
     </main>
   );
 }
