@@ -60,6 +60,30 @@ const getMembersForYear = (year: string) => {
   // Generate 4 to 8 members based on the year
   const numMembers = 4 + (seed % 5);
 
+  const alumniImages = [
+    "/images/alumni/Adithya Hiremath.jpg",
+    "/images/alumni/Aditya Narayan.jpg",
+    "/images/alumni/Bharath V R.jpg",
+    "/images/alumni/Dhanush.jpg",
+    "/images/alumni/Fardeen.jpg",
+    "/images/alumni/Gajendra.jpg",
+    "/images/alumni/Ganesh.jpg",
+    "/images/alumni/Karthik Yadav.jpg",
+    "/images/alumni/Karthik.jpg",
+    "/images/alumni/Manish.jpg",
+    "/images/alumni/Mokshith.jpg",
+    "/images/alumni/Nishitha.jpg",
+    "/images/alumni/Pavan.jpg",
+    "/images/alumni/Raj Surya.jpg",
+    "/images/alumni/Sahil.jpg",
+    "/images/alumni/Sharath.jpg",
+    "/images/alumni/Syeeda Aiemen Dania Saleem.jpeg",
+    "/images/alumni/Tanish.jpg",
+    "/images/alumni/Tharun.jpg",
+    "/images/alumni/Vikas.jpg",
+    "/images/alumni/Vinay.jpg",
+  ];
+
   return Array.from({ length: numMembers }).map((_, index) => {
     // Generate pseudo-random indices based on year + index
     const firstIndex = (seed + index * 7) % firstNames.length;
@@ -71,7 +95,7 @@ const getMembersForYear = (year: string) => {
       id: index + 1,
       name,
       role: index === 0 ? "Team Lead" : roles[roleIndex],
-      image: `/images/placeholder-${(seed + index) % 10}.jpg`,
+      image: alumniImages[(seed + index) % alumniImages.length],
     };
   });
 };

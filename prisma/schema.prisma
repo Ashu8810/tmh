@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id                  String         @id @default(uuid())
+  email               String         @unique
+  passwordHash        String
+  role                Role           @default(MEMBER)
+  mfaSecret           String?
+  mfaEnabled          Boolean        @default(false)
+  isActive            Boolean        @default(true)
+  mustChangePassword  Boolean        @default(false)
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @updatedAt
+
+  sessions            Session[]
+  loginAttempts       LoginAttempt[]
+  inviteTokens        InviteToken[]
+}
+
+model Session {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt   DateTime
+  mfaVerified Boolean  @default(true)
+  createdAt   DateTime @default(now())
+}
+
+model LoginAttempt {
+  id        String   @id @default(uuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ipAddress String?
+  success   Boolean
+  createdAt DateTime @default(now())
+}
+
+model InviteToken {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  token     String   @unique
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+enum Role {
+  ADMIN
+  MEMBER
+}

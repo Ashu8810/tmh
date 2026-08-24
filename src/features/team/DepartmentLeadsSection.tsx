@@ -5,37 +5,37 @@ const departments = [
   {
     id: 1,
     name: "Powertrain",
-    lead: "Harshith N.",
+    lead: "Hariharan N.",
     icon: Cog,
   },
   {
     id: 2,
     name: "Chassis",
-    lead: "Karthik B.",
+    lead: "Mohammed Abdul Tazeem",
     icon: Wrench,
   },
   {
     id: 3,
     name: "Suspension",
-    lead: "Likith P.",
+    lead: "Pranjal Raj",
     icon: CircleDot, // approximating shock absorber
   },
   {
     id: 4,
     name: "Electrical",
-    lead: "Nikhil S.",
+    lead: "Mohith M.",
     icon: Zap,
   },
   {
     id: 5,
     name: "Aerodynamics",
-    lead: "Sanjana R.",
+    lead: "Nethanya G H",
     icon: Wind,
   },
   {
     id: 6,
     name: "Manufacturing",
-    lead: "Abhinav S.",
+    lead: "Samarth M Hulamani",
     icon: Settings,
   },
 ];
