@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Outfit, Rajdhani } from "next/font/google";
 import Navbar from "@/components/layout/Navbar";
+import ConditionalFooter from "@/components/layout/ConditionalFooter";
 import StructuredData from "@/components/seo/StructuredData";
 import "@/styles/globals.css";
 
@@ -114,6 +115,7 @@ export default function RootLayout({
       >
         <Navbar />
         {children}
+        <ConditionalFooter />
       </body>
     </html>
   );

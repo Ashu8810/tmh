@@ -5,7 +5,6 @@ import ClubLeadershipSection from "@/features/team/ClubLeadershipSection";
 import DepartmentLeadsSection from "@/features/team/DepartmentLeadsSection";
 import CurrentMembersSection from "@/features/team/CurrentMembersSection";
 import AlumniSection from "@/features/team/AlumniSection";
-import JoinMotorHeadCTA from "@/features/team/JoinMotorHeadCTA";
 import StructuredData from "@/components/seo/StructuredData";
 
 export const metadata: Metadata = {
@@ -71,7 +70,6 @@ export default function TeamPage() {
         <DepartmentLeadsSection />
         <CurrentMembersSection />
         <AlumniSection />
-        <JoinMotorHeadCTA />
       </div>
     </main>
   );

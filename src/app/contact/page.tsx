@@ -7,6 +7,7 @@ import {
   CampusLocationSection,
   SocialMediaSection,
   FAQSection,
+  AskQuestionSection,
 } from "@/features/contact";
 
 export const metadata: Metadata = {
@@ -69,6 +70,7 @@ export default function ContactPage() {
         <CampusLocationSection />
         <SocialMediaSection />
         <FAQSection />
+        <AskQuestionSection />
       </div>
     </main>
   );
