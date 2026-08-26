@@ -113,3 +113,14 @@
 .animate-speedline {
   animation: speedline 1.5s linear infinite;
 }
+
+/* Global Image Override - Prevents Grayscale & Luminosity hover shifts site-wide */
+img {
+  mix-blend-mode: normal !important;
+  filter: none !important;
+}
+
+img:hover {
+  mix-blend-mode: normal !important;
+  filter: none !important;
+}
