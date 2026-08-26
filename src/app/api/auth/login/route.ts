@@ -2,14 +2,21 @@ import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import prisma from '@/lib/prisma';
 import { createSession } from '@/lib/session';
+import { rateLimit } from '@/lib/rate-limit';
 
 const MAX_LOGIN_ATTEMPTS = 5;
 const LOCKOUT_MINUTES = 15;
 
 export async function POST(request: Request) {
   try {
+    const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown';
+
+    // Rate limit: 5 login attempts per minute per IP
+    if (!rateLimit(`login:${ip}`, 5, 60000)) {
+      return NextResponse.json({ error: 'Too many login attempts. Please try again later.' }, { status: 429 });
+    }
+
     const { email, password } = await request.json();
-    const ip = request.headers.get('x-forwarded-for') || '127.0.0.1';
 
     if (!email || !password) {
       return NextResponse.json({ error: 'Missing email or password' }, { status: 400 });

@@ -43,7 +43,7 @@ export async function GET(req: Request) {
     });
 
     return NextResponse.json({ folders, reports });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('GET /api/reports error:', error);
     return NextResponse.json({ error: 'Failed to fetch reports' }, { status: 500 });
   }
@@ -129,7 +129,7 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json(report, { status: 201 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('POST /api/reports error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }

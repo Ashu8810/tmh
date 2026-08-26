@@ -3,9 +3,17 @@ import crypto from 'crypto';
 import prisma from '@/lib/prisma';
 import { sendInviteEmail } from '@/lib/email';
 import { getSession } from '@/lib/session';
+import { rateLimit } from '@/lib/rate-limit';
 
 export async function POST(request: Request) {
   try {
+    const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown';
+    
+    // Rate limit: 10 invite attempts per minute per IP
+    if (!rateLimit(`invite:${ip}`, 10, 60000)) {
+      return NextResponse.json({ error: 'Too many invite attempts. Please try again later.' }, { status: 429 });
+    }
+
     const session = await getSession();
 
     if (!session || !session.mfaVerified || session.user.role !== 'ADMIN') {

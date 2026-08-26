@@ -60,7 +60,7 @@ export async function GET(
 
     // 5. Redirect the user securely to the signed URL
     return NextResponse.redirect(data.signedUrl);
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Download API error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }

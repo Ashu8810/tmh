@@ -78,7 +78,7 @@ export default async function AdminLogsPage() {
                     </td>
                   </tr>
                 ) : (
-                  logs.map((log: any) => (
+                  logs.map((log: { id: string, action: string, createdAt: Date, user: { email: string }, reportName: string | null, reportId: string | null, ipAddress: string | null }) => (
                     <tr key={log.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
                       <td className="px-6 py-4 whitespace-nowrap">
                         {new Date(log.createdAt).toLocaleString()}
