@@ -93,10 +93,6 @@ export default function ReportsClient({ userRole }: { userRole: "ADMIN" | "MEMBE
   const [uploadDesc, setUploadDesc] = useState("");
   const [uploading, setUploading] = useState(false);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
   const fetchData = async () => {
     try {
       setLoading(true);
@@ -112,6 +108,11 @@ export default function ReportsClient({ userRole }: { userRole: "ADMIN" | "MEMBE
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    // eslint-disable-next-line
+    fetchData();
+  }, []);
 
   const handleDownload = (id: string) => {
     if (!userRole) {

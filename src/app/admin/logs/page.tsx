@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
-import { prisma } from '@/lib/prisma';
+import prisma from '@/lib/prisma';
 import Link from 'next/link';
 
 export default async function AdminLogsPage() {
@@ -78,7 +78,7 @@ export default async function AdminLogsPage() {
                     </td>
                   </tr>
                 ) : (
-                  logs.map((log) => (
+                  logs.map((log: any) => (
                     <tr key={log.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
                       <td className="px-6 py-4 whitespace-nowrap">
                         {new Date(log.createdAt).toLocaleString()}

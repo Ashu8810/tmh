@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   },
 };
 
-import { prisma } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 import { cookies } from "next/headers";
 
 export default async function ReportsPage() {

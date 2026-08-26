@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
+import prisma from '@/lib/prisma';
 import { supabaseServerClient } from '@/lib/supabase';
 import { cookies } from 'next/headers';
 
