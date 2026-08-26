@@ -20,7 +20,7 @@ const events: EventInfo[] = [
     location: "Coimbatore, Tamil Nadu",
     description:
       "Go Kart Design Challenge — a design and fabrication competition for Combustion (CV) and Electric (EV) go-karts, organized by ISNEE Motorsports.",
-    image: "/images/gkdc-2027.jpg", // Replace with your image path or external URL
+    image: "/images/gkdc-2027.png", // Replace with your image path or external URL
   },
 ];
 
