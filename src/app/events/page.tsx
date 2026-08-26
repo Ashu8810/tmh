@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import StructuredData from "@/components/seo/StructuredData";
 import EventCountdown from "@/features/events/EventCountdown";
+import JourneySection from "@/features/events/JourneySection";
 
 export const metadata: Metadata = {
   title: "Events & Motorsport Competitions | Motor Head",
@@ -44,11 +45,12 @@ export default function EventsPage() {
   return (
     <main className="flex-1 w-full bg-background text-foreground pt-24 pb-20 px-4">
       <StructuredData data={breadcrumbSchema} />
-      <div className="max-w-7xl mx-auto space-y-16">
+      <div className="max-w-7xl mx-auto space-y-32">
         <h1 className="text-4xl font-heading font-bold uppercase mb-8">
           Events
         </h1>
         <EventCountdown />
+        <JourneySection />
       </div>
     </main>
   );
