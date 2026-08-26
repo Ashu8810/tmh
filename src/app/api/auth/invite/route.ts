@@ -20,10 +20,14 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
     }
 
-    const { email } = await request.json();
+    const { email, role = 'MEMBER' } = await request.json();
 
     if (!email) {
       return NextResponse.json({ error: 'Email is required' }, { status: 400 });
+    }
+
+    if (role !== 'MEMBER' && role !== 'CLUB_HEAD') {
+      return NextResponse.json({ error: 'Invalid role' }, { status: 400 });
     }
 
     // Check if user already exists
@@ -42,8 +46,8 @@ export async function POST(request: Request) {
     // Create or update InviteToken
     await prisma.inviteToken.upsert({
       where: { email },
-      update: { token, expiresAt, userId: session.userId },
-      create: { email, token, expiresAt, userId: session.userId },
+      update: { token, expiresAt, userId: session.userId, role },
+      create: { email, token, expiresAt, userId: session.userId, role },
     });
 
     // Send Email

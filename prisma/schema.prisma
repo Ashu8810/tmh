@@ -21,6 +21,7 @@ model User {
   sessions            Session[]
   loginAttempts       LoginAttempt[]
   inviteTokens        InviteToken[]
+  resetTokens         PasswordResetToken[]
   reports             Report[]
   auditLogs           AuditLog[]
 }
@@ -31,6 +32,7 @@ model Session {
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   expiresAt   DateTime
   mfaVerified Boolean  @default(true)
+  userAgent   String?
   createdAt   DateTime @default(now())
 }
 
@@ -39,6 +41,7 @@ model LoginAttempt {
   userId    String?
   user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
   ipAddress String?
+  userAgent String?
   success   Boolean
   createdAt DateTime @default(now())
 }
@@ -49,12 +52,24 @@ model InviteToken {
   token     String   @unique
   userId    String?
   user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role      Role     @default(MEMBER)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+model PasswordResetToken {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   expiresAt DateTime
   createdAt DateTime @default(now())
 }
 
 enum Role {
   ADMIN
+  CLUB_HEAD
   MEMBER
 }
 
@@ -64,6 +79,7 @@ model ReportFolder {
   parentId  String?
   parent    ReportFolder?  @relation("FolderHierarchy", fields: [parentId], references: [id])
   children  ReportFolder[] @relation("FolderHierarchy")
+  allowedRoles Role[]
   reports   Report[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -80,6 +96,7 @@ model Report {
   folder       ReportFolder? @relation(fields: [folderId], references: [id])
   uploaderId   String
   uploader     User     @relation(fields: [uploaderId], references: [id])
+  isDeleted    Boolean  @default(false)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }
@@ -92,5 +109,6 @@ model AuditLog {
   reportId    String?
   reportName  String?
   ipAddress   String?
+  userAgent   String?
   createdAt   DateTime @default(now())
 }

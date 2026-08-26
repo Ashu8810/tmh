@@ -46,15 +46,17 @@ export async function GET(
       return NextResponse.json({ error: 'Failed to generate access link' }, { status: 500 });
     }
 
-    // 4. Audit Logging
-    const ipAddress = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'Unknown IP';
+    // Audit log
+    const ip = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'unknown';
+    const userAgent = req.headers.get('user-agent') || 'unknown';
     await prisma.auditLog.create({
       data: {
         action: 'DOWNLOAD',
-        userId: session.userId,
+        userId: session.user.id,
         reportId: report.id,
         reportName: report.title,
-        ipAddress: ipAddress,
+        ipAddress: ip,
+        userAgent,
       }
     });
 

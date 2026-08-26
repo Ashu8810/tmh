@@ -38,7 +38,7 @@ export async function POST(request: Request) {
       data: {
         email: inviteToken.email,
         passwordHash,
-        role: 'MEMBER', // Users created via invite are members by default
+        role: inviteToken.role, // Assign role from invite token
         isActive: true,
         mustChangePassword: false, // They just set it
       },

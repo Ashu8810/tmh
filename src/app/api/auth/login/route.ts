@@ -10,6 +10,7 @@ const LOCKOUT_MINUTES = 15;
 export async function POST(request: Request) {
   try {
     const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown';
+    const userAgent = request.headers.get('user-agent') || 'unknown';
 
     // Rate limit: 5 login attempts per minute per IP
     if (!rateLimit(`login:${ip}`, 5, 60000)) {
@@ -59,6 +60,7 @@ export async function POST(request: Request) {
       data: {
         userId: user.id,
         ipAddress: ip,
+        userAgent,
         success: isPasswordValid,
       },
     });
@@ -74,12 +76,12 @@ export async function POST(request: Request) {
     // Handle MFA
     if (user.mfaEnabled) {
       // Create a session, but flag it as NOT mfaVerified
-      await createSession(user.id, false);
+      await createSession(user.id, false, userAgent);
       return NextResponse.json({ mfaRequired: true, mustChangePassword: user.mustChangePassword });
     }
 
     // Full Login (No MFA required)
-    await createSession(user.id, true);
+    await createSession(user.id, true, userAgent);
 
     return NextResponse.json({
       success: true,

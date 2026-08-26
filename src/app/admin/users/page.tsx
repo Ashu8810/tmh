@@ -20,5 +20,16 @@ export default async function AdminUsersPage() {
     redirect('/reports'); // Privilege escalation defense: non-admins redirect here
   }
 
-  return <AdminUsersClient />;
+  const users = await prisma.user.findMany({
+    select: {
+      id: true,
+      email: true,
+      role: true,
+      isActive: true,
+      createdAt: true,
+    },
+    orderBy: { createdAt: 'desc' },
+  });
+
+  return <AdminUsersClient initialUsers={users} currentUserId={session.userId} />;
 }

@@ -3,10 +3,10 @@ import prisma from '@/lib/prisma';
 import { supabaseServerClient } from '@/lib/supabase';
 import { cookies } from 'next/headers';
 
-// Helper to check admin access
-async function verifyAdmin() {
+// Helper to check session
+async function verifySession() {
   const cookieStore = await cookies();
-  const sessionId = cookieStore.get('sessionId')?.value;
+  const sessionId = cookieStore.get('sessionId')?.value || cookieStore.get('vault_session')?.value;
   if (!sessionId) return null;
 
   const session = await prisma.session.findUnique({
@@ -14,7 +14,7 @@ async function verifyAdmin() {
     include: { user: true },
   });
 
-  if (!session || session.expiresAt < new Date() || session.user.role !== 'ADMIN') {
+  if (!session || session.expiresAt < new Date()) {
     return null;
   }
   return session.user;
@@ -22,18 +22,38 @@ async function verifyAdmin() {
 
 export async function GET(req: Request) {
   try {
+    const user = await verifySession();
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const { searchParams } = new URL(req.url);
     const folderId = searchParams.get('folderId');
+    const showTrash = searchParams.get('showTrash') === 'true';
 
-    // Fetch folders
+    // Only Admin can view trash
+    if (showTrash && user.role !== 'ADMIN') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
+    }
+
+    // Fetch folders where allowedRoles is empty OR includes the user's role
     const folders = await prisma.reportFolder.findMany({
-      where: folderId ? { parentId: folderId } : { parentId: null },
+      where: {
+        ...(folderId ? { parentId: folderId } : { parentId: null }),
+        OR: [
+          { allowedRoles: { isEmpty: true } },
+          { allowedRoles: { has: user.role } }
+        ]
+      },
       orderBy: { name: 'asc' },
     });
 
     // Fetch reports
     const reports = await prisma.report.findMany({
-      where: folderId ? { folderId } : { folderId: null },
+      where: {
+        folderId: folderId ? folderId : null,
+        isDeleted: showTrash ? true : false,
+      },
       orderBy: { createdAt: 'desc' },
       include: {
         uploader: {
@@ -51,9 +71,9 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   try {
-    const adminUser = await verifyAdmin();
-    if (!adminUser) {
-      return NextResponse.json({ error: 'Unauthorized. Admin access required.' }, { status: 403 });
+    const user = await verifySession();
+    if (!user || (user.role !== 'ADMIN' && user.role !== 'CLUB_HEAD')) {
+      return NextResponse.json({ error: 'Unauthorized. Admin or Club Head access required.' }, { status: 403 });
     }
 
     const formData = await req.formData();
@@ -112,19 +132,21 @@ export async function POST(req: Request) {
         fileType: file.type || 'application/octet-stream',
         fileSize: file.size,
         folderId: folderId || null,
-        uploaderId: adminUser.id,
+        uploaderId: user.id,
       }
     });
 
     // 3. Audit Logging
-    const ipAddress = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'Unknown IP';
+    const ip = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'unknown';
+    const userAgent = req.headers.get('user-agent') || 'unknown';
     await prisma.auditLog.create({
       data: {
         action: 'UPLOAD',
-        userId: adminUser.id,
+        userId: user.id,
         reportId: report.id,
         reportName: report.title,
-        ipAddress: ipAddress,
+        ipAddress: ip,
+        userAgent,
       }
     });
 

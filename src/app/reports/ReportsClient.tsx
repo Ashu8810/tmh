@@ -72,10 +72,11 @@ const AnimatedStat = ({
   );
 };
 
-export default function ReportsClient({ userRole }: { userRole: "ADMIN" | "MEMBER" | null }) {
+export default function ReportsClient({ userRole }: { userRole: "ADMIN" | "CLUB_HEAD" | "MEMBER" | null }) {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [isGlitching, setIsGlitching] = useState(false);
+  const [viewingTrash, setViewingTrash] = useState(false);
 
   // Data State
   const [reports, setReports] = useState<Report[]>([]);
@@ -87,16 +88,17 @@ export default function ReportsClient({ userRole }: { userRole: "ADMIN" | "MEMBE
   const [downloadingId, setDownloadingId] = useState<string | null>(null);
   const [showUploadModal, setShowUploadModal] = useState(false);
 
-  // Upload State
+  // Upload & Delete State
   const [uploadFile, setUploadFile] = useState<File | null>(null);
   const [uploadTitle, setUploadTitle] = useState("");
   const [uploadDesc, setUploadDesc] = useState("");
   const [uploading, setUploading] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
-  const fetchData = async () => {
+  const fetchData = async (trash = viewingTrash) => {
     try {
       setLoading(true);
-      const res = await fetch("/api/reports");
+      const res = await fetch(`/api/reports${trash ? '?showTrash=true' : ''}`);
       const data = await res.json();
       if (res.ok) {
         setReports(data.reports || []);
@@ -110,9 +112,9 @@ export default function ReportsClient({ userRole }: { userRole: "ADMIN" | "MEMBE
   };
 
   useEffect(() => {
-    // eslint-disable-next-line
-    fetchData();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    fetchData(viewingTrash);
+  }, [viewingTrash]);
 
   const handleDownload = (id: string) => {
     if (!userRole) {
@@ -126,6 +128,30 @@ export default function ReportsClient({ userRole }: { userRole: "ADMIN" | "MEMBE
     setTimeout(() => {
       setDownloadingId(null);
     }, 2000);
+  };
+
+  const handleDelete = async (id: string) => {
+    if (userRole !== "ADMIN") return;
+    if (!window.confirm("Are you sure you want to permanently delete this report? This cannot be undone.")) return;
+    
+    setDeletingId(id);
+    try {
+      const res = await fetch(`/api/reports/${id}${viewingTrash ? '/hard' : ''}`, {
+        method: "DELETE",
+      });
+      if (res.ok) {
+        setSelectedReport(null);
+        fetchData(); // Refresh list
+      } else {
+        const err = await res.json();
+        alert(err.error || "Failed to delete report");
+      }
+    } catch (e) {
+      console.error(e);
+      alert("An error occurred during deletion.");
+    } finally {
+      setDeletingId(null);
+    }
   };
 
   const handleUploadSubmit = async (e: React.FormEvent) => {
@@ -204,28 +230,42 @@ export default function ReportsClient({ userRole }: { userRole: "ADMIN" | "MEMBE
             suffix=""
             duration={1500}
           />
-          {userRole === "ADMIN" && (
-            <div className="flex gap-2">
-              <button
-                onClick={() => router.push('/admin/users')}
-                className="bg-zinc-800 text-white font-heading text-sm font-bold tracking-widest py-4 px-6 uppercase transition-all duration-300 transform -skew-x-12 hover:bg-zinc-700 ml-4 self-center border border-white/10"
-              >
-                <div className="transform skew-x-12">USERS</div>
-              </button>
-              <button
-                onClick={() => router.push('/admin/logs')}
-                className="bg-zinc-800 text-white font-heading text-sm font-bold tracking-widest py-4 px-6 uppercase transition-all duration-300 transform -skew-x-12 hover:bg-zinc-700 self-center border border-white/10"
-              >
-                <div className="transform skew-x-12">LOGS</div>
-              </button>
+          {/* Role Based Buttons */}
+          <div className="flex gap-2">
+            {userRole === "ADMIN" && (
+              <>
+                <button
+                  onClick={() => router.push('/admin/users')}
+                  className="bg-zinc-800 text-white font-heading text-sm font-bold tracking-widest py-4 px-6 uppercase transition-all duration-300 transform -skew-x-12 hover:bg-zinc-700 self-center border border-white/10"
+                >
+                  <div className="transform skew-x-12">USERS</div>
+                </button>
+                <button
+                  onClick={() => router.push('/admin/logs')}
+                  className="bg-zinc-800 text-white font-heading text-sm font-bold tracking-widest py-4 px-6 uppercase transition-all duration-300 transform -skew-x-12 hover:bg-zinc-700 self-center border border-white/10"
+                >
+                  <div className="transform skew-x-12">LOGS</div>
+                </button>
+                <button
+                  onClick={() => setViewingTrash(!viewingTrash)}
+                  className={`text-white font-heading text-sm font-bold tracking-widest py-4 px-6 uppercase transition-all duration-300 transform -skew-x-12 self-center border border-white/10 ${
+                    viewingTrash ? 'bg-[#D71920]' : 'bg-zinc-800 hover:bg-zinc-700'
+                  }`}
+                >
+                  <div className="transform skew-x-12">{viewingTrash ? 'VAULT' : 'TRASH'}</div>
+                </button>
+              </>
+            )}
+            
+            {(userRole === "ADMIN" || userRole === "CLUB_HEAD") && (
               <button
                 onClick={() => setShowUploadModal(true)}
-                className="bg-[#D71920] text-white font-heading text-sm font-bold tracking-widest py-4 px-6 uppercase transition-all duration-300 transform -skew-x-12 hover:bg-red-600 shadow-[0_0_20px_rgba(215,25,32,0.4)] self-center"
+                className="bg-[#D71920] text-white font-heading text-sm font-bold tracking-widest py-4 px-6 uppercase transition-all duration-300 transform -skew-x-12 hover:bg-red-600 shadow-[0_0_20px_rgba(215,25,32,0.4)] self-center ml-4"
               >
                 <div className="transform skew-x-12">+ UPLOAD</div>
               </button>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </header>
 
@@ -462,6 +502,19 @@ export default function ReportsClient({ userRole }: { userRole: "ADMIN" | "MEMBE
                   <div className="absolute inset-0 bg-white/20 origin-left animate-[progress_2s_ease-in-out_forwards]" />
                 )}
               </button>
+              
+              {/* Delete Button */}
+              {(userRole === "ADMIN" || userRole === "CLUB_HEAD") && (
+                <button
+                  onClick={() => handleDelete(selectedReport.id)}
+                  disabled={deletingId === selectedReport.id}
+                  className="w-full mt-4 bg-transparent border border-[#D71920]/50 text-[#D71920] font-heading text-xs font-bold tracking-widest py-3 uppercase transition-all duration-300 disabled:opacity-50 transform -skew-x-12 hover:bg-[#D71920]/10 hover:border-[#D71920]"
+                >
+                  <div className="transform skew-x-12">
+                    {deletingId === selectedReport.id ? "DELETING..." : (viewingTrash ? "PERMANENTLY DESTROY DOSSIER" : "DELETE DOSSIER (SEND TO TRASH)")}
+                  </div>
+                </button>
+              )}
             </div>
           </div>
         </div>
