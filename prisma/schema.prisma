@@ -22,6 +22,7 @@ model User {
   loginAttempts       LoginAttempt[]
   inviteTokens        InviteToken[]
   reports             Report[]
+  auditLogs           AuditLog[]
 }
 
 model Session {
@@ -81,4 +82,15 @@ model Report {
   uploader     User     @relation(fields: [uploaderId], references: [id])
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+}
+
+model AuditLog {
+  id          String   @id @default(uuid())
+  action      String   // UPLOAD, DOWNLOAD, DELETE
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  reportId    String?
+  reportName  String?
+  ipAddress   String?
+  createdAt   DateTime @default(now())
 }

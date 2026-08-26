@@ -66,6 +66,25 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'File and title are required' }, { status: 400 });
     }
 
+    // Security Hardening: File Size Limit (50MB)
+    const MAX_FILE_SIZE = 50 * 1024 * 1024;
+    if (file.size > MAX_FILE_SIZE) {
+      return NextResponse.json({ error: 'File exceeds the 50MB maximum size limit' }, { status: 400 });
+    }
+
+    // Security Hardening: MIME Type Whitelist
+    const allowedMimeTypes = [
+      'application/pdf',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'application/zip',
+      'application/x-zip-compressed',
+      'application/vnd.ms-excel',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    ];
+    if (!allowedMimeTypes.includes(file.type)) {
+      return NextResponse.json({ error: `Invalid file type: ${file.type}. Only PDF, DOCX, XLSX, and ZIP are allowed.` }, { status: 400 });
+    }
+
     // 1. Upload to Supabase Storage
     const fileExt = file.name.split('.').pop();
     const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
@@ -94,6 +113,18 @@ export async function POST(req: Request) {
         fileSize: file.size,
         folderId: folderId || null,
         uploaderId: adminUser.id,
+      }
+    });
+
+    // 3. Audit Logging
+    const ipAddress = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'Unknown IP';
+    await prisma.auditLog.create({
+      data: {
+        action: 'UPLOAD',
+        userId: adminUser.id,
+        reportId: report.id,
+        reportName: report.title,
+        ipAddress: ipAddress,
       }
     });
 

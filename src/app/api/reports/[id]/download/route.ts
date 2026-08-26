@@ -10,7 +10,7 @@ export async function GET(
   try {
     // 1. Verify user is logged in
     const cookieStore = await cookies();
-    const sessionId = cookieStore.get('sessionId')?.value;
+    const sessionId = cookieStore.get('sessionId')?.value || cookieStore.get('vault_session')?.value;
     if (!sessionId) {
       return NextResponse.json({ error: 'Unauthorized. Please log in.' }, { status: 401 });
     }
@@ -45,7 +45,19 @@ export async function GET(
       return NextResponse.json({ error: 'Failed to generate access link' }, { status: 500 });
     }
 
-    // 4. Redirect the user securely to the signed URL
+    // 4. Audit Logging
+    const ipAddress = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'Unknown IP';
+    await prisma.auditLog.create({
+      data: {
+        action: 'DOWNLOAD',
+        userId: session.userId,
+        reportId: report.id,
+        reportName: report.title,
+        ipAddress: ipAddress,
+      }
+    });
+
+    // 5. Redirect the user securely to the signed URL
     return NextResponse.redirect(data.signedUrl);
   } catch (error: any) {
     console.error('Download API error:', error);
