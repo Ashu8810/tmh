@@ -205,12 +205,26 @@ export default function ReportsClient({ userRole }: { userRole: "ADMIN" | "MEMBE
             duration={1500}
           />
           {userRole === "ADMIN" && (
-            <button
-              onClick={() => setShowUploadModal(true)}
-              className="bg-[#D71920] text-white font-heading text-sm font-bold tracking-widest py-4 px-6 uppercase transition-all duration-300 transform -skew-x-12 hover:bg-red-600 shadow-[0_0_20px_rgba(215,25,32,0.4)] ml-4 self-center"
-            >
-              <div className="transform skew-x-12">+ UPLOAD</div>
-            </button>
+            <div className="flex gap-2">
+              <button
+                onClick={() => router.push('/admin/users')}
+                className="bg-zinc-800 text-white font-heading text-sm font-bold tracking-widest py-4 px-6 uppercase transition-all duration-300 transform -skew-x-12 hover:bg-zinc-700 ml-4 self-center border border-white/10"
+              >
+                <div className="transform skew-x-12">USERS</div>
+              </button>
+              <button
+                onClick={() => router.push('/admin/logs')}
+                className="bg-zinc-800 text-white font-heading text-sm font-bold tracking-widest py-4 px-6 uppercase transition-all duration-300 transform -skew-x-12 hover:bg-zinc-700 self-center border border-white/10"
+              >
+                <div className="transform skew-x-12">LOGS</div>
+              </button>
+              <button
+                onClick={() => setShowUploadModal(true)}
+                className="bg-[#D71920] text-white font-heading text-sm font-bold tracking-widest py-4 px-6 uppercase transition-all duration-300 transform -skew-x-12 hover:bg-red-600 shadow-[0_0_20px_rgba(215,25,32,0.4)] self-center"
+              >
+                <div className="transform skew-x-12">+ UPLOAD</div>
+              </button>
+            </div>
           )}
         </div>
       </header>
