@@ -56,7 +56,7 @@ export default function Navbar() {
             {/* Wordmark & Subtitle */}
             <div className="flex flex-col justify-center pl-3 2xl:pl-4">
               <span className="font-heading text-[15px] sm:text-[18px] 2xl:text-[22px] leading-none font-bold uppercase tracking-[0.2em] text-foreground whitespace-nowrap">
-                Motor Head
+                MOTORHEADS
               </span>
               <span className="hidden sm:block text-[6px] sm:text-[7.5px] 2xl:text-[9px] mt-1 font-medium text-muted-foreground tracking-[0.25em] uppercase whitespace-nowrap">
                 Engineering • Innovation • Performance
