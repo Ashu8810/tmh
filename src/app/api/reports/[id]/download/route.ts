@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { supabaseServerClient } from '@/lib/supabase';
-import { cookies } from 'next/headers';
+import { getVerifiedSession } from '@/lib/session';
+import { accessibleReportsWhere, canDownloadReport } from '@/lib/report-access';
 
 export async function GET(
   req: Request,
@@ -10,23 +11,22 @@ export async function GET(
   try {
     const { id } = await params;
     // 1. Verify user is logged in
-    const cookieStore = await cookies();
-    const sessionId = cookieStore.get('sessionId')?.value || cookieStore.get('vault_session')?.value;
-    if (!sessionId) {
-      return NextResponse.json({ error: 'Unauthorized. Please log in.' }, { status: 401 });
-    }
-
-    const session = await prisma.session.findUnique({
-      where: { id: sessionId },
-    });
-
-    if (!session || session.expiresAt < new Date()) {
+    const session = await getVerifiedSession();
+    if (!session) {
       return NextResponse.json({ error: 'Session expired or invalid.' }, { status: 401 });
     }
 
+    if (!canDownloadReport(session.user.role)) {
+      return NextResponse.json({ error: 'Members may view report details but cannot download files.' }, { status: 403 });
+    }
+
     // 2. Fetch report metadata
-    const report = await prisma.report.findUnique({
-      where: { id },
+    const report = await prisma.report.findFirst({
+      where: accessibleReportsWhere({
+        id,
+        role: session.user.role,
+        isDeleted: false,
+      }),
     });
 
     if (!report) {

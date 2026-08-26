@@ -13,7 +13,7 @@ export function proxy(request: NextRequest) {
   }
 
   // Prevent logged-in users from accessing /login
-  if (pathname === '/login' && sessionCookie) {
+  if (pathname === '/login' && sessionCookie && request.nextUrl.searchParams.get('mfa') !== 'true') {
     return NextResponse.redirect(new URL('/reports', request.url));
   }
 

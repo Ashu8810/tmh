@@ -1,22 +1,16 @@
 import { redirect } from 'next/navigation';
-import { cookies } from 'next/headers';
 import prisma from '@/lib/prisma';
 import AdminUsersClient from './AdminUsersClient';
+import { getSession } from '@/lib/session';
 
 export default async function AdminUsersPage() {
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get('sessionId')?.value || cookieStore.get('vault_session')?.value;
+  const session = await getSession();
 
-  if (!sessionId) {
+  if (!session) {
     redirect('/login');
   }
 
-  const session = await prisma.session.findUnique({
-    where: { id: sessionId },
-    include: { user: true },
-  });
-
-  if (!session || session.expiresAt < new Date() || session.user.role !== 'ADMIN') {
+  if (!session.mfaVerified || !session.user.isActive || session.user.role !== 'ADMIN') {
     redirect('/reports'); // Privilege escalation defense: non-admins redirect here
   }
 

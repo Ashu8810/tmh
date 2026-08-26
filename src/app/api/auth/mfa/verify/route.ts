@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server';
 import { verify } from 'otplib';
 import prisma from '@/lib/prisma';
 import { getSession } from '@/lib/session';
-import { cookies } from 'next/headers';
 
 export async function POST(request: Request) {
   try {
@@ -14,7 +13,7 @@ export async function POST(request: Request) {
 
     const session = await getSession();
 
-    if (!session || session.mfaVerified) {
+    if (!session || session.mfaVerified || !session.user.isActive) {
       return NextResponse.json({ error: 'No pending MFA session found' }, { status: 401 });
     }
 

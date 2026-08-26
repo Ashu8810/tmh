@@ -1,64 +1,70 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { supabaseServerClient } from '@/lib/supabase';
-import { cookies } from 'next/headers';
-
-// Helper to check session
-async function verifySession() {
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get('sessionId')?.value || cookieStore.get('vault_session')?.value;
-  if (!sessionId) return null;
-
-  const session = await prisma.session.findUnique({
-    where: { id: sessionId },
-    include: { user: true },
-  });
-
-  if (!session || session.expiresAt < new Date()) {
-    return null;
-  }
-  return session.user;
-}
+import { getVerifiedSession } from '@/lib/session';
+import { accessibleFolderWhere, accessibleReportsWhere, folderRoleAccessWhere } from '@/lib/report-access';
 
 export async function GET(req: Request) {
   try {
-    const user = await verifySession();
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    const session = await getVerifiedSession();
+    const user = session?.user ?? null;
 
     const { searchParams } = new URL(req.url);
     const folderId = searchParams.get('folderId');
     const showTrash = searchParams.get('showTrash') === 'true';
 
     // Only Admin can view trash
-    if (showTrash && user.role !== 'ADMIN') {
+    if (showTrash && user?.role !== 'ADMIN') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
+    }
+
+    const folderAccess = folderId
+      ? await prisma.reportFolder.findFirst({
+          where: user
+            ? accessibleFolderWhere(user.role, folderId)
+            : { id: folderId },
+          select: { id: true },
+        })
+      : true;
+
+    if (!folderAccess) {
+      return NextResponse.json({ folders: [], reports: [] });
     }
 
     // Fetch folders where allowedRoles is empty OR includes the user's role
     const folders = await prisma.reportFolder.findMany({
       where: {
         ...(folderId ? { parentId: folderId } : { parentId: null }),
-        OR: [
-          { allowedRoles: { isEmpty: true } },
-          { allowedRoles: { has: user.role } }
-        ]
+        ...(user ? folderRoleAccessWhere(user.role) : {}),
       },
       orderBy: { name: 'asc' },
+      select: { id: true, name: true, parentId: true },
     });
 
     // Fetch reports
     const reports = await prisma.report.findMany({
-      where: {
-        folderId: folderId ? folderId : null,
-        isDeleted: showTrash ? true : false,
-      },
+      where: user
+        ? accessibleReportsWhere({
+            role: user.role,
+            folderId: folderId ?? undefined,
+            isDeleted: showTrash,
+          })
+        : {
+            ...(folderId !== null ? { folderId } : {}),
+            isDeleted: false,
+          },
       orderBy: { createdAt: 'desc' },
-      include: {
-        uploader: {
-          select: { id: true, email: true }
-        }
+      select: {
+        id: true,
+        title: true,
+        ...(user ? { description: true } : {}),
+        fileType: true,
+        fileSize: true,
+        folderId: true,
+        createdAt: true,
+        ...(user ? { uploader: {
+          select: { email: true },
+        } } : {}),
       }
     });
 
@@ -71,7 +77,8 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   try {
-    const user = await verifySession();
+    const session = await getVerifiedSession();
+    const user = session?.user;
     if (!user || (user.role !== 'ADMIN' && user.role !== 'CLUB_HEAD')) {
       return NextResponse.json({ error: 'Unauthorized. Admin or Club Head access required.' }, { status: 403 });
     }
@@ -84,6 +91,17 @@ export async function POST(req: Request) {
 
     if (!file || !title) {
       return NextResponse.json({ error: 'File and title are required' }, { status: 400 });
+    }
+
+    if (folderId) {
+      const folder = await prisma.reportFolder.findFirst({
+        where: accessibleFolderWhere(user.role, folderId),
+        select: { id: true },
+      });
+
+      if (!folder) {
+        return NextResponse.json({ error: 'Folder not found or unauthorized' }, { status: 403 });
+      }
     }
 
     // Security Hardening: File Size Limit (50MB)

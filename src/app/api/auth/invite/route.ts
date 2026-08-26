@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import crypto from 'crypto';
 import prisma from '@/lib/prisma';
 import { sendInviteEmail } from '@/lib/email';
-import { getSession } from '@/lib/session';
+import { getVerifiedSession } from '@/lib/session';
 import { rateLimit } from '@/lib/rate-limit';
 
 export async function POST(request: Request) {
@@ -14,9 +14,9 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Too many invite attempts. Please try again later.' }, { status: 429 });
     }
 
-    const session = await getSession();
+    const session = await getVerifiedSession();
 
-    if (!session || !session.mfaVerified || session.user.role !== 'ADMIN') {
+    if (!session || session.user.role !== 'ADMIN') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
     }
 

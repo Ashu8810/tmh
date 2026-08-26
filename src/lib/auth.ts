@@ -8,6 +8,10 @@ export async function requireAuth() {
     redirect('/login');
   }
 
+  if (!session.user.isActive) {
+    redirect('/login');
+  }
+
   if (!session.mfaVerified) {
     redirect('/login?mfa=true');
   }

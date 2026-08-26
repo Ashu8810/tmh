@@ -103,7 +103,7 @@ model Report {
 
 model AuditLog {
   id          String   @id @default(uuid())
-  action      String   // UPLOAD, DOWNLOAD, DELETE
+  action      String   // UPLOAD, VIEW, DOWNLOAD, DELETE, PERMANENT_DELETE
   userId      String
   user        User     @relation(fields: [userId], references: [id])
   reportId    String?

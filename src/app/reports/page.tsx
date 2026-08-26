@@ -21,8 +21,7 @@ export const metadata: Metadata = {
   },
 };
 
-import prisma from "@/lib/prisma";
-import { cookies } from "next/headers";
+import { getVerifiedSession } from "@/lib/session";
 
 export default async function ReportsPage() {
   const breadcrumbSchema = {
@@ -44,18 +43,11 @@ export default async function ReportsPage() {
     ],
   };
 
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get("sessionId")?.value || cookieStore.get("vault_session")?.value;
   let userRole: "ADMIN" | "CLUB_HEAD" | "MEMBER" | null = null;
 
-  if (sessionId) {
-    const session = await prisma.session.findUnique({
-      where: { id: sessionId },
-      include: { user: true },
-    });
-    if (session && session.expiresAt > new Date()) {
-      userRole = session.user.role as "ADMIN" | "CLUB_HEAD" | "MEMBER";
-    }
+  const session = await getVerifiedSession();
+  if (session) {
+    userRole = session.user.role as "ADMIN" | "CLUB_HEAD" | "MEMBER";
   }
 
   return (

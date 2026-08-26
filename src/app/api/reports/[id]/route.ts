@@ -1,23 +1,7 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
-import { cookies } from 'next/headers';
-
-// Helper to check session
-async function verifySession() {
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get('sessionId')?.value || cookieStore.get('vault_session')?.value;
-  if (!sessionId) return null;
-
-  const session = await prisma.session.findUnique({
-    where: { id: sessionId },
-    include: { user: true },
-  });
-
-  if (!session || session.expiresAt < new Date()) {
-    return null;
-  }
-  return session.user;
-}
+import { getVerifiedSession } from '@/lib/session';
+import { accessibleReportsWhere, canSoftDeleteReport } from '@/lib/report-access';
 
 export async function DELETE(
   req: Request,
@@ -27,14 +11,19 @@ export async function DELETE(
     const { id } = await params;
     
     // 1. Verify User is Admin or Club Head
-    const user = await verifySession();
-    if (!user || (user.role !== 'ADMIN' && user.role !== 'CLUB_HEAD')) {
+    const session = await getVerifiedSession();
+    const user = session?.user;
+    if (!user || !canSoftDeleteReport(user.role)) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
     }
 
     // 2. Find Report
-    const report = await prisma.report.findUnique({
-      where: { id },
+    const report = await prisma.report.findFirst({
+      where: accessibleReportsWhere({
+        id,
+        role: user.role,
+        isDeleted: false,
+      }),
     });
 
     if (!report) {

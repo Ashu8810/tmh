@@ -1,23 +1,6 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
-import { cookies } from 'next/headers';
-
-// Helper to check admin access
-async function verifyAdmin() {
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get('sessionId')?.value || cookieStore.get('vault_session')?.value;
-  if (!sessionId) return null;
-
-  const session = await prisma.session.findUnique({
-    where: { id: sessionId },
-    include: { user: true },
-  });
-
-  if (!session || session.expiresAt < new Date() || session.user.role !== 'ADMIN') {
-    return null;
-  }
-  return session.user;
-}
+import { getVerifiedSession } from '@/lib/session';
 
 export async function PATCH(
   req: Request,
@@ -27,7 +10,8 @@ export async function PATCH(
     const { id } = await params;
     
     // 1. Verify Admin
-    const adminUser = await verifyAdmin();
+    const session = await getVerifiedSession();
+    const adminUser = session?.user?.role === 'ADMIN' ? session.user : null;
     if (!adminUser) {
       return NextResponse.json({ error: 'Unauthorized. Admin access required.' }, { status: 403 });
     }

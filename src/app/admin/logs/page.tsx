@@ -1,8 +1,8 @@
 import { redirect } from 'next/navigation';
-import { cookies } from 'next/headers';
 import prisma from '@/lib/prisma';
 import Link from 'next/link';
 import { UAParser } from 'ua-parser-js';
+import { getSession } from '@/lib/session';
 
 type UnifiedLog = {
   id: string;
@@ -16,19 +16,13 @@ type UnifiedLog = {
 };
 
 export default async function AdminLogsPage() {
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get('sessionId')?.value || cookieStore.get('vault_session')?.value;
+  const currentSession = await getSession();
 
-  if (!sessionId) {
+  if (!currentSession) {
     redirect('/login');
   }
 
-  const currentSession = await prisma.session.findUnique({
-    where: { id: sessionId },
-    include: { user: true },
-  });
-
-  if (!currentSession || currentSession.expiresAt < new Date() || currentSession.user.role !== 'ADMIN') {
+  if (!currentSession.mfaVerified || !currentSession.user.isActive || currentSession.user.role !== 'ADMIN') {
     redirect('/reports');
   }
 
@@ -145,7 +139,7 @@ export default async function AdminLogsPage() {
                   if (log.action.includes('SUCCESS') || log.action === 'UPLOAD' || log.action === 'ACTIVE_SESSION') {
                     colorClass = 'text-emerald-400';
                     actionClass = 'text-emerald-500';
-                  } else if (log.action === 'DOWNLOAD') {
+                  } else if (log.action === 'DOWNLOAD' || log.action === 'VIEW') {
                     colorClass = 'text-blue-400';
                     actionClass = 'text-blue-500';
                   } else if (log.action.includes('FAIL') || log.action.includes('DELETE') || log.action.includes('EXPIRE')) {

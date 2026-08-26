@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { canDownloadReport, canSoftDeleteReport } from "@/lib/report-access";
 
 interface ReportFolder {
   id: string;
@@ -116,6 +117,13 @@ export default function ReportsClient({ userRole }: { userRole: "ADMIN" | "CLUB_
     fetchData(viewingTrash);
   }, [viewingTrash]);
 
+  const handleOpenReport = (report: Report) => {
+    setSelectedReport(report);
+    if (userRole) {
+      void fetch(`/api/reports/${report.id}/view`, { method: "POST" }).catch(() => {});
+    }
+  };
+
   const handleDownload = (id: string) => {
     if (!userRole) {
       router.push('/login');
@@ -131,8 +139,12 @@ export default function ReportsClient({ userRole }: { userRole: "ADMIN" | "CLUB_
   };
 
   const handleDelete = async (id: string) => {
-    if (userRole !== "ADMIN") return;
-    if (!window.confirm("Are you sure you want to permanently delete this report? This cannot be undone.")) return;
+    if (!userRole || !canSoftDeleteReport(userRole)) return;
+    if (viewingTrash && userRole !== "ADMIN") return;
+    const message = viewingTrash
+      ? "Are you sure you want to permanently delete this report? This cannot be undone."
+      : "Are you sure you want to move this report to trash?";
+    if (!window.confirm(message)) return;
     
     setDeletingId(id);
     try {
@@ -312,7 +324,7 @@ export default function ReportsClient({ userRole }: { userRole: "ADMIN" | "CLUB_
         {filteredReports.map((report) => (
           <div
             key={report.id}
-            onClick={() => setSelectedReport(report)}
+            onClick={() => handleOpenReport(report)}
             className="group relative bg-[#0a0a0a] border border-white/10 hover:border-white/20 rounded-sm p-6 flex flex-col justify-between transition-all duration-300 overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-[#D71920]/10 transform hover:-translate-y-1 cursor-pointer"
           >
             {/* Left Racing Stripe Accent */}
@@ -400,18 +412,22 @@ export default function ReportsClient({ userRole }: { userRole: "ADMIN" | "CLUB_
                 <span className="text-zinc-400 font-mono text-[10px] border border-white/20 px-2 py-1 rounded-sm bg-[#121212]">
                   {new Date(selectedReport.createdAt).toLocaleDateString()}
                 </span>
-                <span className="text-zinc-400 font-mono text-[10px] border border-white/20 px-2 py-1 rounded-sm bg-[#121212]">
-                  BY: {selectedReport.uploader.email}
-                </span>
+                {userRole && (
+                  <span className="text-zinc-400 font-mono text-[10px] border border-white/20 px-2 py-1 rounded-sm bg-[#121212]">
+                    BY: {selectedReport.uploader.email}
+                  </span>
+                )}
               </div>
 
               <h2 className="text-2xl md:text-3xl font-heading font-black uppercase tracking-wide text-white mb-4 italic">
                 {selectedReport.title}
               </h2>
 
-              <p className="text-zinc-400 font-sans text-sm leading-relaxed mb-8">
-                {selectedReport.description || "No description provided."}
-              </p>
+              {userRole && (
+                <p className="text-zinc-400 font-sans text-sm leading-relaxed mb-8">
+                  {selectedReport.description || "No description provided."}
+                </p>
+              )}
 
               {/* Faux Wireframe Graphic */}
               <div className="w-full h-32 bg-[#0a0a0a] border border-white/5 rounded-sm mb-8 relative overflow-hidden flex items-center justify-center">
@@ -439,8 +455,14 @@ export default function ReportsClient({ userRole }: { userRole: "ADMIN" | "CLUB_
 
               {/* Download Button inside Modal */}
               <button
-                onClick={() => handleDownload(selectedReport.id)}
-                disabled={downloadingId === selectedReport.id}
+                onClick={() => {
+                  if (!userRole) {
+                    router.push('/login');
+                  } else if (canDownloadReport(userRole)) {
+                    handleDownload(selectedReport.id);
+                  }
+                }}
+                disabled={userRole === "MEMBER" || downloadingId === selectedReport.id}
                 className="w-full relative overflow-hidden bg-[#D71920] text-white font-heading text-sm font-bold tracking-widest py-4 uppercase transition-all duration-300 disabled:cursor-wait transform -skew-x-12 hover:bg-red-600 shadow-[0_0_20px_rgba(215,25,32,0.4)]"
               >
                 <div className="relative z-10 flex items-center justify-center gap-2 transform skew-x-12">
@@ -470,7 +492,9 @@ export default function ReportsClient({ userRole }: { userRole: "ADMIN" | "CLUB_
                     </>
                   ) : (
                     <>
-                      {userRole ? (
+                      {userRole === "MEMBER" ? (
+                        <span>DOWNLOAD UNAVAILABLE</span>
+                      ) : userRole ? (
                         <>
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -504,7 +528,7 @@ export default function ReportsClient({ userRole }: { userRole: "ADMIN" | "CLUB_
               </button>
               
               {/* Delete Button */}
-              {(userRole === "ADMIN" || userRole === "CLUB_HEAD") && (
+              {(userRole === "ADMIN" || (userRole === "CLUB_HEAD" && !viewingTrash)) && (
                 <button
                   onClick={() => handleDelete(selectedReport.id)}
                   disabled={deletingId === selectedReport.id}
@@ -520,8 +544,8 @@ export default function ReportsClient({ userRole }: { userRole: "ADMIN" | "CLUB_
         </div>
       )}
 
-      {/* Upload Modal (Admin Only) */}
-      {showUploadModal && userRole === "ADMIN" && (
+      {/* Upload Modal */}
+      {showUploadModal && (userRole === "ADMIN" || userRole === "CLUB_HEAD") && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
           <div
             className="bg-[#050505] border border-white/10 w-full max-w-lg shadow-[0_0_50px_rgba(215,25,32,0.15)] relative transform -skew-x-2 animate-[slideIn_0.3s_ease-out]"
