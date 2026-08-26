@@ -23,24 +23,9 @@ const resourcesData: ResourceCrate[] = [
     title: "BRANDING ASSETS & LOGOS",
     clearance: "PUBLIC",
     files: [
-      {
-        name: "TMH_Primary_Logo_Pack.zip",
-        type: "ZIP",
-        size: "12.4 MB",
-        url: "#",
-      },
-      {
-        name: "Brand_Guidelines_2024.pdf",
-        type: "PDF",
-        size: "4.1 MB",
-        url: "#",
-      },
-      {
-        name: "Team_Colors_Swatches.ase",
-        type: "ASE",
-        size: "1.2 MB",
-        url: "#",
-      },
+      { name: "TMH_Primary_Logo_Pack.zip", type: "ZIP", size: "12.4 MB", url: "#" },
+      { name: "Brand_Guidelines_2024.pdf", type: "PDF", size: "4.1 MB", url: "#" },
+      { name: "Team_Colors_Swatches.ase", type: "ASE", size: "1.2 MB", url: "#" },
     ],
   },
   {
@@ -48,24 +33,9 @@ const resourcesData: ResourceCrate[] = [
     title: "3D CAD SCHEMATICS",
     clearance: "LEVEL 2",
     files: [
-      {
-        name: "Chassis_Spaceframe_v3.step",
-        type: "STEP",
-        size: "45.8 MB",
-        url: "#",
-      },
-      {
-        name: "Suspension_A_Arms.sldprt",
-        type: "SLDPRT",
-        size: "22.1 MB",
-        url: "#",
-      },
-      {
-        name: "Aero_Package_Full.stl",
-        type: "STL",
-        size: "105.3 MB",
-        url: "#",
-      },
+      { name: "Chassis_Spaceframe_v3.step", type: "STEP", size: "45.8 MB", url: "#" },
+      { name: "Suspension_A_Arms.sldprt", type: "SLDPRT", size: "22.1 MB", url: "#" },
+      { name: "Aero_Package_Full.stl", type: "STL", size: "105.3 MB", url: "#" },
     ],
   },
   {
@@ -74,18 +44,8 @@ const resourcesData: ResourceCrate[] = [
     clearance: "LEVEL 1",
     files: [
       { name: "FSAE_Rules_2024.pdf", type: "PDF", size: "8.5 MB", url: "#" },
-      {
-        name: "Internal_Design_Constraints.docx",
-        type: "DOCX",
-        size: "2.3 MB",
-        url: "#",
-      },
-      {
-        name: "Safety_Protocol_Manual.pdf",
-        type: "PDF",
-        size: "5.1 MB",
-        url: "#",
-      },
+      { name: "Internal_Design_Constraints.docx", type: "DOCX", size: "2.3 MB", url: "#" },
+      { name: "Safety_Protocol_Manual.pdf", type: "PDF", size: "5.1 MB", url: "#" },
     ],
   },
   {
@@ -93,41 +53,24 @@ const resourcesData: ResourceCrate[] = [
     title: "MARKETING & MEDIA KIT",
     clearance: "PUBLIC",
     files: [
-      {
-        name: "Sponsorship_Deck_2024.pdf",
-        type: "PDF",
-        size: "15.6 MB",
-        url: "#",
-      },
-      {
-        name: "High_Res_Team_Photos.zip",
-        type: "ZIP",
-        size: "250 MB",
-        url: "#",
-      },
-      {
-        name: "Press_Release_Templates.docx",
-        type: "DOCX",
-        size: "1.1 MB",
-        url: "#",
-      },
+      { name: "Sponsorship_Deck_2024.pdf", type: "PDF", size: "15.6 MB", url: "#" },
+      { name: "High_Res_Team_Photos.zip", type: "ZIP", size: "250 MB", url: "#" },
+      { name: "Press_Release_Templates.docx", type: "DOCX", size: "1.1 MB", url: "#" },
     ],
   },
 ];
 
-export default function ResourcesClient() {
+export default function StaticResourcesSection() {
   const [unlockedCrates, setUnlockedCrates] = useState<string[]>([]);
 
   const toggleCrate = (id: string) => {
     setUnlockedCrates((prev) =>
-      prev.includes(id)
-        ? prev.filter((crateId) => crateId !== id)
-        : [...prev, id],
+      prev.includes(id) ? prev.filter((crateId) => crateId !== id) : [...prev, id],
     );
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-4 relative z-10">
+    <div className="max-w-7xl mx-auto px-4 relative z-10">
       {/* Vault Door Terminal Header */}
       <header className="mb-16 border-b-4 border-[#121212] pb-8 flex flex-col items-start bg-[#0a0a0a] p-8 border-l-4 border-l-[#D71920] relative overflow-hidden">
         {/* Hazard Stripes Pattern */}
@@ -144,9 +87,7 @@ export default function ResourcesClient() {
         </h1>
 
         <p className="mt-2 text-zinc-400 font-mono text-sm max-w-2xl relative z-10 border-t border-white/5 pt-4">
-          Authorized access only. Select a secure crate below to initiate
-          decryption and access high-value internal assets, schematics, and team
-          documentation.
+          Authorized access only. Select a secure crate below to initiate decryption and access high-value internal assets, schematics, and team documentation.
         </p>
       </header>
 
@@ -177,7 +118,9 @@ export default function ResourcesClient() {
                 <div className="flex items-center gap-6">
                   {/* Lock/Unlock Icon */}
                   <div
-                    className={`w-12 h-12 flex items-center justify-center border-2 rounded-sm transition-colors duration-300 ${isUnlocked ? "border-[#D71920] text-[#D71920]" : "border-zinc-800 text-zinc-600"}`}
+                    className={`w-12 h-12 flex items-center justify-center border-2 rounded-sm transition-colors duration-300 ${
+                      isUnlocked ? "border-[#D71920] text-[#D71920]" : "border-zinc-800 text-zinc-600"
+                    }`}
                   >
                     {isUnlocked ? (
                       <svg
@@ -191,14 +134,7 @@ export default function ResourcesClient() {
                         strokeLinecap="round"
                         strokeLinejoin="round"
                       >
-                        <rect
-                          x="3"
-                          y="11"
-                          width="18"
-                          height="11"
-                          rx="2"
-                          ry="2"
-                        ></rect>
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                         <path d="M7 11V7a5 5 0 0 1 9.9-1"></path>
                       </svg>
                     ) : (
@@ -213,14 +149,7 @@ export default function ResourcesClient() {
                         strokeLinecap="round"
                         strokeLinejoin="round"
                       >
-                        <rect
-                          x="3"
-                          y="11"
-                          width="18"
-                          height="11"
-                          rx="2"
-                          ry="2"
-                        ></rect>
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                         <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                       </svg>
                     )}
@@ -243,7 +172,9 @@ export default function ResourcesClient() {
 
                 <div className="mt-6 md:mt-0">
                   <span
-                    className={`font-mono text-xs font-bold tracking-widest uppercase transition-colors ${isUnlocked ? "text-[#D71920]" : "text-zinc-600"}`}
+                    className={`font-mono text-xs font-bold tracking-widest uppercase transition-colors ${
+                      isUnlocked ? "text-[#D71920]" : "text-zinc-600"
+                    }`}
                   >
                     {isUnlocked ? "[ CRATE OPEN ]" : "[ CLICK TO DECRYPT ]"}
                   </span>
@@ -253,9 +184,7 @@ export default function ResourcesClient() {
               {/* Crate Contents (Accordion) */}
               <div
                 className={`transition-all duration-500 ease-in-out bg-[#050505] border-t-2 border-[#1f1f1f] ${
-                  isUnlocked
-                    ? "max-h-[800px] opacity-100"
-                    : "max-h-0 opacity-0 overflow-hidden"
+                  isUnlocked ? "max-h-[800px] opacity-100" : "max-h-0 opacity-0 overflow-hidden"
                 }`}
               >
                 <div className="p-6 md:p-8">

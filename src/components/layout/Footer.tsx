@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Mail, MapPin } from "lucide-react";
+
 
 const InstagramIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
@@ -51,7 +51,7 @@ export default function Footer() {
               <div className="h-10 w-[1px] bg-white/10"></div>
               <div className="flex flex-col justify-center pl-3">
                 <span className="font-heading text-xl leading-none font-bold uppercase tracking-[0.2em] text-white">
-                  Motor Head
+                  MOTOR HEADS
                 </span>
                 <span className="text-[8px] mt-1 font-medium text-muted-foreground tracking-[0.25em] uppercase">
                   BMSIT&M Racing Team
@@ -75,13 +75,6 @@ export default function Footer() {
                 aria-label="LinkedIn"
               >
                 <LinkedinIcon className="w-[18px] h-[18px]" />
-              </a>
-              <a
-                href="mailto:contact@motorhead.bmsit.ac.in"
-                className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-muted-foreground hover:text-white hover:border-primary hover:bg-primary/10 transition-colors"
-                aria-label="Email"
-              >
-                <Mail size={18} />
               </a>
             </div>
           </div>
@@ -118,10 +111,8 @@ export default function Footer() {
             </h4>
             <ul className="flex flex-col gap-3">
               {[
-                { name: "Technical Reports", href: "/reports" },
-                { name: "Learning Materials", href: "/resources" },
+                { name: "Resources Vault", href: "/resources" },
                 { name: "Media Gallery", href: "/media" },
-                { name: "Join the Club", href: "/join" },
               ].map((link) => (
                 <li key={link.name}>
                   <Link
@@ -136,38 +127,36 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Contact */}
-          <div className="flex flex-col gap-6">
-            <h4 className="font-heading font-bold uppercase tracking-widest text-white">
-              Contact
-            </h4>
-            <div className="flex flex-col gap-4 text-sm text-muted-foreground">
-              <div className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-primary shrink-0 mt-0.5" />
-                <span>
-                  BMS Institute of Technology & Management<br />
-                  Yelahanka, Bengaluru, Karnataka 560064
-                </span>
-              </div>
-              <div className="flex items-center gap-3">
-                <Mail className="w-5 h-5 text-primary shrink-0" />
-                <a href="mailto:contact@motorhead.bmsit.ac.in" className="hover:text-white transition-colors">
-                  contact@motorhead.bmsit.ac.in
-                </a>
-              </div>
-            </div>
+          {/* Support Section */}
+          <div className="flex flex-col sm:flex-row gap-4 lg:justify-end lg:items-start mt-6 lg:mt-0">
+            <Link
+              href="/join"
+              className="inline-flex items-center justify-center gap-3 px-6 py-3 border border-white/20 rounded-md bg-[#050505] text-white font-heading font-bold text-sm uppercase tracking-[0.1em] hover:bg-white hover:text-black transition-colors w-full sm:w-auto whitespace-nowrap"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+              JOIN MOTOR HEAD
+            </Link>
             <Link
               href="/support-us"
-              className="mt-2 inline-flex items-center justify-center px-6 py-3 border border-primary text-primary font-bold text-xs uppercase tracking-widest hover:bg-primary hover:text-white transition-all w-fit"
+              className="inline-flex items-center justify-center gap-3 px-6 py-3 rounded-md bg-[#D71920] text-white font-heading font-bold text-sm uppercase tracking-[0.1em] hover:bg-[#b0141a] transition-colors w-full sm:w-auto whitespace-nowrap"
             >
-              Support Our Team
+              SUPPORT US
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
             </Link>
           </div>
+
         </div>
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-muted-foreground/60 font-medium">
-          <p>&copy; {currentYear} Motor Head BMSIT&M. All rights reserved.</p>
+          <p>&copy; {currentYear} MOTOR HEADS BMSIT&M. All rights reserved.</p>
           <div className="flex items-center gap-6">
             <Link href="#" className="hover:text-white transition-colors">Privacy Policy</Link>
             <Link href="#" className="hover:text-white transition-colors">Terms of Service</Link>

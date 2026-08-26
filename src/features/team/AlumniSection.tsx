@@ -306,7 +306,7 @@ export default function AlumniSection() {
                       <img
                         src={person.image}
                         alt={person.name}
-                        className="w-full h-full object-cover mix-blend-luminosity hover:mix-blend-normal transition-all duration-300"
+                        className="w-full h-full object-cover"
                         onError={(e) => {
                           e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
                             person.name,

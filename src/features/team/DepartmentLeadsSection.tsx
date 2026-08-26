@@ -16,7 +16,7 @@ const departments = [
     id: 1,
     name: "Chassis",
     lead: "Mohith",
-    image: "/images/members/mohith.jpg",
+    image: "/images/members/Mohith M.jpg",
     icon: Wrench,
     members: ["Mohith", "Aatif", "Santosh"],
   },
@@ -24,7 +24,7 @@ const departments = [
     id: 2,
     name: "Powertrain",
     lead: "Pranjal",
-    image: "/images/members/pranjal.jpg",
+    image: "/images/members/Pranjal Raj.jpg",
     icon: Cog,
     members: ["Pranjal", "Athikesh", "Pranay"],
   },
@@ -32,7 +32,7 @@ const departments = [
     id: 3,
     name: "Body Works",
     lead: "Karthik",
-    image: "/images/members/karthik.jpg",
+    image: "/images/members/Karthik Gopal Halliyur.jpg",
     icon: Car,
     members: ["Karthik", "Sonu"],
   },
@@ -40,7 +40,7 @@ const departments = [
     id: 4,
     name: "Steering",
     lead: "Hariharan",
-    image: "/images/members/hariharan.jpg",
+    image: "/images/members/Hariharan N.jpg",
     icon: CircleDot,
     members: ["Hariharan", "Srujan"],
   },
@@ -48,7 +48,7 @@ const departments = [
     id: 5,
     name: "Brakes",
     lead: "Aaron",
-    image: "/images/members/aaron.jpg",
+    image: "/images/members/Aaron Joel Jonathan.jpg",
     icon: Disc,
     members: ["Aaron", "Srikant", "Kusal"],
   },
@@ -56,7 +56,7 @@ const departments = [
     id: 6,
     name: "Management",
     lead: "Vivek",
-    image: "/images/members/vivek.jpg",
+    image: "/images/members/Vivek db.jpg",
     icon: Users,
     members: ["Vivek", "Hamsashree", "Sharanya"],
   },
@@ -64,7 +64,7 @@ const departments = [
     id: 7,
     name: "Media",
     lead: "Arjun",
-    image: "/images/members/arjun.jpg",
+    image: "/images/members/Arjun Livik J P.jpg",
     icon: Camera,
     members: ["Arjun", "Saksham"],
   },
@@ -88,7 +88,7 @@ export default function DepartmentLeadsSection() {
       </div>
 
       {/* Cards */}
-      <div className="lg:w-2/3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <div className="lg:w-2/3 grid grid-cols-2 md:grid-cols-4 gap-4">
         {departments.map((dept) => {
           const IconComponent = dept.icon;
           return (

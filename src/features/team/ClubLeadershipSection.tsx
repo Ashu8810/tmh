@@ -53,7 +53,7 @@ export default function ClubLeadershipSection() {
       </div>
 
       {/* Cards */}
-      <div className="lg:w-2/3 grid grid-cols-2 md:grid-cols-2 gap-4">
+      <div className="lg:w-2/3 grid grid-cols-2 md:grid-cols-4 gap-4">
         {leaders.map((leader) => (
           <div
             key={leader.id}

@@ -58,15 +58,18 @@ function CountdownCard({ event }: { event: EventInfo }) {
   }, [event.startDate]);
 
   return (
-    <div className="flex flex-col bg-[#121212] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition-colors">
+    <div className="group flex flex-col bg-[#0a0a0a] border-2 border-[#1f1f1f] hover:border-[#D71920] shadow-[0_0_0_rgba(215,25,32,0)] hover:shadow-[0_0_30px_rgba(215,25,32,0.15)] rounded-none overflow-hidden transition-all duration-300 relative">
+      {/* Laser Scanner Line (Hover Effect) */}
+      <div className="absolute top-0 left-0 w-full h-[2px] bg-[#D71920] shadow-[0_0_15px_rgba(215,25,32,0.8)] opacity-0 group-hover:opacity-100 group-hover:animate-[scan_2s_linear_infinite] z-20 pointer-events-none" />
+      
       {/* Event Image Container with Error Handling */}
-      <div className="relative w-full h-48 bg-white/5 overflow-hidden flex items-center justify-center">
+      <div className="relative w-full h-56 md:h-64 bg-[#121212] overflow-hidden flex items-center justify-center border-b-2 border-white/5 shrink-0">
         {!imageError && event.image ? (
           <img
             src={event.image}
             alt={event.fullName}
             onError={() => setImageError(true)}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
         ) : (
           <div className="flex flex-col items-center gap-2 text-muted-foreground">
@@ -76,24 +79,24 @@ function CountdownCard({ event }: { event: EventInfo }) {
         )}
 
         {mounted && timeLeft.isLive && (
-          <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full">
-            <span className="flex items-center gap-2 text-primary text-xs font-bold uppercase tracking-wider">
-              <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-              Live Now
+          <div className="absolute top-4 right-4 bg-black/80 backdrop-blur-md px-3 py-1 border border-[#D71920]/50 rounded-sm">
+            <span className="flex items-center gap-2 text-[#D71920] font-mono text-[10px] font-bold uppercase tracking-[0.2em]">
+              <span className="w-2 h-2 rounded-none bg-[#D71920] animate-pulse" />
+              LIVE DEPLOYMENT
             </span>
           </div>
         )}
       </div>
 
-      <div className="flex flex-col p-6 flex-1 justify-between">
+      <div className="flex flex-col p-6 flex-1 justify-between bg-[#0a0a0a]">
         <div>
-          <h3 className="font-heading font-bold text-xl uppercase tracking-wider mb-2">
+          <h3 className="text-2xl font-heading font-black uppercase tracking-widest text-zinc-200 mb-2">
             {event.fullName}
           </h3>
 
-          <p className="text-muted-foreground text-sm mb-4">{event.description}</p>
+          <p className="text-zinc-400 font-mono text-xs uppercase mb-4 leading-relaxed">{event.description}</p>
 
-          <div className="flex items-center gap-2 text-muted-foreground text-xs mb-6">
+          <div className="flex items-center gap-2 text-zinc-500 font-mono text-[10px] uppercase tracking-widest mb-6">
             <MapPin size={14} />
             <span>{event.location}</span>
           </div>
@@ -106,8 +109,8 @@ function CountdownCard({ event }: { event: EventInfo }) {
             ))}
           </div>
         ) : timeLeft.isLive ? (
-          <p className="text-muted-foreground text-sm font-medium">
-            The event is happening now!
+          <p className="text-[#D71920] font-mono text-sm font-bold uppercase tracking-widest">
+            &gt; MISSION IS ACTIVE
           </p>
         ) : (
           <div className="grid grid-cols-4 gap-3">
@@ -119,12 +122,12 @@ function CountdownCard({ event }: { event: EventInfo }) {
             ].map((unit) => (
               <div
                 key={unit.label}
-                className="flex flex-col items-center bg-white/5 rounded-lg py-3"
+                className="flex flex-col items-center bg-[#121212] border border-white/5 py-4 group-hover:border-[#D71920]/30 transition-colors duration-500 rounded-sm"
               >
-                <span className="font-heading font-bold text-2xl md:text-3xl tabular-nums">
+                <span className="font-mono font-bold text-2xl md:text-3xl tabular-nums text-zinc-300 group-hover:text-[#D71920] transition-colors duration-500">
                   {String(unit.value).padStart(2, "0")}
                 </span>
-                <span className="text-muted-foreground text-[10px] uppercase tracking-widest mt-1">
+                <span className="text-zinc-600 font-mono text-[10px] uppercase tracking-[0.2em] mt-2">
                   {unit.label}
                 </span>
               </div>
@@ -138,15 +141,21 @@ function CountdownCard({ event }: { event: EventInfo }) {
 
 export default function EventCountdown() {
   return (
-    <section className="flex flex-col lg:flex-row gap-12 lg:gap-24 w-full">
+    <section className="flex flex-col lg:flex-row gap-12 lg:gap-24 w-full relative z-10">
       <div className="lg:w-1/3 flex flex-col pt-4">
-        <span className="text-primary font-heading text-2xl font-bold mb-2">•</span>
-        <h2 className="text-3xl font-heading font-bold uppercase tracking-wider mb-6">
-          Upcoming Events
-        </h2>
-        <div className="w-12 h-1 bg-white/10 mb-6" />
-        <p className="text-muted-foreground">
-          Countdown to our next competition.
+        <div className="flex items-center gap-4 mb-4">
+          <div className="w-12 h-12 flex items-center justify-center border-2 border-[#D71920] text-[#D71920] font-mono font-bold text-xl rounded-sm">
+            01
+          </div>
+          <h2 className="text-2xl md:text-3xl font-heading font-black uppercase tracking-tighter text-zinc-200">
+            UPCOMING DEPLOYMENT
+          </h2>
+        </div>
+        <div className="w-full h-px bg-white/10 mb-6 relative">
+          <div className="absolute top-0 left-0 w-1/3 h-full bg-[#D71920]" />
+        </div>
+        <p className="text-zinc-500 font-mono text-xs uppercase tracking-widest leading-relaxed">
+          Countdown to our next competition. Live telemetry sync active.
         </p>
       </div>
 
