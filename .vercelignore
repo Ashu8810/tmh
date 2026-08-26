@@ -1,0 +1,6 @@
+.env
+.env.*
+.next
+.vercel
+*.zip
+install_out.log
