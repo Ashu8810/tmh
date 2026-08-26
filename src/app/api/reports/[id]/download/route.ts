@@ -52,7 +52,7 @@ export async function GET(
     await prisma.auditLog.create({
       data: {
         action: 'DOWNLOAD',
-        userId: session.user.id,
+        userId: session.userId,
         reportId: report.id,
         reportName: report.title,
         ipAddress: ip,
