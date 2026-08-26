@@ -5,9 +5,10 @@ import { cookies } from 'next/headers';
 
 export async function GET(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     // 1. Verify user is logged in
     const cookieStore = await cookies();
     const sessionId = cookieStore.get('sessionId')?.value || cookieStore.get('vault_session')?.value;
@@ -25,7 +26,7 @@ export async function GET(
 
     // 2. Fetch report metadata
     const report = await prisma.report.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!report) {
