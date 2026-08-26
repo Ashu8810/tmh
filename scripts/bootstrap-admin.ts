@@ -1,8 +1,21 @@
 import { PrismaClient } from '@prisma/client';
+import { PrismaPg } from '@prisma/adapter-pg';
+import { Pool } from 'pg';
 import bcrypt from 'bcrypt';
 import readline from 'readline';
+import dotenv from 'dotenv';
 
-const prisma = new PrismaClient();
+dotenv.config(); // Load .env file
+
+const connectionString = process.env.DATABASE_URL;
+if (!connectionString) {
+  console.error("DATABASE_URL is missing in .env");
+  process.exit(1);
+}
+
+const pool = new Pool({ connectionString });
+const adapter = new PrismaPg(pool);
+const prisma = new PrismaClient({ adapter });
 
 const rl = readline.createInterface({
   input: process.stdin,
