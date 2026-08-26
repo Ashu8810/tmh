@@ -1,65 +1,37 @@
 "use client";
 
 import React from "react";
-import { Mail, Link as LinkIcon } from "lucide-react";
-
-const LinkedinIcon = ({
-  size = 24,
-  className = "",
-}: {
-  size?: number;
-  className?: string;
-}) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className={className}
-  >
-    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-    <rect x="2" y="9" width="4" height="12"></rect>
-    <circle cx="4" cy="4" r="2"></circle>
-  </svg>
-);
 
 const leaders = [
+  // Team Captains
   {
     id: 1,
-    name: "Aditya Singh",
-    role: "Team Lead",
-    badge: "TEAM LEAD",
-    image: "/images/members/Aditya Singh.jpg",
-    links: { linkedin: "#", email: "#", website: "#" },
+    name: "Shankar",
+    role: "Team Captain",
+    badge: "CAPTAIN",
+    image: "/images/members/Shankar.jpg",
   },
   {
     id: 2,
-    name: "Aaron Joel Jonathan",
-    role: "Deputy Team Lead",
-    badge: "DEPUTY LEAD",
-    image: "/images/members/Aaron Joel Jonathan.jpg",
-    links: { linkedin: "#", email: "#", website: "#" },
+    name: "Vivek",
+    role: "Team Vice Captain",
+    badge: "VICE CAPTAIN",
+    image: "/images/members/Vivek db.jpg",
   },
+  // Event Captains
   {
     id: 3,
-    name: "Gautam P",
-    role: "Operations Lead",
-    badge: "OPERATIONS LEAD",
-    image: "/images/members/Gautam P.jpg",
-    links: { linkedin: "#", email: "#", website: "#" },
+    name: "Aatif",
+    role: "GKDC EV Captain",
+    badge: "EV CAPTAIN",
+    image: "/images/members/Aatif Mohideen.jpg",
   },
   {
     id: 4,
-    name: "Aashish S Badiger",
-    role: "Technical Lead",
-    badge: "TECHNICAL LEAD",
-    image: "/images/members/Aashish S Badiger.jpg",
-    links: { linkedin: "#", email: "#", website: "#" },
+    name: "Hariharan",
+    role: "GKDC CV Captain",
+    badge: "CV CAPTAIN",
+    image: "/images/members/Hariharan N.jpg",
   },
 ];
 
@@ -81,7 +53,7 @@ export default function ClubLeadershipSection() {
       </div>
 
       {/* Cards */}
-      <div className="lg:w-2/3 grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="lg:w-2/3 grid grid-cols-2 md:grid-cols-2 gap-4">
         {leaders.map((leader) => (
           <div
             key={leader.id}
@@ -94,7 +66,9 @@ export default function ClubLeadershipSection() {
                 alt={leader.name}
                 className="w-full h-full object-cover"
                 onError={(e) => {
-                  e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(leader.name)}&background=202020&color=fff&size=400`;
+                  e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                    leader.name
+                  )}&background=202020&color=fff&size=400`;
                 }}
               />
               {/* Badge */}
@@ -108,30 +82,9 @@ export default function ClubLeadershipSection() {
               <h3 className="font-heading font-bold text-lg mb-1">
                 {leader.name}
               </h3>
-              <p className="text-primary text-xs font-semibold mb-4 uppercase tracking-wider">
+              <p className="text-primary text-xs font-semibold uppercase tracking-wider">
                 {leader.role}
               </p>
-
-              <div className="flex gap-3 text-muted-foreground">
-                <a
-                  href={leader.links.linkedin}
-                  className="hover:text-white transition-colors"
-                >
-                  <LinkedinIcon size={16} />
-                </a>
-                <a
-                  href={leader.links.website}
-                  className="hover:text-white transition-colors"
-                >
-                  <LinkIcon size={16} />
-                </a>
-                <a
-                  href={leader.links.email}
-                  className="hover:text-white transition-colors"
-                >
-                  <Mail size={16} />
-                </a>
-              </div>
             </div>
           </div>
         ))}
