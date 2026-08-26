@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 import prisma from '@/lib/prisma';
 import Link from 'next/link';
+import { UAParser } from 'ua-parser-js';
 
 type UnifiedLog = {
   id: string;
@@ -152,6 +153,16 @@ export default async function AdminLogsPage() {
                     actionClass = 'text-red-500';
                   }
 
+                  let deviceString = '';
+                  if (log.userAgent && log.userAgent !== 'unknown') {
+                    const parser = new UAParser(log.userAgent);
+                    const result = parser.getResult();
+                    const browser = result.browser.name || 'Unknown Browser';
+                    const os = result.os.name || 'Unknown OS';
+                    const device = result.device.model || result.device.type || 'Desktop';
+                    deviceString = `${os} / ${browser} (${device})`;
+                  }
+
                   return (
                     <div key={`${log.type}-${log.id}`} className="hover:bg-white/5 p-2 rounded transition-colors break-all md:break-normal group">
                       <span className="text-zinc-600">[{dateStr}]</span>{' '}
@@ -160,9 +171,9 @@ export default async function AdminLogsPage() {
                       <span className="text-yellow-400">{log.userEmail}</span>{' '}
                       <span className="text-zinc-500">| IP:</span> <span className="text-white">{log.ipAddress || 'Unknown'}</span>{' '}
                       <span className="text-zinc-500">| Target:</span> <span className="text-cyan-400">{log.target || 'N/A'}</span>{' '}
-                      {log.userAgent && log.userAgent !== 'unknown' && (
+                      {deviceString && (
                         <div className="pl-[210px] hidden md:block text-zinc-600 text-xs mt-1 truncate group-hover:text-zinc-400 transition-colors">
-                          <span className="text-zinc-700">UA:</span> {log.userAgent}
+                          <span className="text-zinc-700">DEVICE:</span> {deviceString} <span className="text-zinc-700 ml-2">RAW:</span> {log.userAgent}
                         </div>
                       )}
                     </div>
