@@ -37,26 +37,35 @@ const journey: PastEvent[] = [
   {
     name: "IKR",
     year: "2023",
-    location: "TBA",
+    location: "Buddh International Circuit",
     image: "/images/journey/ikr-2023.jpg",
   },
   {
     name: "SEVC",
     year: "2025",
-    location: "TBA",
+    location: "Hindustan College of Engineering / Kari Motor Speedway Racetrack",
     image: "/images/journey/sevc-2025.jpg",
+    achievement: "Best Design Award",
+  },
+  {
+    name: "ANVESHANA",
+    year: "2025",
+    location: "TBA",
+    image: "/images/journey/anveshana-2025.jpg",
+    achievement: "Winners",
   },
   {
     name: "GKDC",
     year: "2026",
-    location: "TBA",
+    location: "Kari Motor Speedway Racetrack",
     image: "/images/journey/gkdc-2026.jpg",
   },
   {
     name: "EKVC",
     year: "2026",
-    location: "TBA",
+    location: "Hindustan College of Engineering / Kari Motor Speedway Racetrack",
     image: "/images/journey/ekvc-2026.jpg",
+    achievement: "Best Cost Award",
   },
 ];
 
