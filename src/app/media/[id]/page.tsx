@@ -5,9 +5,9 @@ import Link from "next/link";
 import StructuredData from "@/components/seo/StructuredData";
 
 interface PageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 export function generateStaticParams() {
@@ -16,8 +16,9 @@ export function generateStaticParams() {
   }));
 }
 
-export function generateMetadata({ params }: PageProps): Metadata {
-  const item = mediaItems.find((m) => m.id === params.id);
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { id } = await params;
+  const item = mediaItems.find((m) => m.id === id);
 
   if (!item) {
     return {
@@ -49,8 +50,9 @@ export function generateMetadata({ params }: PageProps): Metadata {
   };
 }
 
-export default function MediaEventPage({ params }: PageProps) {
-  const item = mediaItems.find((m) => m.id === params.id);
+export default async function MediaEventPage({ params }: PageProps) {
+  const { id } = await params;
+  const item = mediaItems.find((m) => m.id === id);
 
   if (!item) {
     notFound();
