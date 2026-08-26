@@ -21,7 +21,10 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ReportsPage() {
+import { prisma } from "@/lib/prisma";
+import { cookies } from "next/headers";
+
+export default async function ReportsPage() {
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -41,10 +44,24 @@ export default function ReportsPage() {
     ],
   };
 
+  const cookieStore = await cookies();
+  const sessionId = cookieStore.get("sessionId")?.value || cookieStore.get("vault_session")?.value;
+  let userRole: "ADMIN" | "MEMBER" | null = null;
+
+  if (sessionId) {
+    const session = await prisma.session.findUnique({
+      where: { id: sessionId },
+      include: { user: true },
+    });
+    if (session && session.expiresAt > new Date()) {
+      userRole = session.user.role as "ADMIN" | "MEMBER";
+    }
+  }
+
   return (
     <main className="flex-1 w-full bg-[#050505] text-white min-h-screen font-sans overflow-x-hidden pt-24 pb-20 relative selection:bg-[#D71920] selection:text-white">
       <StructuredData data={breadcrumbSchema} />
-      <ReportsClient />
+      <ReportsClient userRole={userRole} />
     </main>
   );
 }

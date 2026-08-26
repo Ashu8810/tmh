@@ -1,81 +1,26 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
-type Category = "ALL" | "TECHNICAL" | "FINANCIAL" | "RESEARCH";
+interface ReportFolder {
+  id: string;
+  name: string;
+  parentId: string | null;
+}
 
 interface Report {
   id: string;
   title: string;
-  category: Category;
-  date: string;
-  size: string;
-  clearance: string;
-  summary: string;
+  fileType: string;
+  fileSize: number;
+  description: string | null;
+  createdAt: string;
+  folderId: string | null;
+  uploader: {
+    email: string;
+  };
 }
-
-const reportsData: Report[] = [
-  {
-    id: "tech-spec-2023",
-    title: "TMH-23 Technical Specification",
-    category: "TECHNICAL",
-    date: "2023-10-14",
-    size: "4.2 MB",
-    clearance: "LEVEL 1",
-    summary:
-      "Complete breakdown of the TMH-23 spaceframe chassis, suspension geometry, and powertrain integration. Includes CAD drawings and load test results.",
-  },
-  {
-    id: "aero-cfd-analysis",
-    title: "Aerodynamics CFD Analysis Report",
-    category: "RESEARCH",
-    date: "2023-08-22",
-    size: "12.8 MB",
-    clearance: "LEVEL 2",
-    summary:
-      "Computational Fluid Dynamics results for the new front wing and undertray. Shows a 14% increase in downforce at 80km/h.",
-  },
-  {
-    id: "annual-budget-22",
-    title: "Annual Financial Review 2022-2023",
-    category: "FINANCIAL",
-    date: "2023-05-10",
-    size: "1.5 MB",
-    clearance: "LEVEL 3",
-    summary:
-      "Detailed breakdown of team expenditures, sponsor contributions, and manufacturing costs for the previous season.",
-  },
-  {
-    id: "chassis-torsional-stiffness",
-    title: "Chassis Torsional Stiffness Validation",
-    category: "TECHNICAL",
-    date: "2023-04-05",
-    size: "8.1 MB",
-    clearance: "LEVEL 1",
-    summary:
-      "Physical testing results comparing the simulated torsional rigidity of the chassis against real-world rig testing.",
-  },
-  {
-    id: "battery-thermal-management",
-    title: "EV Powertrain: Thermal Management Study",
-    category: "RESEARCH",
-    date: "2023-09-18",
-    size: "9.4 MB",
-    clearance: "LEVEL 2",
-    summary:
-      "Research into optimizing the cooling channels for the accumulator package during endurance events to prevent thermal throttling.",
-  },
-  {
-    id: "fmea-report-2023",
-    title: "FMEA & Reliability Assessment",
-    category: "TECHNICAL",
-    date: "2023-11-02",
-    size: "5.6 MB",
-    clearance: "LEVEL 1",
-    summary:
-      "Failure Mode and Effects Analysis for all critical unsprung mass components. Identifies high-risk failure points and mitigation strategies.",
-  },
-];
 
 // Simple Animated Counter Component
 const AnimatedStat = ({
@@ -99,8 +44,6 @@ const AnimatedStat = ({
       if (!startTime) startTime = timestamp;
       const progress = timestamp - startTime;
       const percentage = Math.min(progress / duration, 1);
-
-      // Easing out function
       const easeOutQuart = 1 - Math.pow(1 - percentage, 4);
       setCount(Math.floor(easeOutQuart * value));
 
@@ -129,41 +72,108 @@ const AnimatedStat = ({
   );
 };
 
-export default function ReportsClient() {
-  const [activeCategory, setActiveCategory] = useState<Category>("ALL");
+export default function ReportsClient({ userRole }: { userRole: "ADMIN" | "MEMBER" | null }) {
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [isGlitching, setIsGlitching] = useState(false);
+
+  // Data State
+  const [reports, setReports] = useState<Report[]>([]);
+  const [folders, setFolders] = useState<ReportFolder[]>([]);
+  const [loading, setLoading] = useState(true);
 
   // Modal State
   const [selectedReport, setSelectedReport] = useState<Report | null>(null);
   const [downloadingId, setDownloadingId] = useState<string | null>(null);
+  const [showUploadModal, setShowUploadModal] = useState(false);
 
-  const handleCategoryChange = (category: Category) => {
-    if (category === activeCategory) return;
-    setIsGlitching(true);
-    setActiveCategory(category);
-    setTimeout(() => {
-      setIsGlitching(false);
-    }, 400);
+  // Upload State
+  const [uploadFile, setUploadFile] = useState<File | null>(null);
+  const [uploadTitle, setUploadTitle] = useState("");
+  const [uploadDesc, setUploadDesc] = useState("");
+  const [uploading, setUploading] = useState(false);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch("/api/reports");
+      const data = await res.json();
+      if (res.ok) {
+        setReports(data.reports || []);
+        setFolders(data.folders || []);
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleDownload = (id: string) => {
+    if (!userRole) {
+      router.push('/login');
+      return;
+    }
     if (downloadingId) return;
     setDownloadingId(id);
+    // Redirect to the download API route which gives a signed URL
+    window.location.href = `/api/reports/${id}/download`;
     setTimeout(() => {
       setDownloadingId(null);
-      alert("Mock PDF Download Initiated!");
     }, 2000);
   };
 
-  const filteredReports = reportsData.filter((report) => {
-    const matchesCategory =
-      activeCategory === "ALL" || report.category === activeCategory;
+  const handleUploadSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!uploadFile || !uploadTitle) return;
+
+    setUploading(true);
+    const formData = new FormData();
+    formData.append("file", uploadFile);
+    formData.append("title", uploadTitle);
+    formData.append("description", uploadDesc);
+
+    try {
+      const res = await fetch("/api/reports", {
+        method: "POST",
+        body: formData,
+      });
+      if (res.ok) {
+        setShowUploadModal(false);
+        setUploadFile(null);
+        setUploadTitle("");
+        setUploadDesc("");
+        fetchData();
+      } else {
+        const err = await res.json();
+        alert(err.error || "Upload failed");
+      }
+    } catch (e) {
+      console.error(e);
+      alert("An error occurred during upload.");
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const filteredReports = reports.filter((report) => {
     const matchesSearch =
       report.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      report.id.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
+      (report.description && report.description.toLowerCase().includes(searchQuery.toLowerCase()));
+    return matchesSearch;
   });
+
+  const formatSize = (bytes: number) => {
+    if (bytes === 0) return "0 B";
+    const k = 1024;
+    const sizes = ["B", "KB", "MB", "GB"];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + " " + sizes[i];
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 relative z-10">
@@ -175,7 +185,7 @@ export default function ReportsClient() {
             <p>Telemetry & Diagnostics</p>
           </div>
           <h1 className="text-4xl md:text-6xl font-heading font-black uppercase tracking-tighter text-white drop-shadow-lg flex items-center italic transform -skew-x-6">
-            RACE DATA LOGS
+            SECURE VAULT
             <span className="inline-block w-[15px] md:w-[25px] h-[35px] md:h-[55px] bg-[#D71920] ml-3 animate-[pulse_1s_steps(2,start)_infinite]" />
           </h1>
           <p className="mt-4 text-zinc-400 font-sans text-sm md:text-base max-w-xl">
@@ -188,44 +198,26 @@ export default function ReportsClient() {
         {/* Live Telemetry Stats Dashboard */}
         <div className="flex gap-4">
           <AnimatedStat
-            label="TOP SPEED"
-            value={118}
-            suffix="KM/H"
+            label="DOCUMENTS"
+            value={reports.length}
+            suffix=""
             duration={1500}
           />
-          <AnimatedStat
-            label="0-100 TIME"
-            value={3.8}
-            suffix="s"
-            duration={2000}
-          />
-          <AnimatedStat
-            label="LATERAL G"
-            value={1.4}
-            suffix="G"
-            duration={1800}
-          />
+          {userRole === "ADMIN" && (
+            <button
+              onClick={() => setShowUploadModal(true)}
+              className="bg-[#D71920] text-white font-heading text-sm font-bold tracking-widest py-4 px-6 uppercase transition-all duration-300 transform -skew-x-12 hover:bg-red-600 shadow-[0_0_20px_rgba(215,25,32,0.4)] ml-4 self-center"
+            >
+              <div className="transform skew-x-12">+ UPLOAD</div>
+            </button>
+          )}
         </div>
       </header>
 
       {/* Filters and Search Bar */}
       <section className="mb-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div className="flex flex-wrap gap-2 md:gap-4">
-          {(["ALL", "TECHNICAL", "RESEARCH", "FINANCIAL"] as Category[]).map(
-            (category) => (
-              <button
-                key={category}
-                onClick={() => handleCategoryChange(category)}
-                className={`transform -skew-x-12 px-6 py-2 font-heading text-xs md:text-sm font-bold tracking-widest uppercase transition-all duration-300 border ${
-                  activeCategory === category
-                    ? "bg-[#D71920] text-white border-[#D71920] shadow-[0_4px_15px_rgba(215,25,32,0.4)]"
-                    : "bg-[#121212] text-zinc-400 border-white/10 hover:text-white hover:bg-white/5 hover:border-white/30"
-                }`}
-              >
-                <div className="transform skew-x-12">{category}</div>
-              </button>
-            ),
-          )}
+           {/* Folders UI could go here in the future. For now it's a flat list. */}
         </div>
 
         {/* Search Bar */}
@@ -257,8 +249,8 @@ export default function ReportsClient() {
       {/* Dossier Grid */}
       <section
         className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-300 ${
-          isGlitching
-            ? "opacity-0 blur-sm translate-y-4"
+          isGlitching || loading
+            ? "opacity-50 blur-sm translate-y-4"
             : "opacity-100 blur-0 translate-y-0"
         }`}
       >
@@ -274,22 +266,28 @@ export default function ReportsClient() {
             <div className="mb-8 pl-2 transition-transform duration-300 group-hover:translate-x-2">
               <div className="flex justify-between items-start mb-4">
                 <span className="text-[#D71920] font-heading font-bold text-[10px] tracking-widest uppercase">
-                  FILE: {report.id}
+                  {report.fileType.split("/")[1]?.toUpperCase() || "FILE"}
                 </span>
                 <span className="text-zinc-600 font-mono text-[10px] border border-zinc-800 px-2 py-0.5 rounded-sm bg-[#121212]">
-                  {report.clearance}
+                  {formatSize(report.fileSize)}
                 </span>
               </div>
-              <h3 className="text-xl font-heading font-bold uppercase tracking-wide text-zinc-100 group-hover:text-white transition-colors line-clamp-2 italic">
+              <h3 className="text-xl font-heading font-bold uppercase tracking-wide text-zinc-100 group-hover:text-white transition-colors line-clamp-2 italic flex items-center gap-2">
+                {!userRole && (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-zinc-500">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                  </svg>
+                )}
                 {report.title}
               </h3>
             </div>
 
             <div className="mt-auto pl-2 transition-transform duration-300 group-hover:translate-x-2">
               <div className="flex justify-between items-center text-xs font-mono text-zinc-500 mt-4 border-t border-white/5 pt-4">
-                <span>DATE: {report.date}</span>
+                <span>DATE: {new Date(report.createdAt).toLocaleDateString()}</span>
                 <span className="text-[#D71920] group-hover:underline">
-                  VIEW DOSSIER &rarr;
+                  {userRole ? "VIEW DOSSIER &rarr;" : "LOCKED"}
                 </span>
               </div>
             </div>
@@ -297,7 +295,7 @@ export default function ReportsClient() {
         ))}
       </section>
 
-      {filteredReports.length === 0 && (
+      {!loading && filteredReports.length === 0 && (
         <div className="text-center py-20 border border-white/5 bg-[#0a0a0a] mt-8 transform -skew-x-6">
           <p className="text-zinc-500 font-heading font-bold text-sm uppercase tracking-widest animate-pulse italic transform skew-x-6">
             No telemetry data found.
@@ -315,7 +313,7 @@ export default function ReportsClient() {
             {/* Modal Header */}
             <div className="flex justify-between items-center p-4 border-b border-white/10 bg-[#0a0a0a]">
               <span className="text-[#D71920] font-mono text-xs font-bold tracking-widest uppercase transform skew-x-2">
-                SYSTEM DECRYPTED // CONFIDENTIAL
+                SYSTEM LOG // {selectedReport.id.slice(0,8)}
               </span>
               <button
                 onClick={() => setSelectedReport(null)}
@@ -342,13 +340,13 @@ export default function ReportsClient() {
             <div className="p-6 md:p-8 transform skew-x-2">
               <div className="mb-6 flex gap-3">
                 <span className="text-zinc-400 font-mono text-[10px] border border-white/20 px-2 py-1 rounded-sm bg-[#121212]">
-                  {selectedReport.clearance}
+                  {formatSize(selectedReport.fileSize)}
                 </span>
                 <span className="text-zinc-400 font-mono text-[10px] border border-white/20 px-2 py-1 rounded-sm bg-[#121212]">
-                  {selectedReport.size}
+                  {new Date(selectedReport.createdAt).toLocaleDateString()}
                 </span>
                 <span className="text-zinc-400 font-mono text-[10px] border border-white/20 px-2 py-1 rounded-sm bg-[#121212]">
-                  {selectedReport.date}
+                  BY: {selectedReport.uploader.email}
                 </span>
               </div>
 
@@ -357,7 +355,7 @@ export default function ReportsClient() {
               </h2>
 
               <p className="text-zinc-400 font-sans text-sm leading-relaxed mb-8">
-                {selectedReport.summary}
+                {selectedReport.description || "No description provided."}
               </p>
 
               {/* Faux Wireframe Graphic */}
@@ -369,9 +367,19 @@ export default function ReportsClient() {
                     backgroundSize: "11px 11px",
                   }}
                 />
-                <span className="text-[#D71920] font-mono text-xs font-bold tracking-widest relative z-10 animate-pulse">
-                  ANALYZING SCHEMATICS...
-                </span>
+                {!userRole ? (
+                  <span className="text-[#D71920] font-mono text-xs font-bold tracking-widest relative z-10 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                      <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                    ACCESS RESTRICTED - LOGIN REQUIRED
+                  </span>
+                ) : (
+                  <span className="text-[#D71920] font-mono text-xs font-bold tracking-widest relative z-10 animate-pulse">
+                    ANALYZING SCHEMATICS...
+                  </span>
+                )}
               </div>
 
               {/* Download Button inside Modal */}
@@ -407,22 +415,30 @@ export default function ReportsClient() {
                     </>
                   ) : (
                     <>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="3"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                        <polyline points="7 10 12 15 17 10" />
-                        <line x1="12" x2="12" y1="15" y2="3" />
-                      </svg>
-                      <span>DOWNLOAD FULL DOSSIER</span>
+                      {userRole ? (
+                        <>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="3"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                            <polyline points="7 10 12 15 17 10" />
+                            <line x1="12" x2="12" y1="15" y2="3" />
+                          </svg>
+                          <span>DOWNLOAD FULL DOSSIER</span>
+                        </>
+                      ) : (
+                        <>
+                          <span>LOGIN TO UNLOCK</span>
+                        </>
+                      )}
                     </>
                   )}
                 </div>
@@ -432,6 +448,86 @@ export default function ReportsClient() {
                 )}
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Upload Modal (Admin Only) */}
+      {showUploadModal && userRole === "ADMIN" && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div
+            className="bg-[#050505] border border-white/10 w-full max-w-lg shadow-[0_0_50px_rgba(215,25,32,0.15)] relative transform -skew-x-2 animate-[slideIn_0.3s_ease-out]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex justify-between items-center p-4 border-b border-white/10 bg-[#0a0a0a]">
+              <span className="text-[#D71920] font-mono text-xs font-bold tracking-widest uppercase transform skew-x-2">
+                UPLOAD NEW DOSSIER
+              </span>
+              <button
+                onClick={() => setShowUploadModal(false)}
+                className="text-zinc-500 hover:text-white transform skew-x-2 transition-colors"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+            </div>
+
+            <form onSubmit={handleUploadSubmit} className="p-6 md:p-8 transform skew-x-2">
+              <div className="mb-4">
+                <label className="block text-zinc-400 font-mono text-[10px] mb-2 uppercase">File</label>
+                <input
+                  type="file"
+                  required
+                  onChange={(e) => setUploadFile(e.target.files?.[0] || null)}
+                  className="w-full bg-[#121212] border border-white/10 p-2 text-white text-sm focus:border-[#D71920] outline-none transition-colors"
+                />
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-zinc-400 font-mono text-[10px] mb-2 uppercase">Title</label>
+                <input
+                  type="text"
+                  required
+                  value={uploadTitle}
+                  onChange={(e) => setUploadTitle(e.target.value)}
+                  className="w-full bg-[#121212] border border-white/10 p-2 text-white text-sm focus:border-[#D71920] outline-none transition-colors"
+                  placeholder="e.g. TMH-24 Technical Specification"
+                />
+              </div>
+
+              <div className="mb-6">
+                <label className="block text-zinc-400 font-mono text-[10px] mb-2 uppercase">Description</label>
+                <textarea
+                  value={uploadDesc}
+                  onChange={(e) => setUploadDesc(e.target.value)}
+                  rows={3}
+                  className="w-full bg-[#121212] border border-white/10 p-2 text-white text-sm focus:border-[#D71920] outline-none transition-colors"
+                  placeholder="Summary of the report..."
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={uploading}
+                className="w-full bg-[#D71920] text-white font-heading text-sm font-bold tracking-widest py-3 uppercase transition-all duration-300 transform -skew-x-6 hover:bg-red-600 shadow-[0_0_15px_rgba(215,25,32,0.4)] disabled:opacity-50"
+              >
+                <div className="transform skew-x-6">
+                  {uploading ? "UPLOADING..." : "SUBMIT REPORT"}
+                </div>
+              </button>
+            </form>
           </div>
         </div>
       )}
