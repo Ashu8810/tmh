@@ -3,7 +3,6 @@
 import React from "react";
 import ContactSectionLayout from "./ContactSectionLayout";
 import { Button as PrimaryButton } from "@/components/ui/PrimaryButton";
-import { MapPin } from "lucide-react";
 
 export default function CampusLocationSection() {
   return (

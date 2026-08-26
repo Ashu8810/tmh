@@ -114,6 +114,7 @@ export default function ReportsClient({ userRole }: { userRole: "ADMIN" | "CLUB_
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchData(viewingTrash);
   }, [viewingTrash]);
 

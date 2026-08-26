@@ -1,11 +1,15 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { MapPin, ImageOff } from "lucide-react";
 
 interface EventInfo {
   name: string;
   fullName: string;
-  startDate: string; // ISO format
+  startDate: string;
+  location: string;
+  description: string;
+  image: string;
 }
 
 const events: EventInfo[] = [
@@ -13,11 +17,10 @@ const events: EventInfo[] = [
     name: "GKDC",
     fullName: "GKDC 2027",
     startDate: "2027-02-17T00:00:00",
-  },
-  {
-    name: "EKVC",
-    fullName: "EKVC 2027",
-    startDate: "2027-02-26T00:00:00",
+    location: "Coimbatore, Tamil Nadu",
+    description:
+      "Go Kart Design Challenge — a design and fabrication competition for Combustion (CV) and Electric (EV) go-karts, organized by ISNEE Motorsports.",
+    image: "/images/gkdc-2027.png", // Replace with your image path or external URL
   },
 ];
 
@@ -37,9 +40,14 @@ function getTimeRemaining(targetDate: string) {
 }
 
 function CountdownCard({ event }: { event: EventInfo }) {
-  const [timeLeft, setTimeLeft] = useState(() =>
-    getTimeRemaining(event.startDate),
-  );
+  const [mounted, setMounted] = useState(false);
+  const [imageError, setImageError] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(() => getTimeRemaining(event.startDate));
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -50,45 +58,80 @@ function CountdownCard({ event }: { event: EventInfo }) {
   }, [event.startDate]);
 
   return (
-    <div className="flex flex-col bg-[#121212] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition-colors p-6">
-      <div className="flex items-center justify-between mb-6">
-        <h3 className="font-heading font-bold text-xl uppercase tracking-wider">
-          {event.fullName}
-        </h3>
-        {timeLeft.isLive && (
-          <span className="flex items-center gap-2 text-primary text-xs font-bold uppercase tracking-wider">
-            <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-            Live Now
-          </span>
+    <div className="flex flex-col bg-[#121212] border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition-colors">
+      {/* Event Image Container with Error Handling */}
+      <div className="relative w-full h-48 bg-white/5 overflow-hidden flex items-center justify-center">
+        {!imageError && event.image ? (
+          <img
+            src={event.image}
+            alt={event.fullName}
+            onError={() => setImageError(true)}
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <div className="flex flex-col items-center gap-2 text-muted-foreground">
+            <ImageOff size={24} />
+            <span className="text-xs">Image unavailable</span>
+          </div>
+        )}
+
+        {mounted && timeLeft.isLive && (
+          <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full">
+            <span className="flex items-center gap-2 text-primary text-xs font-bold uppercase tracking-wider">
+              <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+              Live Now
+            </span>
+          </div>
         )}
       </div>
 
-      {timeLeft.isLive ? (
-        <p className="text-muted-foreground text-sm">
-          The event is happening now!
-        </p>
-      ) : (
-        <div className="grid grid-cols-4 gap-3">
-          {[
-            { label: "Days", value: timeLeft.days },
-            { label: "Hours", value: timeLeft.hours },
-            { label: "Mins", value: timeLeft.minutes },
-            { label: "Secs", value: timeLeft.seconds },
-          ].map((unit) => (
-            <div
-              key={unit.label}
-              className="flex flex-col items-center bg-white/5 rounded-lg py-3"
-            >
-              <span className="font-heading font-bold text-2xl md:text-3xl tabular-nums">
-                {String(unit.value).padStart(2, "0")}
-              </span>
-              <span className="text-muted-foreground text-[10px] uppercase tracking-widest mt-1">
-                {unit.label}
-              </span>
-            </div>
-          ))}
+      <div className="flex flex-col p-6 flex-1 justify-between">
+        <div>
+          <h3 className="font-heading font-bold text-xl uppercase tracking-wider mb-2">
+            {event.fullName}
+          </h3>
+
+          <p className="text-muted-foreground text-sm mb-4">{event.description}</p>
+
+          <div className="flex items-center gap-2 text-muted-foreground text-xs mb-6">
+            <MapPin size={14} />
+            <span>{event.location}</span>
+          </div>
         </div>
-      )}
+
+        {!mounted ? (
+          <div className="grid grid-cols-4 gap-3 animate-pulse">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="h-16 bg-white/5 rounded-lg" />
+            ))}
+          </div>
+        ) : timeLeft.isLive ? (
+          <p className="text-muted-foreground text-sm font-medium">
+            The event is happening now!
+          </p>
+        ) : (
+          <div className="grid grid-cols-4 gap-3">
+            {[
+              { label: "Days", value: timeLeft.days },
+              { label: "Hours", value: timeLeft.hours },
+              { label: "Mins", value: timeLeft.minutes },
+              { label: "Secs", value: timeLeft.seconds },
+            ].map((unit) => (
+              <div
+                key={unit.label}
+                className="flex flex-col items-center bg-white/5 rounded-lg py-3"
+              >
+                <span className="font-heading font-bold text-2xl md:text-3xl tabular-nums">
+                  {String(unit.value).padStart(2, "0")}
+                </span>
+                <span className="text-muted-foreground text-[10px] uppercase tracking-widest mt-1">
+                  {unit.label}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -97,15 +140,13 @@ export default function EventCountdown() {
   return (
     <section className="flex flex-col lg:flex-row gap-12 lg:gap-24 w-full">
       <div className="lg:w-1/3 flex flex-col pt-4">
-        <span className="text-primary font-heading text-2xl font-bold mb-2">
-          •
-        </span>
+        <span className="text-primary font-heading text-2xl font-bold mb-2">•</span>
         <h2 className="text-3xl font-heading font-bold uppercase tracking-wider mb-6">
           Upcoming Events
         </h2>
         <div className="w-12 h-1 bg-white/10 mb-6" />
         <p className="text-muted-foreground">
-          Countdown to our next competitions.
+          Countdown to our next competition.
         </p>
       </div>
 

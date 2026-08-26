@@ -2,11 +2,18 @@
 
 import { useState } from 'react';
 
+type UserData = {
+  id: string;
+  email: string;
+  role: string;
+  isActive: boolean;
+};
+
 export default function AdminUsersClient({ 
   initialUsers,
   currentUserId 
 }: { 
-  initialUsers: any[],
+  initialUsers: UserData[],
   currentUserId: string 
 }) {
   const [email, setEmail] = useState('');

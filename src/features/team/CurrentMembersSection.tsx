@@ -14,97 +14,57 @@ const membersByYear: Record<string, Member[]> = {
     {
       name: "Aaron Joel Jonathan",
       image: "/images/members/Aaron Joel Jonathan.jpg",
-      linkedin: "#",
+      linkedin: "https://www.linkedin.com/in/aaron-jonathan-193a17332",
     },
     {
-      name: "Aashish S Badiger",
-      image: "/images/members/Aashish S Badiger.jpg",
+      name: "Hariharan N",
+      image: "/images/members/Hariharan N.jpg",
+      linkedin: "https://www.linkedin.com/in/hariharan-n-54051728a",
+    },
+    {
+      name: "Mohith M",
+      image: "/images/members/Mohith M.jpg",
+      linkedin: "https://www.linkedin.com/in/mohith-m-05aa36251",
+    },
+    {
+      name: "Arjun Livik J P",
+      image: "/images/members/Arjun Livik J P.jpg",
+      linkedin: "https://www.linkedin.com/in/arjun-livik-jp-b84018334",
+    },
+    {
+      name: "Vivek D B",
+      image: "/images/members/Vivek db.jpg",
+      linkedin: "https://www.linkedin.com/in/vivek-db-509348327",
+    },
+    {
+      name: "Hamsashree M",
+      image: "/images/members/Hamsashree M.jpg",
+      linkedin: "https://www.linkedin.com/in/hamsashree-m-3aa71b409",
+    },
+    {
+      name: "Bhargav Narasimha H",
+      image: "/images/members/Bhargav Narasimha H.jpg",
       linkedin: "#",
     },
     {
       name: "Aatif Mohideen",
       image: "/images/members/Aatif Mohideen.jpg",
-      linkedin: "#",
-    },
-    {
-      name: "Arjun Livik J P",
-      image: "/images/members/Arjun Livik J P.jpg",
-      linkedin: "#",
-    },
-    {
-      name: "Asim",
-      image: "/images/members/Asim.jpg",
-      linkedin: "#",
-    },
-    {
-      name: "Bhagyesh S",
-      image: "/images/members/Bhagyesh S.jpg",
-      linkedin: "#",
-    },
-    {
-      name: "Hariharan N",
-      image: "/images/members/Hariharan N.jpg",
-      linkedin: "#",
+      linkedin: "https://www.linkedin.com/in/aatif-mohideen-012555331",
     },
     {
       name: "Karthik Gopal Halliyur",
       image: "/images/members/Karthik Gopal Halliyur.jpg",
-      linkedin: "#",
-    },
-    {
-      name: "Maruthi H R",
-      image: "/images/members/Maruthi H R.jpg",
-      linkedin: "#",
-    },
-    {
-      name: "Mohammed Abdul Tazeem",
-      image: "/images/members/Mohammed Abdul Tazeem.jpg",
-      linkedin: "#",
-    },
-    {
-      name: "Mohith M",
-      image: "/images/members/Mohith M.jpg",
-      linkedin: "#",
-    },
-    {
-      name: "Nethanya G H",
-      image: "/images/members/Nethanya G H.jpg",
-      linkedin: "#",
-    },
-    {
-      name: "Poojit",
-      image: "/images/members/Poojit.jpg",
-      linkedin: "#",
+      linkedin: "https://www.linkedin.com/in/karthik-halliyur-919a63331",
     },
     {
       name: "Pranjal Raj",
       image: "/images/members/Pranjal Raj.jpg",
-      linkedin: "#",
-    },
-    {
-      name: "Pratham",
-      image: "/images/members/Pratham.jpg",
-      linkedin: "#",
-    },
-    {
-      name: "Samarth M Hulamani",
-      image: "/images/members/Samarth M Hulamani.jpg",
-      linkedin: "#",
+      linkedin: "https://www.linkedin.com/in/pranjal-raj-186bb234b",
     },
     {
       name: "Srujan A P",
       image: "/images/members/Srujan A P.jpg",
-      linkedin: "#",
-    },
-    {
-      name: "Vivek DB",
-      image: "/images/members/Vivek db.jpg",
-      linkedin: "#",
-    },
-    {
-      name: "Yashraj Desai",
-      image: "/images/members/Yashraj Desai.jpg",
-      linkedin: "#",
+      linkedin: "https://www.linkedin.com/in/srujan-ap-04a277330",
     },
   ],
   "2027": [
@@ -131,7 +91,7 @@ const membersByYear: Record<string, Member[]> = {
     {
       name: "Shankar",
       image: "/images/members/Shankar.jpg",
-      linkedin: "#",
+      linkedin: "https://www.linkedin.com/in/shankar-p-6038a4270",
     },
     {
       name: "Venkat",
@@ -239,7 +199,7 @@ export default function CurrentMembersSection() {
                     className="w-full h-full object-cover mix-blend-luminosity hover:mix-blend-normal transition-all duration-300"
                     onError={(e) => {
                       e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
-                        person.name,
+                        person.name
                       )}&background=202020&color=fff&size=300`;
                     }}
                   />
