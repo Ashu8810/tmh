@@ -111,75 +111,69 @@ export default async function AdminLogsPage() {
           </Link>
         </header>
 
-        {/* Logs Table */}
-        <div className="bg-[#0a0a0a] border border-white/10 rounded-sm overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm text-zinc-400 font-mono">
-              <thead className="text-xs uppercase bg-[#121212] text-zinc-300 border-b border-white/10">
-                <tr>
-                  <th scope="col" className="px-6 py-4">Timestamp</th>
-                  <th scope="col" className="px-6 py-4">Event Type</th>
-                  <th scope="col" className="px-6 py-4">Action</th>
-                  <th scope="col" className="px-6 py-4">User</th>
-                  <th scope="col" className="px-6 py-4">Details / Target</th>
-                  <th scope="col" className="px-6 py-4 text-right">IP Address</th>
-                </tr>
-              </thead>
-              <tbody>
-                {unifiedLogs.length === 0 ? (
-                  <tr>
-                    <td colSpan={6} className="px-6 py-8 text-center text-zinc-600 italic">
-                      No security events logged yet.
-                    </td>
-                  </tr>
-                ) : (
-                  unifiedLogs.map(log => (
-                    <tr key={`${log.type}-${log.id}`} className="border-b border-white/5 hover:bg-white/5 transition-colors">
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        {new Date(log.createdAt).toLocaleString()}
-                      </td>
-                      <td className="px-6 py-4">
-                        <span className="text-zinc-500 text-[10px] tracking-widest uppercase">
-                          {log.type.replace('_', ' ')}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4">
-                        <span className={`px-2 py-1 rounded-sm text-[10px] font-bold tracking-widest ${
-                          log.action.includes('SUCCESS') || log.action === 'UPLOAD' || log.action === 'ACTIVE_SESSION' 
-                            ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20' : 
-                          log.action === 'DOWNLOAD' 
-                            ? 'bg-blue-500/10 text-blue-500 border border-blue-500/20' :
-                          'bg-red-500/10 text-red-500 border border-red-500/20'
-                        }`}>
-                          {log.action.replace('_', ' ')}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 text-zinc-300">
-                        {log.userEmail}
-                      </td>
-                      <td className="px-6 py-4 text-zinc-300 truncate max-w-[200px]" title={log.target || 'N/A'}>
-                        {log.target || 'N/A'}
-                      </td>
-                      <td className="px-6 py-4 text-right">
-                        <div className="flex flex-col items-end gap-1">
-                          <span className="font-sans text-xs bg-black px-2 py-1 rounded border border-white/10">
-                            {log.ipAddress || 'Unknown'}
-                          </span>
-                          {log.userAgent && log.userAgent !== 'unknown' && (
-                            <span 
-                              className="text-[10px] text-zinc-500 max-w-[150px] truncate" 
-                              title={log.userAgent}
-                            >
-                              {log.userAgent}
-                            </span>
-                          )}
+        {/* Terminal Logs View */}
+        <div className="bg-black border border-white/10 rounded-sm overflow-hidden shadow-2xl relative font-mono text-sm">
+          {/* Terminal Header */}
+          <div className="bg-[#121212] border-b border-white/10 px-4 py-2 flex items-center justify-between">
+            <div className="flex gap-2">
+              <div className="w-3 h-3 rounded-full bg-red-500/80" />
+              <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
+              <div className="w-3 h-3 rounded-full bg-green-500/80" />
+            </div>
+            <span className="text-zinc-500 text-xs uppercase tracking-widest">root@motorhead-secure:~</span>
+            <div className="w-16" /> {/* spacer for balance */}
+          </div>
+          
+          <div className="p-4 md:p-6 h-[70vh] overflow-y-auto font-mono custom-scrollbar relative">
+            {unifiedLogs.length === 0 ? (
+              <div className="text-zinc-500 italic">
+                $ No security events found in the database.
+              </div>
+            ) : (
+              <div className="flex flex-col gap-2">
+                <div className="text-emerald-500 mb-4 text-xs md:text-sm">
+                  System initialized...<br/>
+                  Loading immutable audit logs...<br/>
+                  {unifiedLogs.length} records retrieved.
+                </div>
+                {unifiedLogs.map(log => {
+                  const dateStr = new Date(log.createdAt).toISOString().replace('T', ' ').substring(0, 19);
+                  let colorClass = 'text-zinc-300';
+                  let actionClass = 'text-zinc-400';
+                  
+                  if (log.action.includes('SUCCESS') || log.action === 'UPLOAD' || log.action === 'ACTIVE_SESSION') {
+                    colorClass = 'text-emerald-400';
+                    actionClass = 'text-emerald-500';
+                  } else if (log.action === 'DOWNLOAD') {
+                    colorClass = 'text-blue-400';
+                    actionClass = 'text-blue-500';
+                  } else if (log.action.includes('FAIL') || log.action.includes('DELETE') || log.action.includes('EXPIRE')) {
+                    colorClass = 'text-red-400';
+                    actionClass = 'text-red-500';
+                  }
+
+                  return (
+                    <div key={`${log.type}-${log.id}`} className="hover:bg-white/5 p-2 rounded transition-colors break-all md:break-normal group">
+                      <span className="text-zinc-600">[{dateStr}]</span>{' '}
+                      <span className="text-purple-400 font-bold">[{log.type}]</span>{' '}
+                      <span className={`${actionClass} font-bold tracking-widest`}>[{log.action}]</span>{' '}
+                      <span className="text-yellow-400">{log.userEmail}</span>{' '}
+                      <span className="text-zinc-500">| IP:</span> <span className="text-white">{log.ipAddress || 'Unknown'}</span>{' '}
+                      <span className="text-zinc-500">| Target:</span> <span className="text-cyan-400">{log.target || 'N/A'}</span>{' '}
+                      {log.userAgent && log.userAgent !== 'unknown' && (
+                        <div className="pl-[210px] hidden md:block text-zinc-600 text-xs mt-1 truncate group-hover:text-zinc-400 transition-colors">
+                          <span className="text-zinc-700">UA:</span> {log.userAgent}
                         </div>
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
+                      )}
+                    </div>
+                  );
+                })}
+                <div className="text-zinc-500 mt-4 flex items-center gap-2">
+                  <span className="text-emerald-500">motorhead@sys</span><span className="text-white">~ $</span>
+                  <span className="w-2 h-4 bg-white animate-pulse inline-block" />
+                </div>
+              </div>
+            )}
           </div>
         </div>
 

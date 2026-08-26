@@ -92,156 +92,184 @@ export default function AdminUsersClient({
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-8">
-      <div className="max-w-4xl mx-auto space-y-8">
-        <header className="flex justify-between items-center bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
+    <div className="min-h-screen bg-[#050505] p-8 pt-24 font-sans text-white selection:bg-[#D71920] selection:text-white">
+      <div className="max-w-5xl mx-auto space-y-12 relative z-10">
+        
+        {/* Header */}
+        <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b border-white/10 pb-8">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Manage Users</h1>
-            <p className="text-sm text-gray-500 dark:text-gray-400">Admin Controls</p>
+            <div className="flex items-center gap-2 mb-4 text-[#D71920] font-heading font-bold text-xs md:text-sm tracking-[0.2em] uppercase italic">
+              <span className="w-8 h-[2px] bg-[#D71920]" />
+              <p>System Administration</p>
+            </div>
+            <h1 className="text-4xl md:text-5xl font-heading font-black uppercase tracking-tighter text-white drop-shadow-lg flex items-center italic transform -skew-x-6">
+              MANAGE USERS
+            </h1>
+            <p className="mt-4 text-zinc-400 font-sans text-sm md:text-base max-w-xl">
+              Admin controls for user access, role assignments, and security enforcement.
+            </p>
           </div>
           <div className="flex gap-4">
             <a
               href="/reports"
-              className="px-4 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-800 dark:text-white rounded-md text-sm font-medium transition-colors"
+              className="px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-heading font-bold text-sm tracking-wider uppercase italic transform -skew-x-6 transition-all hover:scale-105"
             >
-              Back to Reports
+              <div className="transform skew-x-6">Back to Reports</div>
             </a>
             <form action="/api/auth/logout" method="POST">
               <button
                 type="submit"
-                className="px-4 py-2 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/50 rounded-md text-sm font-medium transition-colors"
+                className="px-6 py-3 bg-[#D71920] hover:bg-red-700 text-white font-heading font-bold text-sm tracking-wider uppercase italic transform -skew-x-6 transition-all hover:scale-105"
               >
-                Log out
+                <div className="transform skew-x-6">Log out</div>
               </button>
             </form>
           </div>
         </header>
 
-        <main className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">Invite New Member</h2>
+        {/* Invite Member */}
+        <main className="bg-[#0a0a0a] p-8 rounded-sm border border-white/10 shadow-2xl relative overflow-hidden group">
+          <div className="absolute top-0 left-0 w-1 h-full bg-[#D71920]" />
+          <h2 className="text-2xl font-heading font-black uppercase tracking-tight text-white mb-6 italic transform -skew-x-6">
+            Invite New Member
+          </h2>
           
           {message && (
-            <div className="mb-4 bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400 p-3 rounded-md text-sm">
-              {message}
+            <div className="mb-6 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 p-4 rounded-sm text-sm font-mono">
+              &gt; {message}
             </div>
           )}
           {error && (
-            <div className="mb-4 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 p-3 rounded-md text-sm">
-              {error}
+            <div className="mb-6 bg-red-500/10 border border-red-500/20 text-[#D71920] p-4 rounded-sm text-sm font-mono">
+              &gt; ERROR: {error}
             </div>
           )}
 
           <form onSubmit={handleInvite}>
-            <div className="flex gap-4">
+            <div className="flex flex-col md:flex-row gap-4 items-stretch">
               <div className="flex-1">
                 <input
                   type="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="member@example.com"
-                  className="w-full rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700"
+                  placeholder="MEMBER@EXAMPLE.COM"
+                  className="w-full bg-[#121212] border border-white/10 px-4 py-3 text-white placeholder-zinc-600 focus:outline-none focus:border-[#D71920] font-mono text-sm uppercase transition-colors rounded-sm"
                 />
               </div>
-              <div className="w-48">
+              <div className="w-full md:w-64">
                 <select
                   value={role}
                   onChange={(e) => setRole(e.target.value)}
-                  className="w-full rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700"
+                  className="w-full bg-[#121212] border border-white/10 px-4 py-3 text-white focus:outline-none focus:border-[#D71920] font-mono text-sm uppercase transition-colors appearance-none rounded-sm"
                 >
-                  <option value="MEMBER">Member</option>
-                  <option value="CLUB_HEAD">Club Head</option>
+                  <option value="MEMBER">Role: Member</option>
+                  <option value="CLUB_HEAD">Role: Club Head</option>
                 </select>
               </div>
               <button
                 type="submit"
                 disabled={loading}
-                className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md disabled:opacity-50 transition-colors"
+                className="px-8 py-3 bg-[#D71920] hover:bg-red-700 text-white font-heading font-bold text-sm tracking-wider uppercase italic transform -skew-x-6 transition-all hover:scale-105 disabled:opacity-50 disabled:hover:scale-100"
               >
-                {loading ? 'Sending...' : 'Send Invite'}
+                <div className="transform skew-x-6">{loading ? 'TRANSMITTING...' : 'SEND INVITE'}</div>
               </button>
             </div>
           </form>
         </main>
 
         {generatedResetLink && (
-          <main className="bg-emerald-50 dark:bg-emerald-900/30 p-6 rounded-xl shadow-sm border border-emerald-200 dark:border-emerald-800">
-            <h2 className="text-xl font-semibold text-emerald-900 dark:text-emerald-100 mb-2">Password Reset Link Generated</h2>
-            <p className="text-sm text-emerald-800 dark:text-emerald-200 mb-4">
-              Securely share this link with the user. It expires in 24 hours.
+          <main className="bg-emerald-950/30 p-8 rounded-sm border border-emerald-500/30 shadow-2xl relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-1 h-full bg-emerald-500" />
+            <h2 className="text-xl font-heading font-black uppercase tracking-tight text-emerald-400 mb-2 italic transform -skew-x-6">
+              SECURITY KEY GENERATED
+            </h2>
+            <p className="text-sm text-emerald-500/70 mb-6 font-mono">
+              Share this single-use link securely. Expires in 24 hours.
             </p>
-            <div className="flex gap-2">
+            <div className="flex flex-col md:flex-row gap-4 items-stretch">
               <input 
                 type="text" 
                 readOnly 
                 value={generatedResetLink} 
-                className="flex-1 rounded-md border border-emerald-300 dark:border-emerald-700 bg-white dark:bg-emerald-950 px-3 py-2 text-emerald-900 dark:text-emerald-100 font-mono text-sm"
+                className="flex-1 bg-black border border-emerald-500/30 px-4 py-3 text-emerald-400 font-mono text-xs rounded-sm focus:outline-none"
               />
               <button 
                 onClick={() => {
                   navigator.clipboard.writeText(generatedResetLink);
                   alert('Copied to clipboard!');
                 }}
-                className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-md font-medium text-sm transition-colors"
+                className="px-8 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-heading font-bold text-sm tracking-wider uppercase italic transform -skew-x-6 transition-all hover:scale-105"
               >
-                Copy
+                <div className="transform skew-x-6">COPY LINK</div>
               </button>
             </div>
           </main>
         )}
 
-        <main className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">Active Users</h2>
+        {/* Active Users Table */}
+        <main className="bg-[#0a0a0a] p-8 rounded-sm border border-white/10 shadow-2xl">
+          <h2 className="text-2xl font-heading font-black uppercase tracking-tight text-white mb-8 italic transform -skew-x-6">
+            Active Personnel
+          </h2>
           <div className="overflow-x-auto">
-            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <table className="w-full text-left text-sm text-zinc-400 font-mono">
+              <thead className="text-xs uppercase bg-[#121212] text-zinc-300 border-b border-white/10">
                 <tr>
-                  <th className="px-6 py-3">Email</th>
-                  <th className="px-6 py-3">Role</th>
-                  <th className="px-6 py-3">Status</th>
-                  <th className="px-6 py-3">Actions</th>
+                  <th scope="col" className="px-6 py-4">Identification</th>
+                  <th scope="col" className="px-6 py-4">Clearance</th>
+                  <th scope="col" className="px-6 py-4">Status</th>
+                  <th scope="col" className="px-6 py-4">Directives</th>
                 </tr>
               </thead>
               <tbody>
                 {users.map(u => (
-                  <tr key={u.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                    <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">
-                      {u.email} {u.id === currentUserId && '(You)'}
+                  <tr key={u.id} className="border-b border-white/5 hover:bg-white/5 transition-colors group">
+                    <td className="px-6 py-6 text-zinc-300">
+                      {u.email} {u.id === currentUserId && <span className="text-[#D71920] ml-2 font-bold">(YOU)</span>}
                     </td>
-                    <td className="px-6 py-4">
-                      <span className={`px-2 py-1 rounded text-xs font-bold ${
-                        u.role === 'ADMIN' ? 'bg-red-100 text-red-800' : 
-                        u.role === 'CLUB_HEAD' ? 'bg-purple-100 text-purple-800' : 
-                        'bg-blue-100 text-blue-800'
+                    <td className="px-6 py-6">
+                      <span className={`px-2 py-1 rounded-sm text-[10px] font-bold tracking-widest uppercase border ${
+                        u.role === 'ADMIN' ? 'bg-[#D71920]/10 text-[#D71920] border-[#D71920]/20' : 
+                        u.role === 'CLUB_HEAD' ? 'bg-purple-500/10 text-purple-400 border-purple-500/20' : 
+                        'bg-blue-500/10 text-blue-400 border-blue-500/20'
                       }`}>
-                        {u.role}
+                        {u.role.replace('_', ' ')}
                       </span>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-6 py-6">
                       {u.isActive ? (
-                        <span className="text-green-500 font-bold">Active</span>
+                        <div className="flex items-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                          <span className="text-emerald-500 font-bold text-xs uppercase tracking-wider">Active</span>
+                        </div>
                       ) : (
-                        <span className="text-red-500 font-bold">Revoked</span>
+                        <div className="flex items-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-red-500" />
+                          <span className="text-red-500 font-bold text-xs uppercase tracking-wider">Revoked</span>
+                        </div>
                       )}
                     </td>
-                    <td className="px-6 py-4 flex flex-col gap-2">
+                    <td className="px-6 py-6">
                       {u.id !== currentUserId && u.isActive && (
-                        <>
+                        <div className="flex flex-col md:flex-row gap-4 items-start md:items-center">
                           <button
                             onClick={() => handleResetPassword(u.id)}
                             disabled={resettingId === u.id}
-                            className="text-blue-600 hover:text-blue-900 font-bold disabled:opacity-50 text-left"
+                            className="text-zinc-400 hover:text-emerald-400 text-xs font-bold uppercase tracking-widest disabled:opacity-50 transition-colors flex items-center gap-2"
                           >
-                            {resettingId === u.id ? 'Generating...' : 'Generate Reset Link'}
+                            <span className="text-lg">⚡</span>
+                            {resettingId === u.id ? 'GENERATING...' : 'RESET PASS'}
                           </button>
                           <button
                             onClick={() => handleRevoke(u.id)}
                             disabled={revokingId === u.id}
-                            className="text-red-600 hover:text-red-900 font-bold disabled:opacity-50 text-left"
+                            className="text-zinc-400 hover:text-[#D71920] text-xs font-bold uppercase tracking-widest disabled:opacity-50 transition-colors flex items-center gap-2"
                           >
-                            {revokingId === u.id ? 'Revoking...' : 'Revoke Access'}
+                            <span className="text-lg">☠</span>
+                            {revokingId === u.id ? 'REVOKING...' : 'REVOKE'}
                           </button>
-                        </>
+                        </div>
                       )}
                     </td>
                   </tr>
