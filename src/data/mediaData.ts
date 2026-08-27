@@ -16,157 +16,154 @@ export interface MediaEvent {
   gallery: GalleryItem[];
 }
 
+// ---------------------------------------------------------------------------
+// Folder Image Exports
+// ---------------------------------------------------------------------------
+
+export const teamGalleryImages: string[] = [
+  "/images/team_gallery/20250801_141306.webp",
+  "/images/team_gallery/20250829_202626.webp",
+  "/images/team_gallery/c9jptompl7cea4o1jz9d.webp",
+  "/images/team_gallery/e9k0oa3rycvhxxmt4kq2.webp",
+  "/images/team_gallery/IMG-20250318-WA0072.webp",
+  "/images/team_gallery/IMG-20250318-WA0114.webp",
+  "/images/team_gallery/IMG-20250320-WA0009.webp",
+  "/images/team_gallery/IMG-20250320-WA0034.webp",
+  "/images/team_gallery/IMG-20250824-WA0011.webp",
+  "/images/team_gallery/IMG-20260224-WA0198.webp",
+  "/images/team_gallery/skiztbfwgdplttv93zdm.webp",
+];
+
+export const event26Images: string[] = [
+  "/images/event_26/0ffbc690-7532-4115-b7d6-425d60a92aa6.webp",
+  "/images/event_26/6366abb3-ca8f-4d30-99a4-ae492b2fb45d.webp",
+  "/images/event_26/68f65481-8fe6-432e-b796-6f6894e597ce.webp",
+  "/images/event_26/IMG_1546.webp",
+  "/images/event_26/IMG_1597 (1).webp",
+  "/images/event_26/IMG_2641.webp",
+  "/images/event_26/IMG_7853.webp",
+  "/images/event_26/IMG_7899.webp",
+  "/images/event_26/IMG_8007.webp",
+];
+
+export const sevc25Images: string[] = [
+  "/images/sevc25/IMG-20250317-WA0012.webp",
+  "/images/sevc25/IMG-20250317-WA0049.webp",
+  "/images/sevc25/IMG-20250318-WA0002.webp",
+  "/images/sevc25/IMG-20250318-WA0008.webp",
+  "/images/sevc25/IMG-20250318-WA0036.webp",
+  "/images/sevc25/IMG-20250320-WA0056.webp",
+];
+
+export const ikr23Images: string[] = [
+  "/images/ikr23/IMG-20250703-WA0043.webp",
+  "/images/ikr23/IMG-20250703-WA0047.webp",
+  "/images/ikr23/IMG-20250703-WA0101.webp",
+  "/images/ikr23/IMG-20250703-WA0106.webp",
+  "/images/ikr23/Screenshot_20260826_191511_Instagram.webp",
+  "/images/ikr23/Screenshot_20260826_191517_Instagram.webp",
+  "/images/ikr23/Screenshot_20260826_191524_Instagram.webp",
+];
+
+// Map of folder names to their image paths
+export const mediaFolders = {
+  team_gallery: teamGalleryImages,
+  event_26: event26Images,
+  sevc25: sevc25Images,
+  ikr23: ikr23Images,
+};
+
+// ---------------------------------------------------------------------------
+// Gallery Items by Folder
+// ---------------------------------------------------------------------------
+
+const teamGalleryItems: GalleryItem[] = teamGalleryImages.map((url, i) => ({
+  type: "image",
+  url,
+  alt: `Motor Head Team & Workshop photo ${i + 1}`,
+}));
+
+const event26GalleryItems: GalleryItem[] = event26Images.map((url, i) => ({
+  type: "image",
+  url,
+  alt: `Season 2026 Event & Track highlight ${i + 1}`,
+}));
+
+const sevc25GalleryItems: GalleryItem[] = sevc25Images.map((url, i) => ({
+  type: "image",
+  url,
+  alt: `SEVC 2025 Competition highlight ${i + 1}`,
+}));
+
+const ikr23GalleryItems: GalleryItem[] = ikr23Images.map((url, i) => ({
+  type: "image",
+  url,
+  alt: `IKR 2023 Buddh International Circuit highlight ${i + 1}`,
+}));
+
+// ---------------------------------------------------------------------------
+// Structured Media Events (Used in /media and /media/[id])
+// ---------------------------------------------------------------------------
+
 export const mediaItems: MediaEvent[] = [
   {
-    id: "endurance-test-01",
-    title: "Endurance Test 01",
-    category: "TRACK DAYS",
-    coverImage:
-      "https://images.unsplash.com/photo-1532980400857-e8d9d275d858?q=80&w=800",
+    id: "event-26",
+    title: "EVENTS-2026",
+    category: "EVENTS",
+    coverImage: "/images/event_26/68f65481-8fe6-432e-b796-6f6894e597ce.webp",
     className: "md:col-span-2 md:row-span-2",
     description:
-      "Pushing the chassis to its absolute limits during our mid-season endurance trials. The heat, the stress, the pure performance.",
-    gallery: [
-      {
-        type: "image",
-        url: "https://images.unsplash.com/photo-1532980400857-e8d9d275d858?q=80&w=1200",
-        alt: "Endurance run",
-      },
-      {
-        type: "image",
-        url: "https://images.unsplash.com/photo-1542282088-fe8426682b8f?q=80&w=1200",
-        alt: "Aerodynamics during test",
-      },
-      {
-        type: "image",
-        url: "https://images.unsplash.com/photo-1560958089-b8a1929cea89?q=80&w=1200",
-        alt: "Pit crew in action",
-      },
-    ],
+      "Action from the 2026 national competition season: rigorous technical inspection, paddock setup, high-speed dynamic trials, and pit lane collaboration.",
+    gallery: event26GalleryItems,
   },
   {
-    id: "chassis-welding",
-    title: "Chassis Welding",
-    category: "THE GARAGE",
-    coverImage:
-      "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=800",
-    className: "md:col-span-1 md:row-span-1",
-    description:
-      "Sparks flying late into the night. Our fabrication team putting the final welds on the spaceframe chassis.",
-    gallery: [
-      {
-        type: "image",
-        url: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=1200",
-        alt: "Welding spark",
-      },
-      {
-        type: "image",
-        url: "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?q=80&w=1200",
-        alt: "Car at rest in garage",
-      },
-    ],
-  },
-  {
-    id: "formula-student-uk",
-    title: "Formula Student UK",
-    category: "EVENTS",
-    coverImage:
-      "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?q=80&w=800",
-    className: "md:col-span-1 md:row-span-1",
-    description:
-      "Competing against the best in the world at Silverstone. An unforgettable week of tech inspections, sprints, and endurance.",
-    gallery: [
-      {
-        type: "image",
-        url: "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?q=80&w=1200",
-        alt: "FSUK Event",
-      },
-      {
-        type: "image",
-        url: "https://images.unsplash.com/photo-1503376710349-8c88680199e4?q=80&w=1200",
-        alt: "Team lineup",
-      },
-      {
-        type: "image",
-        url: "https://images.unsplash.com/photo-1532980400857-e8d9d275d858?q=80&w=1200",
-        alt: "Car on track",
-      },
-      {
-        type: "image",
-        url: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=1200",
-        alt: "Cornering hard",
-      },
-    ],
-  },
-  {
-    id: "aerodynamics-sim",
-    title: "Aerodynamics Sim",
-    category: "THE GARAGE",
-    coverImage:
-      "https://images.unsplash.com/photo-1542282088-fe8426682b8f?q=80&w=800",
-    className: "md:col-span-1 md:row-span-2",
-    description:
-      "Validating our CFD models with real-world wind tunnel data. Downforce is everything.",
-    gallery: [
-      {
-        type: "image",
-        url: "https://images.unsplash.com/photo-1542282088-fe8426682b8f?q=80&w=1200",
-        alt: "Wind tunnel",
-      },
-      {
-        type: "image",
-        url: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=1200",
-        alt: "Data analysis",
-      },
-    ],
-  },
-  {
-    id: "pit-stop-drill",
-    title: "Pit Stop Drill",
+    id: "sevc-2025",
+    title: "SEVC 2025",
     category: "TRACK DAYS",
-    coverImage:
-      "https://images.unsplash.com/photo-1560958089-b8a1929cea89?q=80&w=800",
+    coverImage: "/images/sevc25/IMG-20250317-WA0012.webp",
+    className: "md:col-span-1 md:row-span-1",
+    description:
+      "Taking on the Student Electric Vehicle Challenge at Kari Motor Speedway, clinching the Best Design Award and demonstrating exceptional powertrain efficiency.",
+    gallery: sevc25GalleryItems,
+  },
+  {
+    id: "ikr-2023",
+    title: "IKR 2023",
+    category: "EVENTS",
+    coverImage: "/images/ikr23/IMG-20250703-WA0101.webp",
+    className: "md:col-span-1 md:row-span-1",
+    description:
+      "Pushing vehicle dynamics and driver limits at the world-class Buddh International Circuit during the Indian Karting Race 2023.",
+    gallery: ikr23GalleryItems,
+  },
+  {
+    id: "team-garage",
+    title: "The Garage & Fabrication Crew",
+    category: "THE GARAGE",
+    coverImage: "/images/team_gallery/IMG-20250318-WA0072.webp",
     className: "md:col-span-2 md:row-span-1",
     description:
-      "Milliseconds matter. Practicing tire changes and driver swaps until it becomes muscle memory.",
-    gallery: [
-      {
-        type: "image",
-        url: "https://images.unsplash.com/photo-1560958089-b8a1929cea89?q=80&w=1200",
-        alt: "Pit crew drill",
-      },
-      {
-        type: "image",
-        url: "https://images.unsplash.com/photo-1532980400857-e8d9d275d858?q=80&w=1200",
-        alt: "Driver swap",
-      },
-    ],
+      "Late nights in the workshop: chassis welding, precision telemetry diagnostics, battery pack testing, and the relentless camaraderie that builds our racecars.",
+    gallery: teamGalleryItems,
   },
   {
-    id: "team-reveal-2023",
-    title: "Team Reveal 2023",
-    category: "EVENTS",
-    coverImage:
-      "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=800",
+    id: "track-testing-26",
+    title: "Track Trials & Dynamic Telemetry",
+    category: "TRACK DAYS",
+    coverImage: "/images/event_26/6366abb3-ca8f-4d30-99a4-ae492b2fb45d.webp",
     className: "md:col-span-1 md:row-span-1",
     description:
-      "Unveiling the new beast to our sponsors, alumni, and the university. A proud moment for the entire crew.",
-    gallery: [
-      {
-        type: "image",
-        url: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=1200",
-        alt: "The big reveal",
-      },
-      {
-        type: "image",
-        url: "https://images.unsplash.com/photo-1503376710349-8c88680199e4?q=80&w=1200",
-        alt: "Crowd reaction",
-      },
-      {
-        type: "image",
-        url: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=1200",
-        alt: "Close up of the car",
-      },
-    ],
+      "Putting our race vehicles through rigorous cornering, acceleration runs, and regenerative braking validation under track conditions.",
+    gallery: event26GalleryItems.slice(0, 6),
+  },
+  {
+    id: "crew-operations",
+    title: "Pit Crew",
+    category: "THE GARAGE",
+    coverImage: "/images/event_26/IMG_1546.webp",
+    className: "md:col-span-1 md:row-span-1",
+    description:
+      "The engineering mindsets behind Motor Head: assembly stages, driver fittings, and milestone celebrations throughout the build cycle.",
+    gallery: event26GalleryItems.slice(0, 6),
   },
 ];
