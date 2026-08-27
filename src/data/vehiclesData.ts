@@ -34,11 +34,11 @@ export const vehicles: Vehicle[] = [
     },
     eventsAttended: ["SEVC 2025"],
     awardsWon: ["Best Design Award"],
-    image: "/images/vehicles/perry.jpg",
+    image: "/images/vehicles/WhatsApp Image 2026-08-27 at 13.14.14",
   },
   {
     id: "unnamed-electric-go-kart",
-    name: "Not yet named",
+    name: "EV Go-Kart",
     yearBuilt: 2026,
     category: "electric-go-kart",
     description:
@@ -53,7 +53,7 @@ export const vehicles: Vehicle[] = [
     eventsAttended: ["EKVC 2026", "GKDC 2026"],
     awardsWon: ["Best Cost Report Award (built within budget)"],
     futurePlans: "Set to participate in further events in 2027",
-    image: "/images/vehicles/electric-go-kart.jpg",
+    image: "/images/vehicles/WhatsApp Image 2026-08-27 at 12.46.47",
   },
   {
     id: "cv-go-kart",
@@ -70,6 +70,6 @@ export const vehicles: Vehicle[] = [
     eventsAttended: ["EKVC 2026", "GKDC 2026"],
     awardsWon: ["None specified — first competitive season"],
     futurePlans: "Set to participate in further events in 2027",
-    image: "/images/vehicles/cv-go-kart.jpg",
+    image: "/images/vehicles/WhatsApp Image 2026-08-27 at 13.10.37",
   },
 ];
