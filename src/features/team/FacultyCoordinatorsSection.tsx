@@ -34,7 +34,7 @@ const coordinators = [
     role: "Faculty Coordinator",
     description:
       "Providing strategic guidance and technical support to drive the club forward.",
-    image: "/images/faculty/NG.jpg",
+    image: "/images/faculty/NG.webp",
     linkedin: "#",
   },
   {

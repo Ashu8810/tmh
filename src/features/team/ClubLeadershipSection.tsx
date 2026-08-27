@@ -10,14 +10,14 @@ const leaders = [
     name: "Shankar",
     role: "Team Captain",
     badge: "CAPTAIN",
-    image: "/images/members/Shankar.jpg",
+    image: "/images/members/Shankar.webp",
   },
   {
     id: 2,
     name: "Vivek",
     role: "Team Vice Captain",
     badge: "VICE CAPTAIN",
-    image: "/images/members/Vivek db.jpg",
+    image: "/images/members/Vivek db.webp",
   },
   // Event Captains
   {
@@ -25,14 +25,14 @@ const leaders = [
     name: "Aatif",
     role: "GKDC EV Captain",
     badge: "EV CAPTAIN",
-    image: "/images/members/Aatif Mohideen.jpg",
+    image: "/images/members/Aatif Mohideen.webp",
   },
   {
     id: 4,
     name: "Hariharan",
     role: "GKDC CV Captain",
     badge: "CV CAPTAIN",
-    image: "/images/members/Hariharan N.jpg",
+    image: "/images/members/Hariharan N.webp",
   },
 ];
 

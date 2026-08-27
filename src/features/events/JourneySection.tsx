@@ -85,7 +85,7 @@ export default function JourneySection() {
           <div className="absolute top-0 left-0 w-1/3 h-full bg-[#D71920]" />
         </div>
         <p className="text-zinc-500 font-mono text-xs uppercase tracking-widest leading-relaxed">
-          Declassified records of past engagements. Every competition we've entered. Every lesson we've carried forward.
+          Declassified records of past engagements. Every competition we&apos;ve entered. Every lesson we&apos;ve carried forward.
         </p>
       </div>
 

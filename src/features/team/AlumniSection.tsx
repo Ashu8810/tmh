@@ -20,7 +20,7 @@ const alumniByYear: Record<string, AlumniMember[]> = {
       name: "Aditya Narayan",
       status: "Alumni",
       role: "Powertrain",
-      image: "/images/alumni/Aditya Narayan.jpg",
+      image: "/images/alumni/Aditya Narayan.webp",
       linkedin: "#",
     },
     {
@@ -28,7 +28,7 @@ const alumniByYear: Record<string, AlumniMember[]> = {
       name: "Dhanush",
       status: "Alumni",
       role: "Electrical",
-      image: "/images/alumni/Dhanush.jpg",
+      image: "/images/alumni/Dhanush.webp",
       linkedin: "#",
     },
     {
@@ -36,7 +36,7 @@ const alumniByYear: Record<string, AlumniMember[]> = {
       name: "Fardeen",
       status: "Alumni",
       role: "Suspension",
-      image: "/images/alumni/Fardeen.jpg",
+      image: "/images/alumni/Fardeen.webp",
       linkedin: "#",
     },
     {
@@ -44,7 +44,7 @@ const alumniByYear: Record<string, AlumniMember[]> = {
       name: "Gajendra",
       status: "Alumni",
       role: "Aerodynamics",
-      image: "/images/alumni/Gajendra.jpg",
+      image: "/images/alumni/Gajendra.webp",
       linkedin: "#",
     },
     {
@@ -52,7 +52,7 @@ const alumniByYear: Record<string, AlumniMember[]> = {
       name: "Karthik",
       status: "Alumni",
       role: "Telemetry",
-      image: "/images/alumni/Karthik.jpg",
+      image: "/images/alumni/Karthik.webp",
       linkedin: "#",
     },
     {
@@ -60,7 +60,7 @@ const alumniByYear: Record<string, AlumniMember[]> = {
       name: "Mokshith",
       status: "Alumni",
       role: "Drivetrain",
-      image: "/images/alumni/Mokshith.jpg",
+      image: "/images/alumni/Mokshith.webp",
       linkedin: "#",
     },
     {
@@ -68,7 +68,7 @@ const alumniByYear: Record<string, AlumniMember[]> = {
       name: "Nishitha",
       status: "Alumni",
       role: "Design",
-      image: "/images/alumni/Nishitha.jpg",
+      image: "/images/alumni/Nishitha.webp",
       linkedin: "#",
     },
     {
@@ -76,7 +76,7 @@ const alumniByYear: Record<string, AlumniMember[]> = {
       name: "Pavan",
       status: "Alumni",
       role: "Suspension",
-      image: "/images/alumni/Pavan.jpg",
+      image: "/images/alumni/Pavan.webp",
       linkedin: "#",
     },
     {
@@ -84,7 +84,7 @@ const alumniByYear: Record<string, AlumniMember[]> = {
       name: "Raj Surya",
       status: "Alumni",
       role: "Chassis Lead",
-      image: "/images/alumni/Raj Surya.jpg",
+      image: "/images/alumni/Raj Surya.webp",
       linkedin: "#",
     },
     {
@@ -92,7 +92,7 @@ const alumniByYear: Record<string, AlumniMember[]> = {
       name: "Sahil",
       status: "Alumni",
       role: "Powertrain",
-      image: "/images/alumni/Sahil.jpg",
+      image: "/images/alumni/Sahil.webp",
       linkedin: "#",
     },
     {
@@ -100,7 +100,7 @@ const alumniByYear: Record<string, AlumniMember[]> = {
       name: "Sharath",
       status: "Alumni",
       role: "Brakes & Hydraulics",
-      image: "/images/alumni/Sharath.jpg",
+      image: "/images/alumni/Sharath.webp",
       linkedin: "#",
     },
     {
@@ -108,7 +108,7 @@ const alumniByYear: Record<string, AlumniMember[]> = {
       name: "Tanish",
       status: "Alumni",
       role: "Aerodynamics",
-      image: "/images/alumni/Tanish.jpg",
+      image: "/images/alumni/Tanish.webp",
       linkedin: "#",
     },
     {
@@ -116,7 +116,7 @@ const alumniByYear: Record<string, AlumniMember[]> = {
       name: "Tharun",
       status: "Alumni",
       role: "Manufacturing",
-      image: "/images/alumni/Tharun.jpg",
+      image: "/images/alumni/Tharun.webp",
       linkedin: "#",
     },
     {
@@ -124,7 +124,7 @@ const alumniByYear: Record<string, AlumniMember[]> = {
       name: "Vikas",
       status: "Alumni",
       role: "Operations",
-      image: "/images/alumni/Vikas.jpg",
+      image: "/images/alumni/Vikas.webp",
       linkedin: "#",
     },
     {
@@ -132,7 +132,7 @@ const alumniByYear: Record<string, AlumniMember[]> = {
       name: "Vinay",
       status: "Alumni",
       role: "Vehicle Dynamics Lead",
-      image: "/images/alumni/Vinay.jpg",
+      image: "/images/alumni/Vinay.webp",
       linkedin: "#",
     },
   ],
@@ -142,7 +142,7 @@ const alumniByYear: Record<string, AlumniMember[]> = {
       name: "Adithya Hiremath",
       status: "Alumni",
       role: "Operations Lead",
-      image: "/images/alumni/Adithya Hiremath.jpg",
+      image: "/images/alumni/Adithya Hiremath.webp",
       linkedin: "#",
     },
     {
@@ -150,7 +150,7 @@ const alumniByYear: Record<string, AlumniMember[]> = {
       name: "Bharath V R",
       status: "Alumni",
       role: "Chassis",
-      image: "/images/alumni/Bharath V R.jpg",
+      image: "/images/alumni/Bharath V R.webp",
       linkedin: "#",
     },
     {
@@ -158,7 +158,7 @@ const alumniByYear: Record<string, AlumniMember[]> = {
       name: "Ganesh",
       status: "Alumni",
       role: "Manufacturing",
-      image: "/images/alumni/Ganesh.jpg",
+      image: "/images/alumni/Ganesh.webp",
       linkedin: "#",
     },
     {
@@ -166,7 +166,7 @@ const alumniByYear: Record<string, AlumniMember[]> = {
       name: "Karthik Yadav",
       status: "Alumni",
       role: "Vehicle Dynamics",
-      image: "/images/alumni/Karthik Yadav.jpg",
+      image: "/images/alumni/Karthik Yadav.webp",
       linkedin: "#",
     },
     {
@@ -174,7 +174,7 @@ const alumniByYear: Record<string, AlumniMember[]> = {
       name: "Manish",
       status: "Alumni",
       role: "Electronics",
-      image: "/images/alumni/Manish.jpg",
+      image: "/images/alumni/Manish.webp",
       linkedin: "#",
     },
     {
@@ -182,7 +182,7 @@ const alumniByYear: Record<string, AlumniMember[]> = {
       name: "Syeeda Aiemen Dania Saleem",
       status: "Alumni",
       role: "Electronics Lead",
-      image: "/images/alumni/Syeeda Aiemen Dania Saleem.jpeg",
+      image: "/images/alumni/Syeeda Aiemen Dania Saleem.webp",
       linkedin: "#",
     },
   ],

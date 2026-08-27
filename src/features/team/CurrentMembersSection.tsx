@@ -13,27 +13,27 @@ const membersByYear: Record<string, Member[]> = {
   "2028": [
     {
       name: "Aaron Joel Jonathan",
-      image: "/images/members/Aaron Joel Jonathan.jpg",
+      image: "/images/members/Aaron Joel Jonathan.webp",
       linkedin: "https://www.linkedin.com/in/aaron-jonathan-193a17332",
     },
     {
       name: "Hariharan N",
-      image: "/images/members/Hariharan N.jpg",
+      image: "/images/members/Hariharan N.webp",
       linkedin: "https://www.linkedin.com/in/hariharan-n-54051728a",
     },
     {
       name: "Mohith M",
-      image: "/images/members/Mohith M.jpg",
+      image: "/images/members/Mohith M.webp",
       linkedin: "https://www.linkedin.com/in/mohith-m-05aa36251",
     },
     {
       name: "Arjun Livik J P",
-      image: "/images/members/Arjun Livik J P.jpg",
+      image: "/images/members/Arjun Livik J P.webp",
       linkedin: "https://www.linkedin.com/in/arjun-livik-jp-b84018334",
     },
     {
       name: "Vivek D B",
-      image: "/images/members/Vivek db.jpg",
+      image: "/images/members/Vivek db.webp",
       linkedin: "https://www.linkedin.com/in/vivek-db-509348327",
     },
     {
@@ -48,54 +48,54 @@ const membersByYear: Record<string, Member[]> = {
     },
     {
       name: "Aatif Mohideen",
-      image: "/images/members/Aatif Mohideen.jpg",
+      image: "/images/members/Aatif Mohideen.webp",
       linkedin: "https://www.linkedin.com/in/aatif-mohideen-012555331",
     },
     {
       name: "Karthik Gopal Halliyur",
-      image: "/images/members/Karthik Gopal Halliyur.jpg",
+      image: "/images/members/Karthik Gopal Halliyur.webp",
       linkedin: "https://www.linkedin.com/in/karthik-halliyur-919a63331",
     },
     {
       name: "Pranjal Raj",
-      image: "/images/members/Pranjal Raj.jpg",
+      image: "/images/members/Pranjal Raj.webp",
       linkedin: "https://www.linkedin.com/in/pranjal-raj-186bb234b",
     },
     {
       name: "Srujan A P",
-      image: "/images/members/Srujan A P.jpg",
+      image: "/images/members/Srujan A P.webp",
       linkedin: "https://www.linkedin.com/in/srujan-ap-04a277330",
     },
   ],
   "2027": [
     {
       name: "Abhijeeth",
-      image: "/images/members/Abhijeeth.jpg",
+      image: "/images/members/Abhijeeth.webp",
       linkedin: "#",
     },
     {
       name: "Aditya Singh",
-      image: "/images/members/Aditya Singh.jpg",
+      image: "/images/members/Aditya Singh.webp",
       linkedin: "#",
     },
     {
       name: "DJ",
-      image: "/images/members/DJ.jpg",
+      image: "/images/members/DJ.webp",
       linkedin: "#",
     },
     {
       name: "Gautam P",
-      image: "/images/members/Gautam P.jpg",
+      image: "/images/members/Gautam P.webp",
       linkedin: "#",
     },
     {
       name: "Shankar",
-      image: "/images/members/Shankar.jpg",
+      image: "/images/members/Shankar.webp",
       linkedin: "https://www.linkedin.com/in/shankar-p-6038a4270",
     },
     {
       name: "Venkat",
-      image: "/images/members/Venkat.jpg",
+      image: "/images/members/Venkat.webp",
       linkedin: "#",
     },
   ],
