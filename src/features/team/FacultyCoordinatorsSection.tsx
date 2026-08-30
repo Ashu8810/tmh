@@ -37,15 +37,7 @@ const coordinators = [
     image: "/images/faculty/NG.webp",
     linkedin: "#",
   },
-  {
-    id: 2,
-    name: "Prof. Raghavendra H.",
-    role: "Co-Coordinator",
-    description:
-      "Mentoring the team and ensuring excellence in every step we take.",
-    image: "/images/raghavendra-h.jpg",
-    linkedin: "#",
-  },
+
 ];
 
 export default function FacultyCoordinatorsSection() {
