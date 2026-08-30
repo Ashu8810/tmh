@@ -31,7 +31,7 @@ export default function PartnersSection() {
                     alt={`${partner.name} logo`}
                     width={120}
                     height={120}
-                    className="object-contain w-full h-full grayscale group-hover:grayscale-0 transition-all duration-300"
+                    className="object-contain w-full h-full transition-all duration-300"
                   />
                 ) : (
                   <span className="font-heading text-xs font-bold uppercase text-white/70 tracking-wide">
