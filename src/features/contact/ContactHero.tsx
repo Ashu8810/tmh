@@ -5,7 +5,7 @@ export default function ContactHero() {
     <div className="relative w-full overflow-hidden bg-background">
       {/* Background Image */}
       <div
-        className="absolute inset-0 z-0 bg-[url('/images/contact_hero_bg.png')] bg-cover bg-center bg-no-repeat opacity-60 mix-blend-luminosity"
+        className="absolute inset-0 z-0 bg-[url('/images/contact_hero_bg.webp')] bg-cover bg-center bg-no-repeat opacity-60 mix-blend-luminosity"
         aria-hidden="true"
       />
       {/* Gradient Overlay */}

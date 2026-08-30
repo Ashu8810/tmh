@@ -12,7 +12,7 @@ export default function AboutHero() {
       <div className="absolute inset-0 z-0 flex items-end justify-end">
         {/* Actual exported car image from the design */}
         <img
-          src="/images/about-hero.jpg"
+          src="/images/about-hero.webp"
           alt="Motor Head Racing Car"
           className="absolute right-0 bottom-0 lg:top-0 w-full lg:w-[80%] h-[90%] lg:h-full object-cover opacity-70 mix-blend-screen"
         />

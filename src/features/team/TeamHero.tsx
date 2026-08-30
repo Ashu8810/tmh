@@ -12,7 +12,7 @@ export default function TeamHeroSection() {
         {/* Placeholder for the team with car photo */}
         <div className="absolute right-0 top-0 bottom-0 w-full md:w-3/4 opacity-60 flex items-end md:items-center">
           <img
-            src="/images/future-goals-bg.jpg"
+            src="/images/future-goals-bg.webp"
             alt="Motor Head Team"
             className="w-full h-full object-cover object-right"
             onError={(e) => {

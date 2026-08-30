@@ -10,12 +10,12 @@ export type Partner = {
 };
 
 export const partners: Partner[] = [
-  { name: "Vivitron Energy", category: "Battery Partner", logoSrc: "/images/partners/vivitron.png" },
-  { name: "Simple Energy", category: "Motor, Controller & Brakes", logoSrc: "/images/partners/simple-energy.png" },
-  { name: "Delhivery", category: "Logistics Partner", logoSrc: "/images/partners/delhivery.png" },
-  { name: "Destinytion", category: "Hospitality Partner", logoSrc: "/images/partners/destinytion.png" },
-  { name: "Caar Seva", category: "Monetary (Tyres)", logoSrc: "/images/partners/caar-seva.png" },
-  { name: "Namaah", category: "Monetary (Kart Floor)", logoSrc: "/images/partners/namaah.png" },
+  { name: "Vivitron Energy", category: "Battery Partner", logoSrc: "/images/partners/vivitron.webp" },
+  { name: "Simple Energy", category: "Motor, Controller & Brakes", logoSrc: "/images/partners/simple-energy.webp" },
+  { name: "Delhivery", category: "Logistics Partner", logoSrc: "/images/partners/delhivery.webp" },
+  { name: "Destinytion", category: "Hospitality Partner", logoSrc: "/images/partners/destinytion.webp" },
+  { name: "Caar Seva", category: "Monetary (Tyres)", logoSrc: "/images/partners/caar-seva.webp" },
+  { name: "Namaah", category: "Monetary (Kart Floor)", logoSrc: "/images/partners/namaah.webp" },
 ];
 
 export type SponsorshipTier = {

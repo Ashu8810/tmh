@@ -44,7 +44,7 @@ export default function Footer() {
           <div className="flex flex-col gap-6 lg:col-span-1">
             <Link href="/" className="flex items-center group w-fit">
               <img
-                src="/images/logo.png"
+                src="/images/logo.webp"
                 alt="Motor Head Logo"
                 className="h-12 w-auto pr-3 object-contain"
               />

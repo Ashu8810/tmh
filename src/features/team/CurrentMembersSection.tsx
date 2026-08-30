@@ -133,7 +133,7 @@ export default function CurrentMembersSection() {
           {/* Group Photo */}
           <div className="w-full rounded-xl overflow-hidden bg-neutral-900 border border-white/5 relative aspect-video">
             <img
-              src="/images/team-group.jpg"
+              src="/images/team-group.webp"
               alt="Motor Head Team Members"
               className="w-full h-full object-cover"
               onError={(e) => {

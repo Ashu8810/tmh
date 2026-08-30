@@ -23,7 +23,7 @@ export default function Home() {
       <section className="max-w-7xl mx-auto px-4 relative z-10 mt-10 md:mt-2 lg:-mt-4">
         <div className="w-full relative h-[400px] md:h-[600px]">
           <Image
-            src="/images/Tmh_home_section.png"
+            src="/images/Tmh_home_section.webp"
             alt="Motor Head Home Section"
             fill
             className="object-cover"

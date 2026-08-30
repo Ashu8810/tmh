@@ -44,7 +44,7 @@ export default function Navbar() {
           >
             {/* Logo Image */}
             <img
-              src="/images/logo.png"
+              src="/images/logo.webp"
               alt="Motor Head Logo"
               className="h-10 sm:h-12 w-auto pr-3 sm:pr-4 object-contain"
             />

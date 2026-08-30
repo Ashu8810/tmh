@@ -25,7 +25,7 @@ export default function FutureGoalsSection() {
       {/* Background Image for Section 8 */}
       <div className="absolute -inset-10 md:-inset-20 z-0 pointer-events-none opacity-30 mix-blend-screen overflow-hidden">
         <img
-          src="/images/future-goals-bg.jpg"
+          src="/images/future-goals-bg.webp"
           alt="Red Light Trails"
           className="w-full h-full object-cover"
         />
