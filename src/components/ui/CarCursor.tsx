@@ -351,7 +351,7 @@ export default function CarCursor() {
         ctx.font = "bold 9px monospace";
         ctx.textAlign = "center";
         const tagY = -34;
-        const tagText = isTankFull ? "TANK FULL ⛽" : `REFUELING ${Math.round(fuelLevel)}%`;
+        const tagText = isTankFull ? "REFUELED ⛽" : `REFUELING ${Math.round(fuelLevel)}%`;
         const tw = ctx.measureText(tagText).width + 10;
 
         ctx.fillStyle = "rgba(10, 10, 10, 0.92)";
