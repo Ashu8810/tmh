@@ -9,7 +9,12 @@ gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 const FRAME_COUNT = 240;
 
-export default function ScrollAnimation() {
+interface ScrollAnimationProps {
+  onProgress?: (progress: number) => void;
+  onLoadComplete?: () => void;
+}
+
+export default function ScrollAnimation({ onProgress, onLoadComplete }: ScrollAnimationProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -34,18 +39,25 @@ export default function ScrollAnimation() {
         
         img.onload = () => {
           loadedCount++;
+          if (onProgress) {
+            onProgress(Math.round((loadedCount / FRAME_COUNT) * 100));
+          }
+          
           // If the image that just loaded is the one we are currently looking at, render it!
           if (i - 1 === Math.round(currentFrame.current.value)) {
             render();
           }
           if (loadedCount === FRAME_COUNT) {
             ScrollTrigger.refresh();
+            if (onLoadComplete) {
+              onLoadComplete();
+            }
           }
         };
       }
     };
     loadImages();
-  }, []);
+  }, [onProgress, onLoadComplete]);
 
   const render = () => {
     if (!canvasRef.current || imagesRef.current.length === 0) return;
