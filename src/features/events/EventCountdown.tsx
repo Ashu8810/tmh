@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { MapPin, ImageOff } from "lucide-react";
 
-interface EventInfo {
+export interface EventInfo {
   name: string;
   fullName: string;
   startDate: string;
@@ -12,7 +12,7 @@ interface EventInfo {
   image: string;
 }
 
-const events: EventInfo[] = [
+export const events: EventInfo[] = [
   {
     name: "GKDC",
     fullName: "GKDC 2027",
@@ -24,7 +24,7 @@ const events: EventInfo[] = [
   },
 ];
 
-function getTimeRemaining(targetDate: string) {
+export function getTimeRemaining(targetDate: string) {
   const total = new Date(targetDate).getTime() - new Date().getTime();
 
   if (total <= 0) {
