@@ -105,13 +105,16 @@ export default function ScrollAnimation({ onProgress, onLoadComplete }: ScrollAn
 
       isProgrammaticScroll = true;
       autoScrollTween = gsap.to(window, {
-        scrollTo: { y: endY, autoKill: true },
+        scrollTo: { 
+          y: endY, 
+          autoKill: true,
+          onAutoKill: () => {
+            // The moment the user fights the scroll, autoKill triggers and we hand control back to the user
+            isProgrammaticScroll = false;
+          }
+        },
         duration: duration,
         ease: "none",
-        onAutoKill: () => {
-          // The moment the user fights the scroll, autoKill triggers and we hand control back to the user
-          isProgrammaticScroll = false;
-        },
         onComplete: () => {
           isProgrammaticScroll = false;
         }
@@ -166,10 +169,13 @@ export default function ScrollAnimation({ onProgress, onLoadComplete }: ScrollAn
                 const duration = Math.max(0.5, distanceLeft / 400);
                 isProgrammaticScroll = true;
                 autoScrollTween = gsap.to(window, {
-                  scrollTo: { y: startY, autoKill: true },
+                  scrollTo: { 
+                    y: startY, 
+                    autoKill: true,
+                    onAutoKill: () => { isProgrammaticScroll = false; }
+                  },
                   duration: duration,
                   ease: "none",
-                  onAutoKill: () => { isProgrammaticScroll = false; },
                   onComplete: () => { isProgrammaticScroll = false; }
                 });
              });
