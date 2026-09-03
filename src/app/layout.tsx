@@ -4,6 +4,7 @@ import Navbar from "@/components/layout/Navbar";
 import ConditionalFooter from "@/components/layout/ConditionalFooter";
 import StructuredData from "@/components/seo/StructuredData";
 import CarCursor from "@/components/ui/CarCursor";
+import AntiInspect from "@/components/security/AntiInspect";
 import "@/styles/globals.css";
 
 const outfit = Outfit({
@@ -114,6 +115,7 @@ export default function RootLayout({
       <body
         className={`${outfit.variable} ${rajdhani.variable} antialiased min-h-screen flex flex-col font-sans`}
       >
+        <AntiInspect />
         <CarCursor />
         <Navbar />
         {children}

@@ -34,8 +34,8 @@ export default function Navbar() {
   }, [isMobileMenuOpen]);
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-border/40 bg-[#0a0a0a]/95 backdrop-blur-md">
-      <div className="relative z-50 mx-auto flex h-20 w-full items-center justify-between px-4 sm:px-6 lg:px-8 xl:px-4 2xl:px-12 bg-[#0a0a0a]/95 backdrop-blur-md">
+    <nav className="sticky top-0 z-50 w-full border-b border-white/10 bg-[#0a0a0a] transform-gpu">
+      <div className="relative z-50 mx-auto flex h-20 w-full items-center justify-between px-4 sm:px-6 lg:px-8 xl:px-4 2xl:px-12">
         {/* Logo Section */}
         <div className="flex shrink-0 items-center">
           <Link

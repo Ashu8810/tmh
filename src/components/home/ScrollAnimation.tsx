@@ -7,7 +7,9 @@ import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
-const FRAME_COUNT = 240;
+const SEQ4_FRAME_COUNT = 120;
+const SEQ3_FRAME_COUNT = 240;
+const TOTAL_FRAME_COUNT = SEQ4_FRAME_COUNT + SEQ3_FRAME_COUNT;
 
 interface ScrollAnimationProps {
   onProgress?: (progress: number) => void;
@@ -26,28 +28,35 @@ export default function ScrollAnimation({ onProgress, onLoadComplete }: ScrollAn
 
   useEffect(() => {
     imagesRef.current = [];
-    for (let i = 0; i < FRAME_COUNT; i++) {
+    for (let i = 0; i < TOTAL_FRAME_COUNT; i++) {
       imagesRef.current.push(new Image());
     }
     
     const loadImages = async () => {
       let loadedCount = 0;
-      for (let i = 1; i <= FRAME_COUNT; i++) {
+      for (let i = 1; i <= TOTAL_FRAME_COUNT; i++) {
         const img = imagesRef.current[i - 1];
-        const num = i.toString().padStart(3, "0");
-        img.src = `/images/sequence3/ezgif-frame-${num}.webp`;
+        
+        // Frames 1-120: Sequence 4, Frames 121-360: Sequence 3
+        if (i <= SEQ4_FRAME_COUNT) {
+          const num = i.toString().padStart(3, "0");
+          img.src = `/images/sequence4/ezgif-frame-${num}.webp`;
+        } else {
+          const num = (i - SEQ4_FRAME_COUNT).toString().padStart(3, "0");
+          img.src = `/images/sequence3/ezgif-frame-${num}.webp`;
+        }
         
         img.onload = () => {
           loadedCount++;
           if (onProgress) {
-            onProgress(Math.round((loadedCount / FRAME_COUNT) * 100));
+            onProgress(Math.round((loadedCount / TOTAL_FRAME_COUNT) * 100));
           }
           
           // If the image that just loaded is the one we are currently looking at, render it!
           if (i - 1 === Math.round(currentFrame.current.value)) {
             render();
           }
-          if (loadedCount === FRAME_COUNT) {
+          if (loadedCount === TOTAL_FRAME_COUNT) {
             ScrollTrigger.refresh();
             if (onLoadComplete) {
               onLoadComplete();
@@ -67,7 +76,7 @@ export default function ScrollAnimation({ onProgress, onLoadComplete }: ScrollAn
 
     const frameIndex = Math.round(currentFrame.current.value);
     // Safety clamp
-    const safeIndex = Math.max(0, Math.min(FRAME_COUNT - 1, frameIndex));
+    const safeIndex = Math.max(0, Math.min(TOTAL_FRAME_COUNT - 1, frameIndex));
     const img = imagesRef.current[safeIndex];
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -94,22 +103,23 @@ export default function ScrollAnimation({ onProgress, onLoadComplete }: ScrollAn
     let isProgrammaticScroll = false;
 
     const startAutoScroll = () => {
-      if (!isActiveSection || !containerRef.current) return;
+      if (!containerRef.current) return;
 
       const endY = containerRef.current.getBoundingClientRect().bottom + window.scrollY - window.innerHeight;
       const distanceLeft = endY - window.scrollY;
-      
-      if (distanceLeft <= 5) return;
 
-      const duration = Math.max(0.5, distanceLeft / 400);
+      if (distanceLeft <= 10) return;
+
+      const duration = Math.max(0.5, distanceLeft / 350);
 
       isProgrammaticScroll = true;
+      if (autoScrollTween) autoScrollTween.kill();
+
       autoScrollTween = gsap.to(window, {
         scrollTo: { 
           y: endY, 
           autoKill: true,
           onAutoKill: () => {
-            // The moment the user fights the scroll, autoKill triggers and we hand control back to the user
             isProgrammaticScroll = false;
           }
         },
@@ -117,21 +127,23 @@ export default function ScrollAnimation({ onProgress, onLoadComplete }: ScrollAn
         ease: "none",
         onComplete: () => {
           isProgrammaticScroll = false;
-        }
+        },
       });
     };
 
     const handleScroll = () => {
-      if (!isActiveSection) return;
-
-      // If GSAP is scrolling the page, ignore this event
       if (isProgrammaticScroll) return;
 
-      // If we reach here, the USER is scrolling (via wheel, scrollbar, arrow keys, etc.)
-      // Push the resume timer 1 second into the future.
+      // User is manually scrolling: pause auto-scroll
+      if (autoScrollTween) {
+        autoScrollTween.kill();
+      }
+
       if (scrollTimeout) clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(() => {
-        startAutoScroll();
+        if (isActiveSection) {
+          startAutoScroll();
+        }
       }, 1000);
     };
 
@@ -148,71 +160,75 @@ export default function ScrollAnimation({ onProgress, onLoadComplete }: ScrollAn
           scrub: 0.5, 
           onToggle: (self) => {
             isActiveSection = self.isActive;
-            if (!self.isActive) {
+            if (self.isActive && !isProgrammaticScroll) {
+              startAutoScroll();
+            } else if (!self.isActive) {
               if (autoScrollTween) autoScrollTween.kill();
               if (scrollTimeout) clearTimeout(scrollTimeout);
               isProgrammaticScroll = false;
             }
           },
           onEnter: () => {
-            gsap.delayedCall(0.5, () => {
-              startAutoScroll();
-            });
+            isActiveSection = true;
+            gsap.delayedCall(0.5, startAutoScroll);
           },
-          onEnterBack: () => {
-             gsap.delayedCall(0.5, () => {
-                if (!isActiveSection || !containerRef.current) return;
-                const startY = containerRef.current.getBoundingClientRect().top + window.scrollY;
-                const distanceLeft = window.scrollY - startY;
-                if (distanceLeft <= 5) return;
-                
-                const duration = Math.max(0.5, distanceLeft / 400);
-                isProgrammaticScroll = true;
-                autoScrollTween = gsap.to(window, {
-                  scrollTo: { 
-                    y: startY, 
-                    autoKill: true,
-                    onAutoKill: () => { isProgrammaticScroll = false; }
-                  },
-                  duration: duration,
-                  ease: "none",
-                  onComplete: () => { isProgrammaticScroll = false; }
-                });
-             });
+          onLeave: () => {
+            isActiveSection = false;
+            if (autoScrollTween) autoScrollTween.kill();
+            if (scrollTimeout) clearTimeout(scrollTimeout);
+            isProgrammaticScroll = false;
+          },
+          onLeaveBack: () => {
+            isActiveSection = false;
+            if (autoScrollTween) autoScrollTween.kill();
+            if (scrollTimeout) clearTimeout(scrollTimeout);
+            isProgrammaticScroll = false;
           }
         },
       });
 
       tl.to(frameObj, {
-        val: FRAME_COUNT - 1,
+        val: TOTAL_FRAME_COUNT - 1,
         ease: "none",
         onUpdate: () => {
           currentFrame.current.value = frameObj.val;
           render();
         }
       });
-    }, containerRef);
+    }, containerRef.current || undefined);
+
+    // Initial trigger: when page loads and preloader disappears (~1.2s), start auto-scroll automatically
+    const initialTimer = setTimeout(() => {
+      if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+        if (rect.top <= 200 && rect.bottom > window.innerHeight) {
+          isActiveSection = true;
+          startAutoScroll();
+        }
+      }
+    }, 1200);
 
     return () => {
+      clearTimeout(initialTimer);
       if (autoScrollTween) autoScrollTween.kill();
       if (scrollTimeout) clearTimeout(scrollTimeout);
       window.removeEventListener("scroll", handleScroll);
       ctx.revert();
-    }
+    };
   }, []);
 
-  // Using a 400vh container (approx 4000px) so the user scrolls down this section 
-  // while the canvas is natively stuck via position: sticky
-  return (
-    <div ref={containerRef} className="w-full relative h-[400vh] bg-[#050505]">
-      <div className="sticky top-0 w-full h-screen flex flex-col items-center justify-center overflow-hidden">
-        <canvas
-          ref={canvasRef}
-          width={1920}
-          height={1080}
-          className="w-full max-w-6xl h-auto object-contain rounded-xl shadow-2xl bg-black"
-        />
+    // Using a 550vh container for smooth scrolling through all 360 frames (sequence4 + sequence3)
+    // while the canvas is natively stuck via position: sticky
+    return (
+      <div ref={containerRef} className="w-full relative h-[550vh] bg-[#050505]">
+        <div className="sticky top-20 w-full h-[calc(100vh-5rem)] flex flex-col items-center justify-center md:justify-start pt-0 md:pt-4 lg:pt-6 overflow-hidden px-2 sm:px-4">
+          <canvas
+            ref={canvasRef}
+            width={1920}
+            height={1080}
+            className="w-full max-w-6xl max-h-[calc(100vh-7rem)] h-auto object-contain rounded-xl shadow-2xl bg-black"
+          />
+        </div>
       </div>
-    </div>
   );
 }

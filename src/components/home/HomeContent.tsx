@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
 import ScrollAnimation from "@/components/home/ScrollAnimation";
+import HomeAchievements from "@/components/home/HomeAchievements";
 import HomeEventCountdown from "@/components/home/HomeEventCountdown";
 
 export default function HomeContent() {
@@ -73,35 +73,25 @@ export default function HomeContent() {
 
       {/* Main Content */}
       <main 
-        className={`flex-1 w-full bg-[#050505] text-white min-h-screen font-sans pt-24 pb-20 relative selection:bg-[#D71920] selection:text-white transition-opacity duration-1000 ${
+        className={`flex-1 w-full bg-[#050505] text-white min-h-screen font-sans pt-0 pb-20 relative selection:bg-[#D71920] selection:text-white transition-opacity duration-1000 ${
           isLoaded ? "opacity-100" : "opacity-0 h-screen overflow-hidden"
         }`}
       >
         <h1 className="sr-only">Motor Head | Automotive Engineering Club at BMSIT&M</h1>
 
-        {/* Hero Section */}
-        <section className="max-w-7xl mx-auto px-4 relative z-10 mt-10 md:mt-2 lg:-mt-4">
-          <div className="w-full relative h-[400px] md:h-[600px]">
-            <Image
-              src="/images/Tmh_home_section.webp"
-              alt="Motor Head Home Section"
-              fill
-              className="object-cover"
-              priority
-            />
-          </div>
-        </section>
-
         {/* Animation Section (Mobile & Desktop) */}
-        <section className="max-w-7xl mx-auto px-4 relative z-10 mt-64 md:mt-32 flex justify-center">
+        <section className="max-w-7xl mx-auto px-4 relative z-10 flex justify-center">
           <ScrollAnimation 
             onProgress={setProgress}
             onLoadComplete={() => setIsLoaded(true)}
           />
         </section>
 
-        {/* Upcoming Event Countdown Section */}
-        <section className="max-w-7xl mx-auto px-4 relative z-10 mt-32 flex justify-center">
+        {/* Achievements Section */}
+        <HomeAchievements />
+
+        {/* Upcoming Event Countdown Section (NEXT MISSION) */}
+        <section className="max-w-7xl mx-auto px-4 relative z-10 mt-20 md:mt-24 flex justify-center">
           <HomeEventCountdown />
         </section>
       </main>
